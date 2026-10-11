@@ -1,0 +1,2155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Somerton — The Man on the Beach</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #F2E9D3; }
+  svg, canvas { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+  #paper { mix-blend-mode: multiply; pointer-events: none; }
+  #fx { pointer-events: none; }
+  .mul { mix-blend-mode: multiply; }
+</style>
+</head>
+<body>
+<svg id="stage" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="boil" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence id="boilT" type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="1" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="5" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="4" result="g"/>
+      <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -22 15.2" result="gm"/>
+      <feComposite in="d" in2="gm" operator="in"/>
+    </filter>
+    <filter id="stampInk" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="11" result="w"/>
+      <feDisplacementMap in="SourceGraphic" in2="w" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="21" result="g"/>
+      <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -9 5.9" result="gm"/>
+      <feComposite in="d" in2="gm" operator="in"/>
+    </filter>
+    <filter id="uvsoft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.2"/>
+    </filter>
+    <clipPath id="frameClip"><rect width="1920" height="1080"/></clipPath>
+  </defs>
+  <g clip-path="url(#frameClip)">
+    <g id="cam"><g id="world"></g></g>
+    <g id="hud"></g>
+    <g id="wipe"></g>
+    <rect id="flash" width="1920" height="1080" fill="#FFFFFF" opacity="0"/>
+    <rect id="fade" width="1920" height="1080" fill="#33291E" opacity="0"/>
+  </g>
+</svg>
+<canvas id="paper" width="1920" height="1080"></canvas>
+<canvas id="fx" width="1920" height="1080"></canvas>
+<script src="timeline.js"></script>
+<script>
+// ============================================================
+// Somerton Man — Halftone Dossier documentary engine
+// Palette per STYLE.md §3: paper ground, one dark ink, spot inks.
+// ============================================================
+const NS = 'http://www.w3.org/2000/svg';
+const C = {
+  paper: '#F2E9D3', ink: '#33291E', ovp: '#46746C', hi: '#E3A93B', red: '#C2372B',
+  night: '#1E2530', night2: '#46586E', cream: '#FBF4E4', sep: '#7A6B52', paper2: '#E9DCC0',
+  steel: '#5B6B7C', navy: '#2C3A55',
+};
+const F = {
+  head: "'Playfair Display'", disp: "'Lilita One'", mono: "'JetBrains Mono'",
+  sans: "'Archivo Black'", book: "'IM Fell English'",
+};
+const FPS = 24;
+const QP = new URLSearchParams(location.search);
+const T0 = parseFloat(QP.get('t0') || '0') || 0;   // segment window (global seconds)
+const T1 = parseFloat(QP.get('t1') || '0') || 0;
+const DUR = window.TL.DUR;
+const LT = id => window.TL.lines[id];           // narration line absolute start
+const SW = {}; window.TL.scenes.forEach(s => SW[s.id] = s);
+const EV = [];                                   // sound/cue events for the mixer
+const SHAKES = [];                               // [t0, amp, dur]
+const FLASHES = [];                              // [t0, amp]
+const GROOVES = [];                              // beat-pulse windows
+const DARK = new Set(['sc01a','sc01b','sc04b','sc06b','sc09b']);
+const WIPES = [];                                // [t, colour]
+const SECCOL = { S1: C.night, S2: C.ovp, S3: C.hi, S4: C.navy, S5: C.sep, S6: C.night, S7: C.steel, S8: C.ovp, S9: C.night };
+let sceneDate = '';                              // set per scene for the HUD stamp
+
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function txt(parent, str, attrs) { const e = el('text', attrs, parent); e.textContent = str; return e; }
+function tf(e, x = 0, y = 0, s = 1, r = 0, sy) {
+  e.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${r.toFixed(2)}) scale(${s.toFixed(4)} ${(sy ?? s).toFixed(4)})`);
+}
+function op(e, o) { e.setAttribute('opacity', Math.max(0, Math.min(1, o)).toFixed(3)); }
+function show(e, v) { e.style.display = v ? '' : 'none'; }
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const E = {
+  out: p => 1 - Math.pow(1 - p, 3),
+  in: p => p * p * p,
+  io: p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2,
+  back: p => { const c = 1.9; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); },
+};
+const pop = (t, t0, d = 0.35) => t < t0 ? 0 : E.back(seg(t, t0, t0 + d));
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const mctx = document.createElement('canvas').getContext('2d');
+function measure(str, size, family, weight = 900) { mctx.font = `${weight} ${size}px ${family}`; return mctx.measureText(str).width; }
+function pushStamp(t, amp = 14, dur = 0.32) { SHAKES.push([t, amp, dur]); EV.push({ t, type: 'stamp' }); }
+function pushFlash(t, amp = 0.9) { FLASHES.push([t, amp]); EV.push({ t, type: 'shutter' }); }
+function pushWhoosh(t) { EV.push({ t, type: 'whoosh' }); }
+function pushPage(t) { EV.push({ t, type: 'paper' }); }
+function pushClick(t) { EV.push({ t, type: 'click' }); }
+function pushType(t) { EV.push({ t, type: 'type' }); }
+function pushBell(t) { EV.push({ t, type: 'bell' }); }
+
+function chars(parent, str, o) {
+  const { x, y, size, family, weight = 900, fill = C.ink, anchor = 'start', ls = 0, shadow, stroke, sw = 0 } = o;
+  const g = el('g', {}, parent);
+  const arr = [...str];
+  const widths = arr.map(c => measure(c, size, family, weight));
+  const total = widths.reduce((a, b) => a + b, 0) + ls * (arr.length - 1);
+  let cx = anchor === 'middle' ? x - total / 2 : anchor === 'end' ? x - total : x;
+  const items = arr.map((ch, i) => {
+    const cg = el('g', {}, g);
+    const base = { x: 0, y: 0, 'font-size': size, 'font-family': family, 'font-weight': weight, 'text-anchor': 'middle' };
+    if (shadow) txt(cg, ch, { ...base, x: shadow.dx, y: shadow.dy, fill: shadow.fill, class: 'mul' });
+    const st = stroke ? { stroke, 'stroke-width': sw, 'paint-order': 'stroke', 'stroke-linejoin': 'round' } : {};
+    txt(cg, ch, { ...base, fill, ...st });
+    const it = { g: cg, x: cx + widths[i] / 2, y, w: widths[i], size };
+    cx += widths[i] + ls;
+    tf(cg, it.x, it.y);
+    return it;
+  });
+  return { g, items, total };
+}
+function charsPop(c, t, t0, stagger = 0.04, d = 0.38, from = 60) {
+  c.items.forEach((it, i) => {
+    const s = t0 + i * stagger;
+    const p = seg(t, s, s + d);
+    const h = it.size * 0.35;
+    if (t < s) { op(it.g, 0); return; }
+    op(it.g, 1);
+    const sc = E.back(p);
+    const sq = 1 + 0.25 * Math.sin(p * Math.PI) * (1 - p);
+    it.g.setAttribute('transform', `translate(${it.x} ${it.y + from * (1 - E.out(p))}) translate(0 ${-h}) scale(${(sc / sq).toFixed(3)} ${(sc * sq).toFixed(3)}) translate(0 ${h})`);
+  });
+}
+function halftone(parent, { x0 = 0, y0 = 0, w = 1920, h = 1080, step = 22, angle = 15, color, f, maxK = 0.62 }) {
+  const a = angle * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
+  const n = Math.ceil(Math.hypot(w, h) / step / 2) + 2;
+  let d = '';
+  for (let i = -n; i <= n; i++) for (let j = -n; j <= n; j++) {
+    const u = i * step, v = j * step;
+    const x = x0 + w / 2 + u * ca - v * sa, y = y0 + h / 2 + u * sa + v * ca;
+    if (x < x0 - step || x > x0 + w + step || y < y0 - step || y > y0 + h + step) continue;
+    const s = clamp(f(x, y)); if (s < 0.05) continue;
+    const r = s * step * maxK;
+    d += `M${(x - r).toFixed(1)} ${y.toFixed(1)}a${r.toFixed(1)} ${r.toFixed(1)} 0 1 0 ${(2 * r).toFixed(1)} 0a${r.toFixed(1)} ${r.toFixed(1)} 0 1 0 ${(-2 * r).toFixed(1)} 0`;
+  }
+  return el('path', { d, fill: color }, parent);
+}
+const radial = (cx, cy, R, pw = 1.2) => (x, y) => Math.pow(clamp(1 - Math.hypot(x - cx, y - cy) / R), pw);
+const edge = (R = 900, pw = 1.6) => (x, y) => Math.pow(clamp(Math.hypot(x - 960, y - 540) / R - 0.35), pw) * 1.3;
+function bg(parent, color) { return el('rect', { width: 1920, height: 1080, fill: color }, parent); }
+
+// ============================================================
+// Composite builders shared by the documentary scenes
+// ============================================================
+function caption(parent, parts, { x = 960, y = 990, size = 38, dark = false } = {}) {
+  const g = el('g', {}, parent);
+  const inner = el('g', {}, g);
+  let w = parts.reduce((a, [s]) => a + measure(s, size, F.sans, 400), 0);
+  for (const sz of [38, 34, 30, 27, 24]) {
+    w = parts.reduce((a2, [s]) => a2 + measure(s, sz, F.sans, 400), 0);
+    if (w + 72 <= 1800) { size = sz; break; }
+    size = sz;
+  }
+  const padX = 36, hgt = size * 1.75;
+  el('rect', { x: -w / 2 - padX + 8, y: -hgt / 2 + 8, width: w + padX * 2, height: hgt, rx: 14, fill: dark ? C.ink : C.ovp, class: 'mul' }, inner);
+  el('rect', { x: -w / 2 - padX, y: -hgt / 2, width: w + padX * 2, height: hgt, rx: 14, fill: dark ? C.cream : C.ink }, inner);
+  const t = el('text', { x: -w / 2, y: size * 0.36, 'font-size': size, 'font-family': F.sans, 'font-weight': 400, fill: dark ? C.ink : C.cream }, inner);
+  parts.forEach(([s, kw]) => { const sp = el('tspan', { fill: kw ? (dark ? C.red : C.hi) : (dark ? C.ink : C.cream) }, t); sp.textContent = s; });
+  return { g, inner, x, y };
+}
+function captionAnim(c, t, t0) {
+  const p = seg(t, t0, t0 + 0.4);
+  if (t < t0) { op(c.g, 0); return; }
+  op(c.g, seg(t, t0, t0 + 0.12));
+  tf(c.g, c.x, c.y + 40 * (1 - E.out(p)), lerp(0.8, 1, E.back(p)), -1.2 * (1 - p) - 0.6);
+}
+function stampEl(parent, str, { size = 150, color = C.red, family = F.sans, padX = 46, padY = 24, border = 11 } = {}) {
+  const g = el('g', {}, parent);
+  const inner = el('g', { filter: 'url(#stampInk)' }, g);
+  const w = measure(str, size, family, 400) + padX * 2, h = size * 1.12 + padY * 2;
+  el('rect', { x: -w / 2, y: -h / 2, width: w, height: h, rx: 22, fill: 'none', stroke: color, 'stroke-width': border }, inner);
+  el('rect', { x: -w / 2 + border * 1.8, y: -h / 2 + border * 1.8, width: w - border * 3.6, height: h - border * 3.6, rx: 12, fill: 'none', stroke: color, 'stroke-width': border * 0.35 }, inner);
+  txt(inner, str, { x: 0, y: size * 0.34, 'font-size': size, 'font-family': family, 'font-weight': 400, fill: color, 'text-anchor': 'middle' });
+  return { g, w, h };
+}
+function stampAnim(s, t, t0, x, y, rot) {
+  if (t < t0 - 0.09) { op(s.g, 0); return; }
+  const p = seg(t, t0 - 0.09, t0);
+  const after = Math.max(0, t - t0);
+  const bounce = 1 + 0.05 * Math.sin(after * 30) * Math.exp(-after * 9);
+  op(s.g, p < 1 ? 0.3 + 0.7 * p : 0.93);
+  tf(s.g, x, y, lerp(2.6, 1, E.in(p)) * bounce, rot);
+}
+function pageBG(g, { dark = false, rad = null, edgy = false } = {}) {
+  bg(g, dark ? C.night : C.paper);
+  if (dark) {
+    halftone(g, { color: C.night2, step: 24, angle: 20, f: edgy ? edge(760, 1.2) : radial(960, 540, 1100, 0.7), maxK: 0.7 });
+  } else {
+    halftone(g, { color: C.paper2, step: 24, angle: 20, f: edge(980, 1.1), maxK: 0.5 });
+    if (rad) halftone(g, { color: rad[0], step: 22, angle: rad[4] || 45, f: radial(rad[1], rad[2], rad[3], 1.1), maxK: 0.6 }).setAttribute('class', 'mul');
+  }
+}
+function exhibitTag(g, str, x = 120, y = 120, dark = false) {
+  const w = measure(str, 26, F.mono, 800) + 36;
+  el('rect', { x, y: y - 30, width: w, height: 44, rx: 6, fill: 'none', stroke: dark ? C.cream : C.ink, 'stroke-width': 3 }, g);
+  txt(g, str, { x: x + 18, y: y, 'font-size': 26, 'font-family': F.mono, 'font-weight': 800, fill: dark ? C.hi : C.red, 'letter-spacing': 2 });
+  return w;
+}
+function headBlock(g, str, { x = 120, y = 300, size = 120, fill = C.ink, shadow = { fill: C.ovp, dx: 8, dy: 8 }, anchor = 'start' } = {}) {
+  return chars(g, str, { x, y, size, family: F.head, weight: 900, fill, anchor, ls: 1, shadow });
+}
+function bigNumeral(g, str, { fill = C.hi, dot = C.ovp, id } = {}) {
+  const big = el('g', {}, g);
+  const clip = el('clipPath', { id }, big);
+  txt(clip, str, { x: 1930, y: 860, 'font-size': 740, 'font-family': F.disp, 'text-anchor': 'end' });
+  txt(big, str, { x: 1930, y: 860, 'font-size': 740, 'font-family': F.disp, fill, 'text-anchor': 'end' });
+  const bh = el('g', { 'clip-path': `url(#${id})` }, big);
+  halftone(bh, { color: dot, step: 20, angle: 25, f: (x, y) => 0.2 + 0.75 * clamp((y - 250) / 650), maxK: 0.7 });
+  return big;
+}
+function card(parent, { x, y, w, h, fill = '#FBF6E8', r = 8, sh = 10, sw = 6, rot = 0, stroke = C.ink }) {
+  const g = el('g', {}, parent);
+  el('rect', { x: -w / 2 + sh, y: -h / 2 + sh, width: w, height: h, rx: r, fill: C.ink, opacity: .22 }, g);
+  el('rect', { x: -w / 2, y: -h / 2, width: w, height: h, rx: r, fill, stroke, 'stroke-width': sw }, g);
+  g.setAttribute('transform', `translate(${x} ${y}) rotate(${rot})`);
+  return g;
+}
+function rowsType(parent, rows, { x, y0, dy = 58, size = 34, width = 1160, dark = false, label = true } = {}) {
+  const g = el('g', {}, parent);
+  const els = rows.map((r, i) => {
+    if (label) {
+      el('rect', { x, y: y0 + i * dy - 40, width, height: dy - 6, fill: dark ? C.night2 : C.paper2, opacity: .35 }, g);
+      el('line', { x1: x, y1: y0 + i * dy - 6, x2: x + width, y2: y0 + i * dy - 6, stroke: dark ? C.cream : C.ink, 'stroke-width': 2, opacity: .4 }, g);
+    }
+    const fill = r[1] || (dark ? C.cream : C.ink);
+    const t1 = txt(g, r[0], { x: x + 16, y: y0 + i * dy - 12, 'font-size': size, 'font-family': F.mono, 'font-weight': 800, fill });
+    const t2 = r[2] !== undefined ? txt(g, r[2], { x: x + width - 16, y: y0 + i * dy - 12, 'font-size': size, 'font-family': F.mono, 'font-weight': 800, fill: dark ? C.hi : C.red, 'text-anchor': 'end' }) : null;
+    return [t1, t2];
+  });
+  return els;
+}
+function arrowPath(g, x1, y1, x2, y2, color = C.ink, sw = 5) {
+  const a = Math.atan2(y2 - y1, x2 - x1), ha = 16;
+  const d = `M${x1} ${y1}L${x2} ${y2}M${x2 - ha * Math.cos(a - 0.42)} ${y2 - ha * Math.sin(a - 0.42)}L${x2} ${y2}L${x2 - ha * Math.cos(a + 0.42)} ${y2 - ha * Math.sin(a + 0.42)}`;
+  return el('path', { d, fill: 'none', stroke: color, 'stroke-width': sw, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, g);
+}
+// Australia (simplified) in a w×h box at (x,y) — hand-drawn grammar
+function mapAustralia(g, x, y, w, h, { fill = C.paper2, stroke = C.ink, dots = true } = {}) {
+  const s = Math.min(w / 1000, h / 860);
+  const gg = el('g', {}, g);
+  tf(gg, x, y, s);
+  const d = 'M 210 190 C 300 140 420 150 500 170 C 560 120 640 100 700 140 C 740 120 790 140 800 190 C 860 210 900 280 880 360 C 920 420 900 520 850 570 C 860 640 810 700 740 700 C 700 750 620 770 560 730 C 500 770 420 760 380 720 C 300 740 230 700 220 640 C 160 620 130 550 160 500 C 120 440 130 340 180 300 C 160 260 170 220 210 190 Z';
+  el('path', { d, fill, stroke, 'stroke-width': 6, 'stroke-linejoin': 'round' }, gg);
+  el('path', { d: 'M 520 260 C 600 280 640 340 620 420 C 600 480 540 500 480 470 C 430 440 420 360 450 310 C 470 280 490 265 520 260 Z', fill: dots ? C.ovp : 'none', opacity: .25, stroke: 'none' }, gg);
+  if (dots) halftone(gg, { x0: 140, y0: 100, w: 800, h: 700, step: 30, angle: 30, color: C.sep, f: (px, py) => (px > 150 && px < 880 && py > 130 && py < 740) ? 0.12 : 0, maxK: 0.5 });
+  // Tasmania
+  el('path', { d: 'M 760 760 C 800 750 830 780 820 820 C 810 850 770 850 755 820 C 745 795 745 770 760 760 Z', fill, stroke, 'stroke-width': 5 }, gg);
+  return gg;
+}
+// Adelaide coast strip: coastline + suburbs, box at (x,y), width w
+function mapAdelaide(g, x, y, w, h, { dark = false } = {}) {
+  const gg = el('g', {}, g);
+  const ink = dark ? C.cream : C.ink;
+  // sea (left) land (right)
+  el('path', { d: `M ${x} ${y} L ${x + w * 0.34} ${y} C ${x + w * 0.3} ${y + h * 0.3} ${x + w * 0.36} ${y + h * 0.55} ${x + w * 0.3} ${y + h} L ${x} ${y + h} Z`, fill: dark ? C.night2 : '#C8D8CE', stroke: 'none' }, gg);
+  if (!dark) halftone(gg, { x0: x, y0: y, w: w * 0.36, h, step: 26, angle: 60, color: C.ovp, f: () => 0.35, maxK: 0.5 }).setAttribute('class', 'mul');
+  el('path', { d: `M ${x + w * 0.34} ${y} C ${x + w * 0.3} ${y + h * 0.3} ${x + w * 0.36} ${y + h * 0.55} ${x + w * 0.3} ${y + h}`, fill: 'none', stroke: ink, 'stroke-width': 6 }, gg);
+  const lb = (tx, ty, s, size = 30) => txt(gg, s, { x: tx, y: ty, 'font-size': size, 'font-family': F.mono, 'font-weight': 800, fill: ink, opacity: .85 });
+  lb(x + w * 0.4, y + h * 0.18, 'HENLEY BEACH');
+  lb(x + w * 0.46, y + h * 0.5, 'GLENELG');
+  lb(x + w * 0.5, y + h * 0.66, 'SOMERTON PARK');
+  lb(x + w * 0.72, y + h * 0.34, 'ADELAIDE', 36);
+  lb(x + w * 0.06, y + h - 18, 'GULF ST VINCENT');
+  el('circle', { cx: x + w * 0.68, cy: y + h * 0.3, r: 10, fill: ink }, gg);
+  return gg;
+}
+function pin(g, x, y, color = C.red, r = 16) {
+  const gg = el('g', {}, g);
+  el('circle', { cx: 0, cy: 0, r: r + 8, fill: color, opacity: .3 }, gg);
+  el('circle', { cx: 0, cy: 0, r: r, fill: color, stroke: C.ink, 'stroke-width': 5 }, gg);
+  el('circle', { cx: 0, cy: 0, r: r * 0.4, fill: C.cream }, gg);
+  return gg;
+}
+// The man: ink-outline reconstruction, generic label
+function bodyFigure(parent, { scale = 1, dark = false } = {}) {
+  const g = el('g', { filter: 'url(#boil)' }, parent);
+  const ink = dark ? C.cream : C.ink;
+  const fill = dark ? C.night2 : '#E4D5B5';
+  const S = { stroke: ink, 'stroke-width': 7, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' };
+  // slumped against a wall: head tilted back, torso leaning, legs extended, feet crossed
+  el('path', { d: 'M -30 -150 C -30 -196 30 -196 30 -150 C 30 -116 -4 -108 -18 -112 C -30 -116 -30 -134 -30 -150 Z', fill, ...S }, g); // head
+  el('path', { d: 'M -34 -118 C -80 -96 -96 -40 -92 30 L 60 30 C 70 -40 40 -100 -6 -120 Z', fill, ...S }, g); // torso leaning back
+  el('path', { d: 'M -88 24 C -40 10 30 12 62 30 L 58 66 L -84 66 Z', fill, ...S }, g); // hips
+  el('path', { d: 'M -70 60 L -40 60 L 40 250 L 12 258 Z', fill, ...S }, g); // leg 1
+  el('path', { d: 'M -30 60 L 0 62 L 96 236 L 68 248 Z', fill, ...S }, g); // leg 2
+  el('path', { d: 'M 12 258 L 84 244 L 92 268 L 20 276 Z', fill, ...S }, g); // shoe 1 crossed
+  el('path', { d: 'M 68 248 L 132 230 L 138 254 L 76 272 Z', fill, ...S }, g); // shoe 2
+  el('path', { d: 'M -80 -80 C -120 -60 -130 -10 -118 30 L -96 24 C -104 -8 -98 -52 -74 -72 Z', fill, ...S }, g); // right arm dropped limply
+  el('circle', { cx: 2, cy: -166, r: 5, fill: ink }, g); // eye hint
+  return g;
+}
+// Plaster bust reconstruction (frontal)
+function bustHead(parent, { scale = 1, dark = false } = {}) {
+  const g = el('g', { filter: 'url(#boil)' }, parent);
+  const ink = dark ? C.cream : C.ink;
+  const fill = dark ? C.night2 : '#EFE4C8';
+  const S = { stroke: ink, 'stroke-width': 7, 'stroke-linejoin': 'round' };
+  el('path', { d: 'M -150 260 C -150 150 -110 60 0 60 C 110 60 150 150 150 260 Z', fill, ...S }, g); // shoulders/bust base
+  el('path', { d: 'M -96 60 C -96 -10 -104 -80 -60 -130 C -20 -170 20 -170 60 -130 C 104 -80 96 -10 96 60 C 60 96 -60 96 -96 60 Z', fill, ...S }, g); // head
+  el('path', { d: 'M -60 -34 C -48 -44 -28 -44 -18 -34 M 18 -34 C 28 -44 48 -44 60 -34', fill: 'none', stroke: ink, 'stroke-width': 6, 'stroke-linecap': 'round' }, g); // brows
+  el('path', { d: 'M -46 -10 C -38 -18 -26 -18 -20 -8 M 20 -8 C 26 -18 38 -18 46 -10', fill: 'none', stroke: ink, 'stroke-width': 5, 'stroke-linecap': 'round' }, g); // eyes closed-ish
+  el('path', { d: 'M 0 -6 C 4 6 6 12 0 18 C -6 12 -4 6 0 -6 Z', fill: 'none', stroke: ink, 'stroke-width': 5 }, g); // nose
+  el('path', { d: 'M -22 44 C -8 50 8 50 22 44', fill: 'none', stroke: ink, 'stroke-width': 5, 'stroke-linecap': 'round' }, g); // mouth
+  el('path', { d: 'M -96 30 C -110 60 -112 110 -100 150 M 96 30 C 110 60 112 110 100 150', fill: 'none', stroke: ink, 'stroke-width': 4, opacity: .5 }, g);
+  halftone(g, { x0: -150, y0: -170, w: 300, h: 440, step: 20, angle: 45, color: C.sep, f: (x, y) => x < -70 ? 0.28 : 0.06, maxK: 0.5 });
+  return g;
+}
+function gravestone(parent, { dark = false } = {}) {
+  const g = el('g', {}, parent);
+  const ink = dark ? C.cream : C.ink;
+  el('path', { d: 'M -260 300 L -260 -120 C -260 -240 260 -240 260 -120 L 260 300 Z', fill: dark ? C.night2 : '#DDD2B4', stroke: ink, 'stroke-width': 8 }, g);
+  el('rect', { x: -330, y: 296, width: 660, height: 44, fill: ink }, g);
+  return g;
+}
+function suitcaseShape(parent, { open = false, dark = false } = {}) {
+  const g = el('g', {}, parent);
+  const ink = dark ? C.cream : C.ink;
+  const S = { stroke: ink, 'stroke-width': 7, 'stroke-linejoin': 'round' };
+  const fill = '#B98A4A';
+  if (open) {
+    el('rect', { x: -330, y: -300, width: 660, height: 240, rx: 16, fill: '#8F6A36', ...S }, g); // lid
+    el('rect', { x: -310, y: -280, width: 620, height: 200, rx: 8, fill: '#C8A568', ...S }, g);
+  }
+  el('rect', { x: -330, y: open ? -60 : -160, width: 660, height: 360, rx: 16, fill, ...S }, g);
+  for (const dx of [-220, 220]) el('rect', { x: dx - 26, y: open ? -54 : -154, width: 52, height: 348, rx: 10, fill: '#8F6A36', ...S }, g);
+  el('rect', { x: -60, y: open ? -20 : -120, width: 120, height: 64, rx: 8, fill: '#6E5024', ...S }, g);
+  return g;
+}
+function bookSpread(parent, { dark = false } = {}) {
+  const g = el('g', {}, parent);
+  const ink = dark ? C.cream : C.ink;
+  const pg = '#F7F0DC';
+  el('path', { d: 'M 0 -180 C -140 -230 -320 -230 -430 -200 L -430 200 C -320 170 -140 170 0 220 Z', fill: pg, stroke: ink, 'stroke-width': 6, 'stroke-linejoin': 'round' }, g);
+  el('path', { d: 'M 0 -180 C 140 -230 320 -230 430 -200 L 430 200 C 320 170 140 170 0 220 Z', fill: '#EFE6C9', stroke: ink, 'stroke-width': 6, 'stroke-linejoin': 'round' }, g);
+  el('line', { x1: 0, y1: -180, x2: 0, y2: 220, stroke: ink, 'stroke-width': 5 }, g);
+  for (let i = 0; i < 6; i++) {
+    el('line', { x1: -390 + i * 8, y1: -140 + i * 52, x2: -60, y2: -128 + i * 52, stroke: ink, 'stroke-width': 3, opacity: .4 }, g);
+    el('line', { x1: 60, y1: -128 + i * 52, x2: 390 - i * 8, y2: -140 + i * 52, stroke: ink, 'stroke-width': 3, opacity: .4 }, g);
+  }
+  return g;
+}
+function folderShape(parent) {
+  const g = el('g', {}, parent);
+  el('path', { d: 'M -470 -200 L -170 -200 L -130 -240 L 60 -240 L 100 -200 L 470 -200 L 470 230 L -470 230 Z', fill: '#C8A05A', stroke: C.ink, 'stroke-width': 7, 'stroke-linejoin': 'round' }, g);
+  el('rect', { x: -470, y: -160, width: 940, height: 390, fill: '#D9B470', stroke: C.ink, 'stroke-width': 7 }, g);
+  el('rect', { x: -390, y: 30, width: 520, height: 110, fill: '#F7F0DC', stroke: C.ink, 'stroke-width': 5 }, g);
+  return g;
+}
+function drawerShape(parent) {
+  const g = el('g', {}, parent);
+  el('rect', { x: -560, y: -300, width: 1120, height: 640, rx: 14, fill: '#8F7448', stroke: C.ink, 'stroke-width': 8 }, g);
+  el('rect', { x: -520, y: -260, width: 1040, height: 250, rx: 10, fill: '#A98A55', stroke: C.ink, 'stroke-width': 6 }, g);
+  el('rect', { x: -520, y: 30, width: 1040, height: 250, rx: 10, fill: '#A98A55', stroke: C.ink, 'stroke-width': 6 }, g);
+  el('rect', { x: -80, y: -155, width: 160, height: 30, rx: 12, fill: C.ink }, g);
+  return g;
+}
+function uvGlow(g, cx, cy, R) {
+  const ht = halftone(g, { x0: cx - R, y0: cy - R, w: 2 * R, h: 2 * R, step: 24, angle: 30, color: C.steel, f: radial(cx, cy, R, 0.8), maxK: 0.66 });
+  ht.setAttribute('class', 'mul'); ht.setAttribute('filter', 'url(#uvsoft)');
+  return ht;
+}
+
+// ============================================================
+// buildAll — the documentary scenes
+// ============================================================
+const world = document.getElementById('world');
+const cam = document.getElementById('cam');
+const hud = document.getElementById('hud');
+const wipe = document.getElementById('wipe');
+const flash = document.getElementById('flash');
+const fade = document.getElementById('fade');
+const scenes = [];
+function scene(id, build) {
+  const s0 = SW[id]; if (!s0) return;
+  const g = el('g', {}, world);
+  const s = { g, t0: s0.t0, t1: s0.t1, id };
+  sceneDate = '';
+  s.update = build(g, s);
+  s.date = sceneDate;                      // captured at build time per scene
+  scenes.push(s);
+  return s;
+}
+function buildAll() {
+  // ---------------- sc01a · Cold open: dark dawn at the seawall ----------------
+  scene('sc01a', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    bg(g, C.night);
+    halftone(g, { color: C.night2, step: 24, angle: 20, f: edge(820, 1.2), maxK: 0.7 });
+    // stars fading
+    const r = rng(11); const stars = [];
+    for (let i = 0; i < 60; i++) stars.push({ el: el('circle', { cx: r() * 1920, cy: r() * 500, r: 1.5 + r() * 2.6, fill: C.cream }, g), ph: r() * 6 });
+    // sea: rows of halftone wave dots
+    const sea = el('g', {}, g);
+    for (let i = 0; i < 7; i++) {
+      halftone(sea, { x0: 0, y0: 640 + i * 44, w: 1920, h: 40, step: 26, angle: 8, color: i % 2 ? C.night2 : C.steel, f: (x, y) => 0.3 + 0.5 * Math.sin(x / 140 + i), maxK: 0.55 });
+    }
+    // seawall + figure silhouette
+    const wall = el('g', {}, g);
+    el('rect', { x: 0, y: 560, width: 1920, height: 60, fill: '#262D3D', stroke: C.night2, 'stroke-width': 4 }, wall);
+    const fig = bodyFigure(g, { dark: true });
+    tf(fig, 960, 555, 1.15);
+    // dawn glow grows from the right
+    const dawn = halftone(g, { x0: 1100, y0: 200, w: 820, h: 460, step: 24, angle: 40, color: C.hi, f: radial(1560, 360, 420, 0.9), maxK: 0.5 });
+    dawn.setAttribute('class', 'mul');
+    const t0 = s.t0, L1 = LT('L01');
+    return (t) => {
+      stars.forEach(st => op(st.el, 0.5 * Math.max(0, 1 - seg(t, t0 + 4, t0 + 9)) * (0.4 + 0.6 * Math.abs(Math.sin(t * 1.4 + st.ph)))));
+      op(dawn, 0.25 + 0.75 * seg(t, t0 + 2, t0 + 9));
+      const z = lerp(1, 1.05, E.io(seg(t, t0 + 2, t0 + 10)));
+      tf(g, 960 - 960 * z, 540 - 540 * z, z);
+    };
+  });
+  // ---------------- sc01b · The polished man (labels) ----------------
+  scene('sc01b', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, { dark: true, edgy: true });
+    const h = headBlock(g, 'NO LABELS', { x: 130, y: 320, size: 150, fill: C.cream, shadow: { fill: C.ovp, dx: 9, dy: 9 } });
+    // three floating garment cards
+    const items = [
+      { x: 480, y: 620, w: 300, h: 220, draw: (p) => { el('path', { d: 'M -80 -60 L -30 -90 L 30 -90 L 80 -60 L 60 90 L -60 90 Z', fill: '#5A6474', stroke: C.cream, 'stroke-width': 6, 'stroke-linejoin': 'round' }, p); el('path', { d: 'M -30 -90 L 0 -60 L 30 -90', fill: 'none', stroke: C.cream, 'stroke-width': 5 }, p); } },
+      { x: 960, y: 620, w: 300, h: 220, draw: (p) => { el('rect', { x: -70, y: -90, width: 140, height: 180, rx: 12, fill: '#8F6A36', stroke: C.cream, 'stroke-width': 6 }, p); for (let i = -2; i <= 2; i++) el('line', { x1: i * 26 - 8, y1: -88, x2: i * 26 + 8, y2: 88, stroke: C.cream, 'stroke-width': 4, opacity: .5 }, p); } },
+      { x: 1440, y: 620, w: 300, h: 220, draw: (p) => { el('path', { d: 'M -90 -50 L 0 -80 L 90 -50 L 70 80 L -70 80 Z', fill: '#6E5024', stroke: C.cream, 'stroke-width': 6, 'stroke-linejoin': 'round' }, p); el('circle', { cx: 0, cy: -62, r: 16, fill: 'none', stroke: C.cream, 'stroke-width': 5 }, p); } },
+    ];
+    const cards = items.map(it => {
+      const c = card(g, { x: it.x, y: it.y, w: it.w, h: it.h, fill: '#2A3140', stroke: C.night2, sh: 8 });
+      const p = el('g', {}, c); it.draw(p);
+      // label tag lifting off
+      const tag = el('g', {}, c);
+      el('rect', { x: -26, y: -8, width: 52, height: 26, fill: C.cream, stroke: C.ink, 'stroke-width': 3 }, tag);
+      return { c, tag, x: it.x, y: it.y };
+    });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.3, 0.05);
+      cards.forEach((cd, i) => {
+        const a = E.back(seg(t, t0 + 0.8 + i * 0.25, t0 + 1.25 + i * 0.25));
+        op(cd.c, t >= t0 + 0.8 + i * 0.25 ? 1 : 0);
+        tf(cd.c, cd.x, lerp(1400, cd.y, a), 1, (i - 1) * 2);
+        const lift = seg(t, t0 + 2.2 + i * 0.4, t0 + 3.0 + i * 0.4);
+        op(cd.tag, lift > 0 && lift < 1 ? 1 : 0);
+        tf(cd.tag, 0, -80 * lift - 10, 1, 18 * lift);
+      });
+    };
+  });
+  // ---------------- sc01c · empty pockets ----------------
+  scene('sc01c', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, {});
+    const h = headBlock(g, 'NO NAME', { x: 960, y: 380, size: 190, anchor: 'middle', shadow: { fill: C.red, dx: 9, dy: 9 } });
+    const pocket = el('g', {}, g);
+    el('path', { d: 'M -220 -40 C -220 -160 220 -160 220 -40 L 180 190 L -180 190 Z', fill: '#8F6A36', stroke: C.ink, 'stroke-width': 8, 'stroke-linejoin': 'round' }, pocket);
+    el('path', { d: 'M -220 -40 C -60 10 60 10 220 -40', fill: 'none', stroke: C.ink, 'stroke-width': 6 }, pocket);
+    tf(pocket, 960, 680, 1.5);
+    // three "NO" chips pop out
+    const chips = ['NO WALLET', 'NO I.D.', 'NO NAME'].map((s2, i) => {
+      const c = el('g', {}, g);
+      const w = measure(s2, 44, F.sans, 400) + 60;
+      el('rect', { x: -w / 2, y: -34, width: w, height: 68, rx: 10, fill: C.ink }, c);
+      txt(c, s2, { x: 0, y: 14, 'font-size': 44, 'font-family': F.sans, fill: C.cream, 'text-anchor': 'middle' });
+      return { c, x: 480 + i * 480, y: 170 };
+    });
+    const t0 = s.t0, L3 = LT('L03');
+    return (t) => {
+      charsPop(h, t, t0 + 0.3, 0.07, 0.4, 90);
+      tf(pocket, 960, lerp(1600, 680, E.back(seg(t, t0 + 0.5, t0 + 1.0))), 1.5);
+      chips.forEach((c, i) => {
+        const tt = L3 + i * 0.85;
+        op(c.c, t >= tt ? 1 : 0);
+        tf(c.c, c.x, lerp(60, c.y, pop(t, tt, 0.3)), 1, (i - 1) * -4);
+      });
+    };
+  });
+  // ---------------- sc01d · the file cover + title ----------------
+  scene('sc01d', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, { rad: [C.ovp, 0, 1080, 560] });
+    pushWhoosh(s.t0 + 0.1);
+    // file folder assembles
+    const folder = folderShape(g);
+    tf(folder, 960, 620);
+    txt(folder, 'CASE FILE 48 / 1948', { x: -370, y: 78, 'font-size': 36, 'font-family': F.mono, 'font-weight': 800, fill: C.ink });
+    txt(folder, 'SUBJECT: UNIDENTIFIED MALE — SOMERTON PARK, S.A.', { x: -370, y: 122, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink });
+    const title = chars(g, 'SOMERTON', { x: 960, y: 400, size: 250, family: F.head, weight: 900, fill: C.ink, anchor: 'middle', ls: 4, shadow: { fill: C.ovp, dx: 12, dy: 12 } });
+    const st = stampEl(g, 'CASE OPEN', { size: 120, color: C.red, padX: 40 });
+    pushStamp(LT('L04') + 1.2, 18, 0.4);
+    const t0 = s.t0, tStamp = LT('L04') + 1.2;
+    return (t) => {
+      tf(folder, 960, lerp(1600, 620, E.back(seg(t, t0 + 0.2, t0 + 0.75))), 1, -1.5);
+      title.items.forEach((it, i) => {
+        const tt = t0 + 0.6 + i * 0.05;
+        if (t < tt) { op(it.g, 0); return; }
+        op(it.g, 1);
+        const p = seg(t, tt, tt + 0.38);
+        it.g.setAttribute('transform', `translate(${it.x} ${it.y + 80 * (1 - E.out(p))}) scale(${E.back(p).toFixed(3)})`);
+      });
+      stampAnim(st, t, tStamp, 1450, 820, -9);
+    };
+  });
+  // ---------------- sc01e · hook: proves / does not / the name ----------------
+  scene('sc01e', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, { rad: [C.hi, 1920, 0, 520, 70] });
+    GROOVES.push([s.t0, s.t1]);
+    const defs = [
+      ['WHAT IT PROVES', C.ovp], ['WHAT IT DOES NOT', C.sep], ['THE NAME — 74 YEARS ON', C.red],
+    ].map((d, i) => {
+      const c = el('g', {}, g);
+      el('rect', { x: -330 + 10, y: -80 + 10, width: 660, height: 160, rx: 10, fill: C.ink, opacity: .2 }, c);
+      el('rect', { x: -330, y: -80, width: 660, height: 160, rx: 10, fill: i === 2 ? C.ink : '#F7F0DC', stroke: C.ink, 'stroke-width': 6 }, c);
+      txt(c, d[0], { x: 0, y: 16, 'font-size': 52, 'font-family': F.sans, fill: i === 2 ? C.hi : C.ink, 'text-anchor': 'middle' });
+      el('circle', { cx: -290, cy: 0, r: 14, fill: d[1] }, c);
+      return { c, y: 300 + i * 230 };
+    });
+    const t0 = s.t0;
+    return (t) => {
+      defs.forEach((d, i) => {
+        const tt = t0 + 0.5 + i * 0.5;
+        op(d.c, t >= tt ? 1 : 0);
+        tf(d.c, lerp(-2000, 960, E.back(seg(t, tt, tt + 0.5))), d.y, 1, 0);
+      });
+    };
+  });
+  // ---------------- sc02a · the map: Somerton Park ----------------
+  scene('sc02a', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, { rad: [C.hi, 0, 0, 480, 60] });
+    const mp = mapAdelaide(g, 160, 200, 1600, 640);
+    const X = pin(g, 160 + 1600 * 0.52, 200 + 640 * 0.62, C.red, 20);
+    const tag = el('g', {}, g);
+    el('rect', { x: -230, y: -40, width: 460, height: 80, rx: 8, fill: C.ink }, tag);
+    txt(tag, 'SOMERTON BEACH', { x: 0, y: 12, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.cream, 'text-anchor': 'middle' });
+    const t0 = s.t0;
+    return (t) => {
+      tf(mp, 0, 0, lerp(1.06, 1, E.out(seg(t, t0 + 0.2, t0 + 1.4))));
+      const pp = pop(t, t0 + 0.9, 0.4);
+      tf(X, 160 + 1600 * 0.52, lerp(1400, 200 + 640 * 0.62, E.back(seg(t, t0 + 0.8, t0 + 1.2))), pp);
+      const tp = pop(t, t0 + 1.3, 0.4);
+      op(tag, t >= t0 + 1.3 ? 1 : 0);
+      tf(tag, 160 + 1600 * 0.52, lerp(300, 200 + 640 * 0.62 - 120, E.back(tp)), tp, -2);
+    };
+  });
+  // ---------------- sc02b · height-chart reconstruction ----------------
+  scene('sc02b', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, {});
+    pushFlash(s.t0 + 1.0, 0.9); pushFlash(s.t0 + 1.7, 0.75);
+    const cm = el('g', {}, g);
+    for (let i = 0; i < 9; i++) {
+      const y = 190 + i * 88;
+      el('line', { x1: 150, x2: 1770, y1: y, y2: y, stroke: C.ink, 'stroke-width': i % 2 ? 2 : 4, opacity: 0.4 }, cm);
+      if (i % 2 === 0) { txt(cm, `${190 - i * 10}`, { x: 110, y: y + 9, 'font-size': 24, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'end', opacity: .6 }); }
+    }
+    txt(cm, 'cm', { x: 110, y: 165, 'font-size': 22, 'font-family': F.mono, 'font-weight': 500, fill: C.ink, opacity: .6 });
+    const fig = bodyFigure(g, {});
+    const plate = el('g', {}, g);
+    el('rect', { x: -300, y: -50, width: 600, height: 100, rx: 8, fill: C.ink }, plate);
+    txt(plate, 'UNKNOWN MALE · 180 cm', { x: 0, y: 12, 'font-size': 38, 'font-family': F.mono, 'font-weight': 800, fill: C.cream, 'text-anchor': 'middle' });
+    const rec = stampEl(g, 'RECONSTRUCTION', { size: 44, color: C.ovp, padX: 24, padY: 12, border: 6 });
+    const t0 = s.t0;
+    return (t) => {
+      const z = lerp(1, 1.05, E.io(seg(t, t0 + 1, s.t1 - s.t0)));
+      tf(g, 960 - 960 * z, 540 - 540 * z, z);
+      tf(fig, 960, lerp(1300, 555, E.back(seg(t, t0 + 0.3, t0 + 0.9))), 1.3);
+      tf(plate, 960, lerp(1400, 900, E.back(seg(t, t0 + 0.55, t0 + 1.05))), 1, -1);
+      stampAnim(rec, t, t0 + 2.0, 1560, 200, 6);
+    };
+  });
+  // ---------------- sc02c · profile card ----------------
+  scene('sc02c', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, { rad: [C.ovp, 1920, 1080, 520] });
+    const h = headBlock(g, 'THE PATHOLOGIST FINDS', { x: 120, y: 260, size: 92, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    txt(g, 'J. B. CLELAND · AUTOPSY PROFILE', { x: 124, y: 320, 'font-size': 28, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'letter-spacing': 2 });
+    const rows = rowsType(g, [
+      ['AGE', null, '40–45'], ['HEIGHT', null, '180 cm'], ['EYES', null, 'GREY'],
+      ['HAIR', null, 'FAIR–GINGER'], ['CONDITION', null, '"TOP PHYSICAL"'], ['HANDS', null, 'NO LABOUR'],
+    ], { x: 140, y0: 460, dy: 90, size: 40, width: 900 });
+    // toe wedge callout
+    const foot = el('g', {}, g);
+    el('path', { d: 'M -80 40 C -90 -30 -40 -60 0 -60 C 60 -60 110 -20 120 40 C 90 70 -50 70 -80 40 Z', fill: '#E4D5B5', stroke: C.ink, 'stroke-width': 7 }, foot);
+    el('path', { d: 'M 60 -40 L 118 -6 M 38 -52 L 108 -18', stroke: C.ink, 'stroke-width': 5, 'stroke-linecap': 'round' }, foot);
+    txt(foot, 'WEDGE TOES', { x: 10, y: 110, 'font-size': 28, 'font-family': F.mono, 'font-weight': 800, fill: C.red });
+    txt(foot, 'a dancer? pointed boots?', { x: 10, y: 148, 'font-size': 24, 'font-family': F.book, fill: C.ink });
+    tf(foot, 1360, 660, 1.3);
+    const t0 = s.t0;
+    rows.forEach((r2, i) => pushType(t0 + 0.9 + i * 0.55));
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 40);
+      rows.forEach((r2, i) => { const tt = t0 + 0.9 + i * 0.55; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+      op(foot, seg(t, t0 + 4.6, t0 + 5.0));
+      tf(foot, 1360, lerp(800, 660, E.back(seg(t, t0 + 4.6, t0 + 5.1))), 1.3, Math.sin(t * 1.6) * 2);
+    };
+  });
+  // ---------------- sc02d · wedge toes close-up ----------------
+  scene('sc02d', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, { rad: [C.ovp, 1920, 540, 520] });
+    const h = headBlock(g, 'A DANCER\u2019S FEET?', { x: 120, y: 300, size: 110, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    txt(g, 'BIG AND LITTLE TOES MEETING IN A WEDGE', { x: 124, y: 366, 'font-size': 28, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'letter-spacing': 1 });
+    const ft = el('g', { filter: 'url(#boil)' }, g);
+    el('path', { d: 'M -160 80 C -180 -40 -100 -110 0 -110 C 120 -110 220 -30 240 80 C 180 140 -100 140 -160 80 Z', fill: '#E4D5B5', stroke: C.ink, 'stroke-width': 8 }, ft);
+    el('path', { d: 'M 140 -70 L 236 6 M 96 -96 L 220 -22', stroke: C.ink, 'stroke-width': 6, 'stroke-linecap': 'round' }, ft);
+    const boot = el('path', { d: 'M -320 220 C -260 130 -140 110 -60 130 L 240 130 C 300 130 320 170 320 210 L -320 210 Z', fill: '#6E5024', stroke: C.ink, 'stroke-width': 8, 'stroke-linejoin': 'round' }, ft);
+    txt(ft, 'POINTED BOOTS · HIGH CALVES', { x: -20, y: 170, 'font-size': 26, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    tf(ft, 960, 620, 2.1);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      tf(ft, 960, lerp(1300, 620, E.back(seg(t, t0 + 0.4, t0 + 1.0))), 2.1, Math.sin(t * 1.3) * 1.2);
+    };
+  });
+  // ---------------- sc02e · the clothing ----------------
+  scene('sc02e', (g, s) => {
+    sceneDate = '30 NOV 1948';
+    pageBG(g, {});
+    const h = headBlock(g, 'DRESSED WELL', { x: 120, y: 300, size: 140, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    const items = [
+      { s: 'SHIRT · WHITE', d: (p) => el('rect', { x: -60, y: -80, width: 120, height: 160, rx: 10, fill: '#FBF6E8', stroke: C.ink, 'stroke-width': 6 }, p) },
+      { s: 'TIE · RED WHITE BLUE', d: (p) => el('path', { d: 'M -16 -90 L 16 -90 L 24 -40 L 0 90 L -24 -40 Z', fill: '#5B6B7C', stroke: C.ink, 'stroke-width': 6, 'stroke-linejoin': 'round' }, p) },
+      { s: 'PULLOVER · BROWN', d: (p) => { el('rect', { x: -70, y: -80, width: 140, height: 160, rx: 14, fill: '#8F6A36', stroke: C.ink, 'stroke-width': 6 }, p); for (let i = -2; i <= 2; i++) el('line', { x1: i * 26 - 10, y1: -78, x2: i * 26 + 10, y2: 78, stroke: C.ink, 'stroke-width': 4, opacity: .4 }, p); } },
+      { s: 'JACKET · "AMERICAN"', d: (p) => { el('path', { d: 'M -80 -80 L -30 -100 L 30 -100 L 80 -80 L 64 100 L -64 100 Z', fill: '#5A6474', stroke: C.ink, 'stroke-width': 6, 'stroke-linejoin': 'round' }, p); el('path', { d: 'M -30 -100 L 0 -50 L 30 -100 M 0 -50 L 0 100', fill: 'none', stroke: C.ink, 'stroke-width': 5 }, p); } },
+    ];
+    const cards = items.map((it, i) => {
+      const c = card(g, { x: 360 + (i % 2) * 1200, y: 560 + Math.floor(i / 2) * 380, w: 640, h: 300 });
+      const p = el('g', { transform: 'translate(-160 0)' }, c); it.d(p);
+      txt(c, it.s, { x: 20, y: -16, 'font-size': 27, 'font-family': F.sans, fill: C.ink });
+      return { c, x: 360 + (i % 2) * 1200, y: 560 + Math.floor(i / 2) * 380 };
+    });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.05);
+      cards.forEach((cd, i) => {
+        const tt = t0 + 0.45 + i * 0.3;
+        op(cd.c, t >= tt ? 1 : 0);
+        tf(cd.c, cd.x, lerp(1500, cd.y, E.back(seg(t, tt, tt + 0.45))), 1, 0);
+      });
+    };
+  });
+  // ---------------- sc02f · every label removed ----------------
+  scene('sc02f', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, { rad: [C.red, 0, 0, 420, 80] });
+    const h = headBlock(g, 'EVERY LABEL REMOVED', { x: 960, y: 420, size: 130, anchor: 'middle', shadow: { fill: C.hi, dx: 9, dy: 9 } });
+    const st = stampEl(g, 'DELIBERATE?', { size: 110, color: C.red });
+    // scissors snip marks
+    const marks = [];
+    for (let i = 0; i < 5; i++) {
+      const m = el('path', { d: 'M 0 -14 L 14 0 L 0 14 L -14 0 Z', fill: 'none', stroke: C.ink, 'stroke-width': 5 }, g);
+      marks.push({ m, x: 300 + i * 330, y: 640 + (i % 2) * 120 });
+    }
+    const t0 = s.t0, ts = LT('L11') + 1.6;
+    pushStamp(ts, 16);
+    return (t) => {
+      charsPop(h, t, t0 + 0.25, 0.05);
+      marks.forEach((mk, i) => {
+        const tt = t0 + 1.0 + i * 0.18;
+        op(mk.m, t >= tt ? 0.8 : 0);
+        tf(mk.m, mk.x, mk.y, pop(t, tt, 0.25), 20);
+      });
+      stampAnim(st, t, ts, 1440, 820, -8);
+    };
+  });
+  // ---------------- sc02g · pocket contents grid ----------------
+  scene('sc02g', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, {});
+    const h = headBlock(g, 'ALL HE CARRIED', { x: 120, y: 240, size: 100, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    const defs = [
+      ['RAIL TICKET', 'UNUSED', (p) => { el('rect', { x: -80, y: -40, width: 160, height: 80, rx: 6, fill: '#D9B470', stroke: C.ink, 'stroke-width': 5 }, p); el('line', { x1: -50, y1: -18, x2: 50, y2: -18, stroke: C.ink, 'stroke-width': 3 }, p); el('line', { x1: -50, y1: 4, x2: 30, y2: 4, stroke: C.ink, 'stroke-width': 3 }, p); }],
+      ['BUS TICKET', 'CITY → GLENELG', (p) => { el('rect', { x: -70, y: -32, width: 140, height: 64, rx: 6, fill: '#C8D8CE', stroke: C.ink, 'stroke-width': 5 }, p); el('circle', { cx: 46, cy: 0, r: 10, fill: C.paper, stroke: C.ink, 'stroke-width': 4 }, p); }],
+      ['COMB', 'US-MADE', (p) => { el('rect', { x: -70, y: -18, width: 140, height: 36, rx: 8, fill: '#B9C2C9', stroke: C.ink, 'stroke-width': 5 }, p); for (let i = 0; i < 9; i++) el('line', { x1: -58 + i * 14, y1: 16, x2: -58 + i * 14, y2: 26, stroke: C.ink, 'stroke-width': 3 }, p); }],
+      ['JUICY FRUIT', 'HALF EMPTY', (p) => { el('rect', { x: -70, y: -30, width: 140, height: 60, rx: 8, fill: '#E3A93B', stroke: C.ink, 'stroke-width': 5 }, p); txt(p, 'GUM', { x: 0, y: 10, 'font-size': 26, 'font-family': F.sans, fill: C.ink, 'text-anchor': 'middle' }); }],
+      ['ARMY CLUB', '7 × KENSITAS INSIDE', (p) => { el('rect', { x: -76, y: -34, width: 152, height: 68, rx: 6, fill: '#5B6B7C', stroke: C.ink, 'stroke-width': 5 }, p); el('circle', { cx: 0, cy: 0, r: 16, fill: C.red }, p); }],
+      ['MATCHES', 'QUARTER FULL', (p) => { el('rect', { x: -70, y: -26, width: 140, height: 52, rx: 6, fill: '#8F6A36', stroke: C.ink, 'stroke-width': 5 }, p); el('path', { d: 'M -8 8 L 0 -10 L 8 8 Z', fill: C.hi, stroke: C.ink, 'stroke-width': 3 }, p); }],
+    ];
+    const cards = defs.map((d, i) => {
+      const x = 380 + (i % 3) * 590, y = 520 + Math.floor(i / 3) * 380;
+      const c = card(g, { x, y, w: 520, h: 320 });
+      const p = el('g', { transform: 'translate(0 -60)' }, c); d[2](p);
+      txt(c, d[0], { x: 0, y: 62, 'font-size': 32, 'font-family': F.sans, fill: C.ink, 'text-anchor': 'middle' });
+      txt(c, d[1], { x: 0, y: 108, 'font-size': 26, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+      return { c, x, y };
+    });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      cards.forEach((cd, i) => {
+        const tt = t0 + 0.7 + i * 0.6;
+        op(cd.c, t >= tt ? 1 : 0);
+        tf(cd.c, cd.x, lerp(1500, cd.y, E.back(seg(t, tt, tt + 0.5))), 1, (i % 2 ? 2 : -2));
+      });
+    };
+  });
+  // ---------------- sc02h · the arm drops ----------------
+  scene('sc02h', (g, s) => {
+    sceneDate = '30 NOV 1948 · 7 PM';
+    pageBG(g, { dark: true, edgy: true });
+    // streetlight cone
+    const lamp = el('g', {}, g);
+    el('path', { d: 'M 1450 60 L 1450 140 M 1450 140 L 1560 560 L 1060 560 Z', fill: C.hi, opacity: .16 }, lamp);
+    el('circle', { cx: 1450, cy: 150, r: 26, fill: C.hi, opacity: .9 }, lamp);
+    const wall2 = el('rect', { x: 0, y: 600, width: 1920, height: 70, fill: '#262D3D' }, g);
+    const fig = bodyFigure(g, { dark: true });
+    tf(fig, 900, 596, 1.5);
+    // the arm: separate overlay so it can drop limply
+    const armG = el('g', {}, g);
+    el('path', { d: 'M -70 -80 C -120 -60 -130 -10 -118 30 L -96 24 C -104 -8 -98 -52 -74 -72 Z', fill: C.night2, stroke: C.cream, 'stroke-width': 7 }, armG);
+    tf(armG, 900, 596, 1.5);
+    const t0 = s.t0, tDrop = LT('L13') + 3.4;
+    return (t) => {
+      const z = lerp(1.06, 1, E.out(seg(t, t0 + 0.3, t0 + 1.4)));
+      tf(g, 960 - 960 * z, 540 - 540 * z, z);
+      tf(fig, 900, 596, 1.5);
+      const raise = seg(t, LT('L13') + 2.2, LT('L13') + 3.2);
+      const drop = seg(t, tDrop, tDrop + 0.5);
+      const ang = 20 * E.out(raise) - 55 * E.in(drop);
+      op(armG, 1);
+      armG.setAttribute('transform', `translate(900 596) rotate(${ang.toFixed(2)} -74 -72) scale(1.5)`);
+    };
+  });
+  // ---------------- sc02i · mosquitoes / motionless ----------------
+  scene('sc02i', (g, s) => {
+    sceneDate = '30 NOV 1948 · 7:30 PM';
+    pageBG(g, { dark: true });
+    const fig = bodyFigure(g, { dark: true });
+    tf(fig, 960, 560, 1.7);
+    const Skeet = [];
+    const r = rng(21);
+    for (let i = 0; i < 12; i++) {
+      const sk = el('path', { d: 'M 0 0 q 8 -6 14 0 q -8 6 -14 0 Z', fill: C.cream, opacity: .8 }, g);
+      Skeet.push({ sk, a: r() * Math.PI * 2, cx: 500 + r() * 900, cy: 300 + r() * 400, rr: 30 + r() * 60, sp: 1.4 + r() * 2 });
+    }
+    txt(g, 'HE NEVER SWATTED ONCE', { x: 960, y: 200, 'font-size': 40, 'font-family': F.sans, fill: C.hi, 'text-anchor': 'middle' });
+    const t0 = s.t0;
+    return (t) => {
+      Skeet.forEach((k, i) => {
+        const a = k.a + t * k.sp;
+        tf(k.sk, k.cx + Math.cos(a) * k.rr, k.cy + Math.sin(a) * k.rr * 0.6, 1, Math.sin(a) * 30);
+      });
+      tf(fig, 960, 560 + Math.sin(t * 0.8) * 2, 1.7);
+    };
+  });
+  // ---------------- sc02j · autopsy table ----------------
+  scene('sc02j', (g, s) => {
+    sceneDate = '01 DEC 1948';
+    pageBG(g, { rad: [C.ovp, 1920, 1080, 560] });
+    const h = headBlock(g, 'THE AUTOPSY', { x: 120, y: 260, size: 120, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    txt(g, 'NO INJURY THAT COULD KILL', { x: 124, y: 320, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'letter-spacing': 2 });
+    const rows = rowsType(g, [
+      ['ORGANS', null, 'CONGESTED'], ['SPLEEN', null, '×3 NORMAL'], ['STOMACH', null, 'BLOOD + FOOD'],
+      ['TESTS ×4', null, 'NO SUBSTANCE'],
+    ], { x: 140, y0: 480, dy: 100, size: 44, width: 1050 });
+    const t0 = s.t0;
+    rows.forEach((r2, i) => pushType(t0 + 1.0 + i * 1.1));
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      rows.forEach((r2, i) => { const tt = t0 + 1.0 + i * 1.1; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc02k · Dwyer quote + POISON? ----------------
+  scene('sc02k', (g, s) => {
+    sceneDate = '1949 · INQUEST';
+    pageBG(g, { rad: [C.hi, 960, 0, 600, 70] });
+    const qc = card(g, { x: 960, y: 480, w: 1440, h: 420, fill: '#F7F0DC' });
+    txt(qc, '"I am quite convinced', { x: -620, y: -80, 'font-size': 64, 'font-family': F.head, 'font-weight': 900, fill: C.ink });
+    txt(qc, 'the death could not have been natural."', { x: -620, y: 10, 'font-size': 64, 'font-family': F.head, 'font-weight': 900, fill: C.ink });
+    txt(qc, '— pathologist JOHN DWYER, inquest evidence, 1949', { x: -620, y: 120, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ovp });
+    const st = stampEl(g, 'POISON ?', { size: 150, color: C.red });
+    const t0 = s.t0, ts = LT('L16') + 2.2;
+    pushStamp(ts, 18, 0.4);
+    return (t) => {
+      op(qc, t >= t0 + 0.3 ? 1 : 0);
+      tf(qc, 960, lerp(300, 480, E.back(seg(t, t0 + 0.3, t0 + 0.8))), 1, -1);
+      stampAnim(st, t, ts, 1400, 850, -8);
+    };
+  });
+  // ---------------- sc03a · re-examine the clothing ----------------
+  scene('sc03a', (g, s) => {
+    sceneDate = 'JUNE 1949';
+    pageBG(g, {});
+    const h = headBlock(g, 'JUNE 1949', { x: 120, y: 340, size: 170, shadow: { fill: C.ovp, dx: 9, dy: 9 } });
+    const sub = chars(g, 'POLICE RE-EXAMINE THE CLOTHING', { x: 124, y: 440, size: 44, family: F.mono, weight: 800, fill: C.red });
+    // trousers on a table
+    const tr = el('g', { filter: 'url(#boil)' }, g);
+    el('path', { d: 'M -140 -180 L 140 -180 L 160 180 L 40 180 L 12 -30 L -12 -30 L -40 180 L -160 180 Z', fill: '#6E5A3E', stroke: C.ink, 'stroke-width': 7, 'stroke-linejoin': 'round' }, tr);
+    tf(tr, 1360, 620, 1.5);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.25, 0.06, 0.4, 70);
+      charsPop(sub, t, t0 + 0.8, 0.02, 0.25, 20);
+      tf(tr, 1360, lerp(1500, 620, E.back(seg(t, t0 + 0.6, t0 + 1.2))), 1.5, Math.sin(t) * 1.5);
+    };
+  });
+  // ---------------- sc03b · the fob pocket ----------------
+  scene('sc03b', (g, s) => {
+    sceneDate = 'JUNE 1949';
+    pageBG(g, {});
+    const h = headBlock(g, 'A SECOND, HIDDEN POCKET', { x: 120, y: 260, size: 92, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    const pocket = el('g', {}, g);
+    el('path', { d: 'M -260 -80 C -260 -240 260 -240 260 -80 L 200 260 L -200 260 Z', fill: '#6E5A3E', stroke: C.ink, 'stroke-width': 8, 'stroke-linejoin': 'round' }, pocket);
+    el('path', { d: 'M -260 -80 C -80 -20 80 -20 260 -80', fill: 'none', stroke: C.ink, 'stroke-width': 6 }, pocket);
+    const fob = el('path', { d: 'M -130 -40 C -130 -110 130 -110 130 -40 L 96 130 L -96 130 Z', fill: '#8F7448', stroke: C.hi, 'stroke-width': 7, 'stroke-linejoin': 'round', 'stroke-dasharray': '18 12' }, pocket);
+    const scrap = el('g', {}, pocket);
+    el('rect', { x: -46, y: -70, width: 92, height: 140, rx: 8, fill: '#F7F0DC', stroke: C.ink, 'stroke-width': 5, transform: 'rotate(8)' }, scrap);
+    tf(pocket, 960, 640, 1.8);
+    const t0 = s.t0, tp = LT('L18') + 2.6;
+    return (t) => {
+      charsPop(h, t, t0 + 0.25, 0.04, 0.3, 40);
+      tf(pocket, 960, lerp(1600, 640, E.back(seg(t, t0 + 0.4, t0 + 1.1))), 1.8);
+      const up = seg(t, tp, tp + 0.7);
+      op(scrap, up > 0 ? 1 : 0);
+      scrap.setAttribute('transform', `translate(0 ${lerp(120, 0, E.back(up))}) rotate(${lerp(-24, 8, up)})`);
+    };
+  });
+  // ---------------- sc03c · TAMÁM SHUD snap zoom ----------------
+  scene('sc03c', (g, s) => {
+    sceneDate = 'JUNE 1949';
+    bg(g, C.ink);
+    halftone(g, { color: '#4A3B2B', step: 26, angle: 30, f: edge(900, 1.2), maxK: 0.5 });
+    const scrap = el('g', {}, g);
+    el('rect', { x: -420, y: -560, width: 840, height: 1120, rx: 24, fill: '#F7F0DC', stroke: '#D8CBA8', 'stroke-width': 8 }, scrap);
+    txt(scrap, 'TAMÁM', { x: 0, y: -140, 'font-size': 190, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    txt(scrap, 'SHUD', { x: 0, y: 70, 'font-size': 190, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    txt(scrap, '— torn from the final page', { x: 0, y: 250, 'font-size': 36, 'font-family': F.book, fill: C.sep, 'text-anchor': 'middle' });
+    tf(scrap, 960, 540);
+    const t0 = s.t0;
+    pushClick(t0 + 0.35);
+    return (t) => {
+      const z = lerp(3.4, 1.0, E.out(seg(t, t0 + 0.1, t0 + 1.15)));
+      tf(g, 960 - 960 * z, 540 - 540 * z, z);
+      const zz = lerp(1, 1.045, E.io(seg(t, t0 + 1.4, s.t1 - s.t0)));
+      tf(g, 960 - 960 * zz, 540 - 540 * zz, zz);
+    };
+  });
+  // ---------------- sc03d · the Rubaiyat ----------------
+  scene('sc03d', (g, s) => {
+    sceneDate = 'JUNE 1949';
+    pageBG(g, { rad: [C.hi, 0, 1080, 520, 60] });
+    const bk = bookSpread(g, {});
+    tf(bk, 960, 560, 1.35);
+    txt(bk, 'RUBÁIYÁT', { x: -240, y: -60, 'font-size': 74, 'font-family': F.head, 'font-weight': 900, fill: C.ink });
+    txt(bk, 'OF OMAR KHAYYÁM', { x: -240, y: 10, 'font-size': 40, 'font-family': F.head, 'font-weight': 900, fill: C.ink });
+    txt(bk, 'live fully —', { x: 220, y: -30, 'font-size': 40, 'font-family': F.book, fill: C.sep, 'text-anchor': 'middle' });
+    txt(bk, 'end without regret', { x: 220, y: 30, 'font-size': 40, 'font-family': F.book, fill: C.sep, 'text-anchor': 'middle' });
+    const h = headBlock(g, 'THE LAST WORDS', { x: 120, y: 190, size: 76, shadow: { fill: C.ovp, dx: 6, dy: 6 } });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      tf(bk, 960, lerp(1300, 560, E.back(seg(t, t0 + 0.3, t0 + 0.95))), 1.35, Math.sin(t * 1.1) * 1.2);
+    };
+  });
+  // ---------------- sc03e · Australia-wide search ----------------
+  scene('sc03e', (g, s) => {
+    sceneDate = 'JULY 1949';
+    pageBG(g, { rad: [C.ovp, 1920, 0, 500] });
+    const h = headBlock(g, 'FIND THE BOOK', { x: 120, y: 280, size: 130, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    txt(g, 'A COPY WHOSE LAST PAGE HAD A BLANK REVERSE', { x: 124, y: 350, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'letter-spacing': 1 });
+    const au = mapAustralia(g, 560, 420, 800, 620);
+    const pinA = pin(g, 0, 0, C.red, 14);
+    const scan = el('circle', { cx: 0, cy: 0, r: 10, fill: 'none', stroke: C.red, 'stroke-width': 4 }, g);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.05);
+      op(au, seg(t, t0 + 0.6, t0 + 1.0));
+      // scanning sweep across the map
+      const p = (t * 0.35) % 1;
+      const sx = 560 + 40 + p * 720, sy = 420 + 60 + Math.abs(Math.sin(t * 0.9)) * 500;
+      show(scan, t > t0 + 1.1);
+      tf(scan, sx, sy, 1 + 0.6 * Math.sin(t * 5));
+      // Adelaide pin
+      const pp = pop(t, t0 + 2.4, 0.4);
+      tf(pinA, 560 + 40 + 620, 420 + 60 + 420, pp);
+    };
+  });
+  // ---------------- sc03f · Jetty Road, 22 July ----------------
+  scene('sc03f', (g, s) => {
+    sceneDate = '22 JULY 1949';
+    pageBG(g, {});
+    const h = headBlock(g, '22 JULY 1949', { x: 120, y: 300, size: 150, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    const mp = mapAdelaide(g, 1000, 480, 800, 420);
+    const car = el('g', { filter: 'url(#boil)' }, g);
+    el('path', { d: 'M -160 20 C -160 -30 -110 -50 -60 -50 L 60 -50 C 120 -50 160 -20 160 20 Z', fill: '#5B6B7C', stroke: C.ink, 'stroke-width': 7, 'stroke-linejoin': 'round' }, car);
+    el('circle', { cx: -90, cy: 24, r: 26, fill: C.ink }, car);
+    el('circle', { cx: 90, cy: 24, r: 26, fill: C.ink }, car);
+    const JR = pin(g, 0, 0, C.red, 16);
+    const t0 = s.t0, tp = LT('L22') + 3.2;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.05);
+      tf(car, 960, lerp(-300, 300, E.back(seg(t, t0 + 0.5, t0 + 1.1))), 1, Math.sin(t * 2) * 1.2);
+      op(mp, seg(t, t0 + 1.2, t0 + 1.6));
+      tf(JR, 1000 + 800 * 0.52, lerp(300, 480 + 420 * 0.55, E.back(seg(t, tp, tp + 0.5))), pop(t, tp, 0.4));
+    };
+  });
+  // ---------------- sc03g · Ronald Francis ----------------
+  scene('sc03g', (g, s) => {
+    sceneDate = '22 JULY 1949';
+    pageBG(g, { rad: [C.hi, 0, 1080, 480, 60] });
+    const c = card(g, { x: 960, y: 500, w: 1200, h: 420 });
+    txt(c, 'FINDER:', { x: -480, y: -120, 'font-size': 32, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'letter-spacing': 2 });
+    txt(c, '"RONALD FRANCIS"', { x: -480, y: -30, 'font-size': 84, 'font-family': F.head, 'font-weight': 900, fill: C.ink });
+    txt(c, 'a police pseudonym — his real name has', { x: -480, y: 70, 'font-size': 36, 'font-family': F.book, fill: C.sep });
+    txt(c, 'never been officially established', { x: -480, y: 120, 'font-size': 36, 'font-family': F.book, fill: C.sep });
+    const bar = el('rect', { x: -480, y: 46, width: 960, height: 52, fill: C.ink }, c);
+    const t0 = s.t0;
+    return (t) => {
+      op(c, t >= t0 + 0.3 ? 1 : 0);
+      tf(c, 960, lerp(200, 500, E.back(seg(t, t0 + 0.3, t0 + 0.9))), 1, -1);
+      op(bar, seg(t, t0 + 1.6, t0 + 2.0));
+    };
+  });
+  // ---------------- sc03h · MATCHED + disputed timing ----------------
+  scene('sc03h', (g, s) => {
+    sceneDate = 'JULY 1949';
+    pageBG(g, {});
+    const h = headBlock(g, 'THE SCRAP FIT THE PAGE', { x: 120, y: 260, size: 92, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    // torn page + scrap aligning
+    const pg = el('g', {}, g);
+    el('rect', { x: -320, y: -200, width: 640, height: 400, rx: 10, fill: '#F7F0DC', stroke: C.ink, 'stroke-width': 6 }, pg);
+    tf(pg, 700, 600, 1.2);
+    const sc2 = el('g', {}, g);
+    el('rect', { x: -110, y: -160, width: 220, height: 320, rx: 10, fill: '#F3EAD2', stroke: C.red, 'stroke-width': 6, 'stroke-dasharray': '16 10' }, sc2);
+    tf(sc2, 700, 600, 1.2);
+    const d1 = card(g, { x: 1460, y: 400, w: 640, h: 220, rot: -2 });
+    txt(d1, '"A WEEK OR TWO BEFORE"', { x: 0, y: -16, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(d1, 'one newspaper account', { x: 0, y: 40, 'font-size': 28, 'font-family': F.book, fill: C.sep, 'text-anchor': 'middle' });
+    const d2 = card(g, { x: 1460, y: 720, w: 640, h: 220, rot: 2 });
+    txt(d2, '"JUST AFTER"', { x: 0, y: -16, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(d2, 'detective Gerry Feltus', { x: 0, y: 40, 'font-size': 28, 'font-family': F.book, fill: C.sep, 'text-anchor': 'middle' });
+    const st = stampEl(g, 'MATCHED', { size: 120, color: C.red });
+    const t0 = s.t0, ts = LT('L24') + 1.2;
+    pushStamp(ts, 16);
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      const al = seg(t, t0 + 0.8, t0 + 1.6);
+      tf(sc2, 700, lerp(500, 600, al), 1.2, lerp(-10, 0, al));
+      op(d1, seg(t, t0 + 2.2, t0 + 2.6)); op(d2, seg(t, t0 + 2.5, t0 + 2.9));
+      stampAnim(st, t, ts, 640, 300, -7);
+    };
+  });
+  // ---------------- sc03i · the back cover ----------------
+  scene('sc03i', (g, s) => {
+    sceneDate = '22 JULY 1949';
+    pageBG(g, { rad: [C.hi, 960, 1080, 560, 70] });
+    const h = headBlock(g, 'AND THEN — THE BACK COVER', { x: 960, y: 520, size: 110, anchor: 'middle', shadow: { fill: C.red, dx: 8, dy: 8 } });
+    pushPage(s.t0 + 0.2);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.25, 0.05, 0.4, 60);
+      const z = lerp(1, 1.06, E.io(seg(t, t0 + 0.6, s.t1 - s.t0)));
+      tf(g, 960 - 960 * z, 540 - 540 * z, z);
+    };
+  });
+  // ---------------- sc04a · the 1941 edition ----------------
+  scene('sc04a', (g, s) => {
+    sceneDate = '1941 · CHRISTCHURCH, N.Z.';
+    pageBG(g, { rad: [C.ovp, 0, 0, 520, 60] });
+    const bk = bookSpread(g, {});
+    tf(bk, 960, 600, 1.5);
+    const col = card(g, { x: 960, y: 200, w: 900, h: 130 });
+    txt(col, 'WHITCOMBE & TOMBS · CHRISTCHURCH · 1941', { x: 0, y: 12, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(col, 'EDWARD FITZGERALD\u2019S TRANSLATION', { x: 0, y: 58, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ovp, 'text-anchor': 'middle' });
+    const h = headBlock(g, 'THE EDITION', { x: 120, y: 420, size: 100, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      tf(bk, 960, lerp(1400, 600, E.back(seg(t, t0 + 0.3, t0 + 1.0))), 1.5, Math.sin(t) * 1);
+      op(col, seg(t, t0 + 1.2, t0 + 1.6));
+    };
+  });
+  // ---------------- sc04b · UV indentations ----------------
+  scene('sc04b', (g, s) => {
+    sceneDate = '22 JULY 1949';
+    bg(g, C.night);
+    halftone(g, { color: C.night2, step: 24, angle: 20, f: edge(860, 1.2), maxK: 0.66 });
+    const bk = bookSpread(g, { dark: true });
+    tf(bk, 960, 560, 1.7);
+    // UV lamp sweeping
+    const lamp = el('g', {}, g);
+    el('rect', { x: -26, y: -200, width: 52, height: 220, rx: 10, fill: C.steel, stroke: C.cream, 'stroke-width': 5 }, lamp);
+    el('ellipse', { cx: 0, cy: 24, rx: 34, ry: 16, fill: C.steel, stroke: C.cream, 'stroke-width': 5 }, lamp);
+    const beam = el('path', { d: 'M -60 40 L 60 40 L 400 560 L -400 560 Z', fill: C.steel, opacity: .28, filter: 'url(#uvsoft)' }, g);
+    // indentations glow under the beam
+    const ind = el('g', {}, g);
+    const glowT = txt(ind, 'a local number ·  a second number', { x: 960, y: 640, 'font-size': 44, 'font-family': F.mono, 'font-weight': 800, fill: C.steel, 'text-anchor': 'middle', filter: 'url(#uvsoft)' });
+    const glowB = txt(ind, 'and five lines of capitals', { x: 960, y: 700, 'font-size': 44, 'font-family': F.mono, 'font-weight': 800, fill: C.steel, 'text-anchor': 'middle', filter: 'url(#uvsoft)' });
+    const h = headBlock(g, 'WRITING, CARRIED THROUGH', { x: 120, y: 220, size: 72, fill: C.cream, shadow: { fill: C.night2, dx: 6, dy: 6 } });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      const sweep = Math.sin(t * 1.1) * 240;
+      tf(lamp, 960 + sweep, 240, 1, Math.sin(t * 1.1) * 8);
+      beam.setAttribute('transform', `translate(${sweep.toFixed(1)} 0)`);
+      op(ind, seg(t, t0 + 1.6, t0 + 2.2) * (0.7 + 0.3 * Math.sin(t * 3)));
+      tf(bk, 960, 560, 1.7);
+    };
+  });
+  // ---------------- sc04c · the numbers ----------------
+  scene('sc04c', (g, s) => {
+    sceneDate = '22 JULY 1949';
+    pageBG(g, {});
+    const h = headBlock(g, 'TWO NUMBERS', { x: 120, y: 300, size: 130, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    const rows = rowsType(g, [
+      ['TELEPHONE No.', null, 'LOCAL — SOMERTON'], ['SECOND NUMBER', null, 'UNIDENTIFIED'],
+    ], { x: 140, y0: 560, dy: 110, size: 44, width: 1300 });
+    const t0 = s.t0;
+    rows.forEach((r2, i) => pushType(t0 + 1.0 + i * 1.2));
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.05);
+      rows.forEach((r2, i) => { const tt = t0 + 1.0 + i * 1.2; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc04d · the five lines ----------------
+  scene('sc04d', (g, s) => {
+    sceneDate = '22 JULY 1949';
+    bg(g, C.ink);
+    halftone(g, { color: '#4A3B2B', step: 26, angle: 45, f: edge(900, 1.3), maxK: 0.45 });
+    const h = headBlock(g, 'FIVE LINES OF CAPITALS', { x: 120, y: 200, size: 80, fill: C.cream, shadow: { fill: C.night2, dx: 6, dy: 6 } });
+    const LINES = ['WRGOABABD', 'MLIAOI', 'WTBIMPANETP', 'MLIABOAIAQC', 'ITTMTSAMSTGAB'];
+    const t0 = s.t0, perChar = 0.075;
+    const blocks = LINES.map((s2, i) => {
+      const y = 360 + i * 128;
+      const c = chars(g, s2, { x: 240, y, size: 74, family: F.mono, weight: 800, fill: C.cream, ls: 10 });
+      c.items.forEach(it => op(it.g, 0));
+      const strike = el('line', { x1: 230, y1: y - 24, x2: 230, y2: y - 24, stroke: C.red, 'stroke-width': 9, 'stroke-linecap': 'round' }, g);
+      op(strike, 0);
+      const xmark = txt(g, 'X', { x: 0, y: 0, 'font-size': 54, 'font-family': F.mono, 'font-weight': 800, fill: C.hi });
+      op(xmark, 0);
+      for (let k = 0; k < s2.length; k++) EV.push({ t: t0 + 0.9 + i * 1.1 + k * perChar, type: 'click' });
+      return { c, strike, xmark, y, s: s2, i };
+    });
+    return (t) => {
+      charsPop(h, t, t0 + 0.15, 0.03, 0.3, 30);
+      blocks.forEach(b => {
+        const n = clamp(Math.floor((t - (t0 + 0.9 + b.i * 1.1)) / perChar), 0, b.s.length);
+        b.c.items.forEach((it, k) => {
+          if (k < n) { op(it.g, 1); const p = seg(t, t0 + 0.9 + b.i * 1.1 + k * perChar, t0 + 0.9 + b.i * 1.1 + k * perChar + 0.2); it.g.setAttribute('transform', `translate(${it.x} ${it.y + 24 * (1 - E.out(p))}) scale(${E.back(p).toFixed(3)})`); }
+          else op(it.g, 0);
+        });
+        if (b.i === 1) {
+          const sp = seg(t, t0 + 2.4, t0 + 3.1);
+          b.strike.setAttribute('x2', lerp(230, 230 + b.s.length * 78, sp));
+          op(b.strike, sp > 0 ? 0.95 : 0);
+        }
+        if (b.i === 3) {
+          const xp = pop(t, t0 + 5.2, 0.35);
+          op(b.xmark, xp > 0 ? 1 : 0);
+          tf(b.xmark, 240 + 10.6 * 78 + 20, b.y - 60, xp, -12);
+        }
+      });
+    };
+  });
+  // ---------------- sc04e · Jessica Thomson ----------------
+  scene('sc04e', (g, s) => {
+    sceneDate = 'JULY 1949';
+    pageBG(g, { rad: [C.hi, 0, 0, 460, 60] });
+    const h = headBlock(g, 'THE PHONE NUMBER LEADS TO:', { x: 120, y: 250, size: 72, shadow: { fill: C.ovp, dx: 6, dy: 6 } });
+    const mp = mapAdelaide(g, 160, 480, 900, 460);
+    const pinJ = pin(g, 0, 0, C.red, 16);
+    const nc = card(g, { x: 1430, y: 620, w: 760, h: 440, rot: 1.5 });
+    txt(nc, 'JESSICA THOMSON', { x: 0, y: -120, 'font-size': 56, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    txt(nc, 'nurse · MOSELEY STREET, GLENELG', { x: 0, y: -50, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+    txt(nc, '400 m', { x: 0, y: 40, 'font-size': 96, 'font-family': F.disp, fill: C.ink, 'text-anchor': 'middle' });
+    txt(nc, 'from where the body lay', { x: 0, y: 110, 'font-size': 30, 'font-family': F.book, fill: C.sep, 'text-anchor': 'middle' });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      tf(pinJ, 160 + 900 * 0.55, lerp(1400, 480 + 460 * 0.6, E.back(seg(t, t0 + 0.9, t0 + 1.4))), pop(t, t0 + 0.9, 0.4));
+      op(nc, seg(t, t0 + 1.6, t0 + 2.1));
+      tf(nc, 1430, lerp(300, 620, E.back(seg(t, t0 + 1.6, t0 + 2.1))), 1, 1.5);
+    };
+  });
+  // ---------------- sc04f · she did not know him ----------------
+  scene('sc04f', (g, s) => {
+    sceneDate = 'JULY 1949';
+    pageBG(g, {});
+    const h = headBlock(g, '"I DID NOT KNOW HIM"', { x: 120, y: 320, size: 110, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    const rows = rowsType(g, [
+      ['SHE COULD NOT EXPLAIN THE NUMBER'], ['LATE 1948: A STRANGER ASKING AT', null], ['', null, 'A NEIGHBOUR\u2019S DOOR'],
+    ], { x: 140, y0: 560, dy: 96, size: 40, width: 1240, label: false });
+    const door = el('g', { filter: 'url(#boil)' }, g);
+    el('rect', { x: -120, y: -220, width: 240, height: 440, rx: 8, fill: '#6E5024', stroke: C.ink, 'stroke-width': 7 }, door);
+    el('circle', { cx: 80, cy: 10, r: 12, fill: C.hi, stroke: C.ink, 'stroke-width': 4 }, door);
+    tf(door, 1560, 600, 1.2);
+    const knock = el('g', {}, g);
+    for (let i = 0; i < 3; i++) {
+      const a = el('path', { d: 'M 0 0 q 20 -14 40 0 M 0 18 q 20 -14 40 0', fill: 'none', stroke: C.hi, 'stroke-width': 6, 'stroke-linecap': 'round' }, knock);
+    }
+    const t0 = s.t0, tk = LT('L31') + 3.4;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.35, 40);
+      rows.forEach((r2, i) => { const tt = t0 + 1.0 + i * 1.4; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+      tf(door, 1560, 600, 1.2, Math.sin(t * 14) * (t > tk && t < tk + 0.6 ? 2.2 : 0));
+      op(knock, t > tk && t < tk + 0.8 ? 1 : 0);
+      tf(knock, 1620 + Math.sin(t * 30) * 6, 420, 1.2);
+    };
+  });
+  // ---------------- sc04g · the cast reaction ----------------
+  scene('sc04g', (g, s) => {
+    sceneDate = '26 JULY 1949';
+    pageBG(g, { rad: [C.ovp, 1920, 0, 480] });
+    const bust = bustHead(g, {});
+    tf(bust, 760, 620, 1.7);
+    const tag = stampEl(g, 'RECONSTRUCTION', { size: 40, color: C.ovp, padX: 22, padY: 10, border: 5 });
+    const qc = card(g, { x: 1380, y: 480, w: 900, h: 500 });
+    txt(qc, '"COMPLETELY TAKEN ABACK,', { x: -360, y: -140, 'font-size': 46, 'font-family': F.head, 'font-weight': 900, fill: C.ink });
+    txt(qc, 'TO THE POINT OF GIVING THE', { x: -360, y: -70, 'font-size': 46, 'font-family': F.head, 'font-weight': 900, fill: C.ink });
+    txt(qc, 'APPEARANCE THAT SHE WAS', { x: -360, y: 0, 'font-size': 46, 'font-family': F.head, 'font-weight': 900, fill: C.ink });
+    txt(qc, 'ABOUT TO FAINT."', { x: -360, y: 70, 'font-size': 46, 'font-family': F.head, 'font-weight': 900, fill: C.red });
+    txt(qc, '— Det. Sgt. Lionel Leane', { x: -360, y: 160, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ovp });
+    const t0 = s.t0;
+    return (t) => {
+      tf(bust, 760, lerp(1500, 620, E.back(seg(t, t0 + 0.3, t0 + 1.0))), 1.7, Math.sin(t * 0.9) * 1.5);
+      stampAnim(tag, t, t0 + 1.4, 500, 950, -6);
+      op(qc, seg(t, t0 + 1.8, t0 + 2.4));
+      tf(qc, 1380, lerp(300, 480, E.back(seg(t, t0 + 1.8, t0 + 2.4))), 1, 1);
+    };
+  });
+  // ---------------- sc04h · name withheld ----------------
+  scene('sc04h', (g, s) => {
+    sceneDate = '1949';
+    pageBG(g, {});
+    const h = headBlock(g, 'THE NAME WITHHELD', { x: 960, y: 340, size: 110, anchor: 'middle', shadow: { fill: C.red, dx: 8, dy: 8 } });
+    const bars = [
+      [700, 520, 900], [560, 640, 1180], [820, 760, 640],
+    ].map(([x, y, w], i) => {
+      const b = el('rect', { x: x - w / 2, y: y - 34, width: 0, height: 68, fill: C.ink }, g);
+      txt(g, 'POLICE RECORD — SEALED', { x: x - w / 2 + 16, y: y + 12, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.cream, opacity: 0 });
+      return { b, w, t0: s.t0 + 0.6 + i * 0.5 };
+    });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.35, 40);
+      bars.forEach(bb => { bb.b.setAttribute('width', Math.max(0, bb.w * E.out(seg(t, bb.t0, bb.t0 + 0.5)))); });
+    };
+  });
+  // ---------------- sc04i · 1978 Defence cryptographers ----------------
+  scene('sc04i', (g, s) => {
+    sceneDate = '1978';
+    pageBG(g, { rad: [C.ovp, 0, 1080, 520] });
+    const yc = chars(g, '1978', { x: 1856, y: 880, size: 470, family: F.disp, weight: 400, fill: C.paper2, anchor: 'end', shadow: { fill: C.ovp, dx: 9, dy: 9 } });
+    const h = headBlock(g, 'DEFENCE CRYPTOGRAPHERS', { x: 120, y: 300, size: 84, shadow: { fill: C.hi, dx: 6, dy: 6 } });
+    const rows = rowsType(g, [
+      ['"TOO FEW SYMBOLS"', null, 'FOR A'], ['"SATISFACTORY ANSWER"', null, '— OR THE'], ['"MEANINGLESS" PRODUCT', null, 'OF A'], ['"DISTURBED MIND"', null, ''],
+    ], { x: 140, y0: 500, dy: 92, size: 44, width: 1150, label: false });
+    const t0 = s.t0;
+    rows.forEach((r2, i) => pushType(t0 + 0.9 + i * 1.1));
+    return (t) => {
+      op(yc.g, seg(t, t0 + 0.3, t0 + 0.7));
+      charsPop(h, t, t0 + 0.25, 0.03, 0.3, 30);
+      rows.forEach((r2, i) => { const tt = t0 + 0.9 + i * 1.1; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc04j · 2004 + 2014 readings ----------------
+  scene('sc04j', (g, s) => {
+    sceneDate = '2004 · 2014';
+    pageBG(g, {});
+    const c1 = card(g, { x: 560, y: 560, w: 820, h: 560, rot: -1.5 });
+    txt(c1, '2004', { x: 0, y: -200, 'font-size': 76, 'font-family': F.disp, fill: C.red, 'text-anchor': 'middle' });
+    txt(c1, 'GERRY FELTUS READS:', { x: 0, y: -110, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(c1, '"IT\u2019S TIME TO MOVE TO', { x: 0, y: -10, 'font-size': 44, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    txt(c1, 'SOUTH AUSTRALIA —', { x: 0, y: 60, 'font-size': 44, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    txt(c1, 'MOSELEY STREET"', { x: 0, y: 130, 'font-size': 44, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    const c2 = card(g, { x: 1360, y: 560, w: 820, h: 560, rot: 1.5 });
+    txt(c2, '2014', { x: 0, y: -200, 'font-size': 76, 'font-family': F.disp, fill: C.red, 'text-anchor': 'middle' });
+    txt(c2, 'JOHN REHLING FINDS:', { x: 0, y: -110, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(c2, 'initials of English text —', { x: 0, y: -10, 'font-size': 44, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    txt(c2, 'but no text on earth', { x: 0, y: 60, 'font-size': 44, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    txt(c2, 'matches the initials', { x: 0, y: 130, 'font-size': 44, 'font-family': F.head, 'font-weight': 900, fill: C.ink, 'text-anchor': 'middle' });
+    const t0 = s.t0;
+    return (t) => {
+      op(c1, t >= t0 + 0.4 ? 1 : 0); tf(c1, 560, lerp(1700, 560, E.back(seg(t, t0 + 0.4, t0 + 1.0))), 1, -1.5);
+      op(c2, t >= t0 + 1.6 ? 1 : 0); tf(c2, 1360, lerp(1700, 560, E.back(seg(t, t0 + 1.6, t0 + 2.2))), 1, 1.5);
+    };
+  });
+  // ---------------- sc04k · UNBROKEN ----------------
+  scene('sc04k', (g, s) => {
+    sceneDate = '1950s → TODAY';
+    pageBG(g, { rad: [C.hi, 960, 540, 700, 60] });
+    const st = stampEl(g, 'UNBROKEN', { size: 190, color: C.red, border: 13 });
+    const bk = bookSpread(g, {});
+    tf(bk, 960, 560, 1.2);
+    const note = chars(g, 'THE ORIGINAL BOOK WAS LOST IN THE 1950s', { x: 960, y: 950, size: 36, family: F.mono, weight: 800, fill: C.sep, anchor: 'middle' });
+    const t0 = s.t0, ts = LT('L36') + 1.2;
+    pushStamp(ts, 22, 0.45);
+    return (t) => {
+      const gone = seg(t, ts + 0.5, ts + 1.1);
+      op(bk, 1 - gone);
+      tf(bk, 960, 560 - 200 * gone, 1.2 * (1 - 0.3 * gone));
+      stampAnim(st, t, ts, 960, 540, -7);
+      charsPop(note, t, ts + 1.0, 0.012, 0.25, 14);
+    };
+  });
+  // ---------------- sc05a · cloakroom tag ----------------
+  scene('sc05a', (g, s) => {
+    sceneDate = '14 JAN 1949';
+    pageBG(g, { rad: [C.ovp, 1920, 1080, 540] });
+    const h = headBlock(g, '14 JANUARY 1949', { x: 120, y: 320, size: 150, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    const tag = card(g, { x: 960, y: 660, w: 900, h: 300, fill: '#D9B470', rot: -2 });
+    txt(tag, 'ADELAIDE RAILWAY STATION', { x: 0, y: -70, 'font-size': 40, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(tag, 'CLOAKROOM TICKET', { x: 0, y: -6, 'font-size': 32, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+    txt(tag, 'CHECKED IN AFTER 11:00 AM · 30 NOV 1948', { x: 0, y: 70, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    // string loop
+    const str2 = el('circle', { cx: 0, cy: -220, r: 60, fill: 'none', stroke: C.ink, 'stroke-width': 6 }, tag);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.05);
+      tf(tag, 960, lerp(-400, 660, E.back(seg(t, t0 + 0.5, t0 + 1.15))), 1, -2 + Math.sin(t * 1.4) * 0.8);
+    };
+  });
+  // ---------------- sc05b · inventory ----------------
+  scene('sc05b', (g, s) => {
+    sceneDate = '14 JAN 1949';
+    pageBG(g, {});
+    const h = headBlock(g, 'INSIDE THE CASE', { x: 120, y: 280, size: 120, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    const rows = rowsType(g, [
+      ['DRESSING GOWN · CHECKED RED'], ['SLIPPERS · SIZE 7, RED FELT'], ['UNDERPANTS ×4 · PYJAMAS · SHAVING KIT'],
+      ['TROUSERS', null, 'SAND IN THE CUFFS'],
+    ], { x: 140, y0: 480, dy: 100, size: 42, width: 1240 });
+    const t0 = s.t0;
+    rows.forEach((r2, i) => pushType(t0 + 0.9 + i * 1.0));
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      rows.forEach((r2, i) => { const tt = t0 + 0.9 + i * 1.0; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc05c · the tools (pan across) ----------------
+  scene('sc05c', (g, s) => {
+    sceneDate = '14 JAN 1949';
+    pageBG(g, { rad: [C.ovp, 0, 0, 420, 60] });
+    const h = headBlock(g, 'TOOLS, STENCILLED', { x: 120, y: 240, size: 96, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    // a wide board, camera pans
+    const board = el('g', {}, g);
+    const items = [
+      { x: 0, s: 'SCREWDRIVER', d: (p) => { el('rect', { x: -110, y: -10, width: 150, height: 20, rx: 8, fill: '#C2372B', stroke: C.ink, 'stroke-width': 5 }, p); el('path', { d: 'M 40 -4 L 130 -4 L 130 4 L 40 4 Z', fill: '#B9C2C9', stroke: C.ink, 'stroke-width': 4 }, p); } },
+      { x: 520, s: 'KNIFE — CUT DOWN', d: (p) => { el('rect', { x: -110, y: -12, width: 110, height: 24, rx: 8, fill: '#6E5024', stroke: C.ink, 'stroke-width': 5 }, p); el('path', { d: 'M 0 -8 L 150 -3 L 150 3 L 0 8 Z', fill: '#B9C2C9', stroke: C.ink, 'stroke-width': 4 }, p); } },
+      { x: 1120, s: 'SCISSORS — SHARPENED', d: (p) => { el('line', { x1: -20, y1: -50, x2: 110, y2: 30, stroke: C.ink, 'stroke-width': 9, 'stroke-linecap': 'round' }, p); el('line', { x1: -20, y1: 50, x2: 110, y2: -30, stroke: C.ink, 'stroke-width': 9, 'stroke-linecap': 'round' }, p); el('circle', { cx: -10, cy: 0, r: 12, fill: 'none', stroke: C.ink, 'stroke-width': 7 }, p); el('circle', { cx: 28, cy: 0, r: 12, fill: 'none', stroke: C.ink, 'stroke-width': 7 }, p); } },
+      { x: 1720, s: 'ZINC SQUARE — SHEATH', d: (p) => { el('rect', { x: -70, y: -70, width: 140, height: 140, fill: '#B9C2C9', stroke: C.ink, 'stroke-width': 5 }, p); el('line', { x1: -70, y1: -70, x2: 70, y2: 70, stroke: C.ink, 'stroke-width': 3, opacity: .5 }, p); } },
+      { x: 2320, s: 'STENCILLING BRUSH', d: (p) => { el('rect', { x: -100, y: -22, width: 150, height: 44, rx: 8, fill: '#6E5024', stroke: C.ink, 'stroke-width': 5 }, p); el('rect', { x: 50, y: -16, width: 50, height: 32, fill: '#D9B470', stroke: C.ink, 'stroke-width': 4 }, p); } },
+      { x: 2920, s: 'BARBOUR WAXED THREAD', d: (p) => { el('rect', { x: -90, y: -60, width: 180, height: 120, rx: 8, fill: '#F7F0DC', stroke: C.ink, 'stroke-width': 5 }, p); el('circle', { cx: 0, cy: 0, r: 34, fill: 'none', stroke: '#D9621E', 'stroke-width': 12 }, p); } },
+    ];
+    const cards = items.map((it) => {
+      const c = card(board, { x: it.x, y: 0, w: 440, h: 380 });
+      const p = el('g', { transform: 'translate(0 -40)' }, c); it.d(p);
+      txt(c, it.s, { x: 0, y: 140, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+      el('circle', { cx: 0, cy: -172, r: 12, fill: C.red, stroke: C.ink, 'stroke-width': 4 }, c);
+      return c;
+    });
+    const t0 = s.t0;
+    pushPage(t0 + 0.6);
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      // pan the board
+      const p = E.io(seg(t, t0 + 0.6, t0 + 0.6 + 13.5));
+      const px = lerp(960, 960 - 2230, p);
+      tf(board, px, 640);
+    };
+  });
+  // ---------------- sc05d · the thread ----------------
+  scene('sc05d', (g, s) => {
+    sceneDate = '14 JAN 1949';
+    pageBG(g, {});
+    const h = headBlock(g, 'A THREAD NOT SOLD HERE', { x: 120, y: 260, size: 84, shadow: { fill: C.hi, dx: 6, dy: 6 } });
+    const tc = card(g, { x: 560, y: 640, w: 560, h: 400 });
+    el('rect', { x: -160, y: -110, width: 320, height: 220, rx: 8, fill: '#F7F0DC', stroke: C.ink, 'stroke-width': 5 }, tc);
+    el('circle', { cx: 0, cy: 0, r: 70, fill: 'none', stroke: '#D9621E', 'stroke-width': 26 }, tc);
+    txt(tc, 'BARBOUR · ORANGE WAXED', { x: 0, y: 160, 'font-size': 28, 'font-family': F.mono, 'weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    // trousers pocket repair link
+    const tr = el('g', {}, g);
+    el('path', { d: 'M -180 -120 L 180 -120 L 210 120 L 60 120 L 20 -20 L -20 -20 L -60 120 L -210 120 Z', fill: '#6E5A3E', stroke: C.ink, 'stroke-width': 7, 'stroke-linejoin': 'round' }, tr);
+    el('path', { d: 'M -70 -60 C -30 -80 30 -80 70 -60', fill: 'none', stroke: '#D9621E', 'stroke-width': 8, 'stroke-dasharray': '14 10' }, tr);
+    tf(tr, 1460, 620, 1.6);
+    const note = txt(g, 'THE SAME THREAD REPAIRED HIS POCKET', { x: 960, y: 950, 'font-size': 36, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      tf(tc, 560, lerp(1500, 640, E.back(seg(t, t0 + 0.5, t0 + 1.1))), 1, -1);
+      op(tr, seg(t, t0 + 1.4, t0 + 1.9));
+      tf(tr, 1460, lerp(300, 620, E.back(seg(t, t0 + 1.4, t0 + 2.0))), 1.6);
+      op(note, seg(t, t0 + 2.6, t0 + 3.0));
+    };
+  });
+  // ---------------- sc05e · T. KEANE tags ----------------
+  scene('sc05e', (g, s) => {
+    sceneDate = '14 JAN 1949';
+    pageBG(g, { rad: [C.hi, 960, 0, 620, 70] });
+    const h = headBlock(g, 'THREE TAGS SURVIVED', { x: 120, y: 260, size: 100, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    const tags = [
+      ['"T. KEANE"', 'ON A TIE'], ['"KEANE"', 'ON A LAUNDRY BAG'], ['"KEAN"', 'ON A SINGLET'],
+    ].map((d, i) => {
+      const c = card(g, { x: 460 + i * 500, y: 620, w: 420, h: 340, rot: (i - 1) * 2.5 });
+      el('rect', { x: -120, y: -110, width: 240, height: 120, rx: 10, fill: '#F7F0DC', stroke: C.ink, 'stroke-width': 5 }, c);
+      txt(c, d[0], { x: 0, y: -50, 'font-size': 46, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+      txt(c, d[1], { x: 0, y: 60, 'font-size': 30, 'font-family': F.sans, fill: C.ink, 'text-anchor': 'middle' });
+      return { c, x: 460 + i * 500 };
+    });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      tags.forEach((tg, i) => {
+        const tt = t0 + 0.7 + i * 0.5;
+        op(tg.c, t >= tt ? 1 : 0);
+        tf(tg.c, tg.x, lerp(1500, 620, E.back(seg(t, tt, tt + 0.5))), 1, (i - 1) * 2.5);
+      });
+    };
+  });
+  // ---------------- sc05f · no T. Keane missing ----------------
+  scene('sc05f', (g, s) => {
+    sceneDate = '1949';
+    pageBG(g, {});
+    const h = headBlock(g, 'NO T. KEANE MISSING', { x: 120, y: 300, size: 110, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    txt(g, 'EVERY ENGLISH-SPEAKING COUNTRY CHECKED', { x: 124, y: 372, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'letter-spacing': 1 });
+    // dead-end stamps
+    const sts = ['NO MATCH', 'NO MATCH', 'NO MATCH'].map((s2, i) => {
+      const st = stampEl(g, s2, { size: 72, color: C.sep, padX: 28 });
+      return { st, x: 420 + i * 520, y: 640 + (i % 2) * 60, r: (i - 1) * 9 };
+    });
+    const rows = rowsType(g, [['DRY-CLEANING MARKS: 1171/7 · 4393/7 · 3053/7'], ['CIRCULATED NATIONWIDE — DEAD END']], { x: 140, y0: 900, dy: 70, size: 32, width: 1400, label: false });
+    const t0 = s.t0;
+    sts.forEach((o, i) => pushStamp(t0 + 1.2 + i * 0.6, 8, 0.22));
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      sts.forEach((o, i) => stampAnim(o.st, t, t0 + 1.2 + i * 0.6, o.x, o.y, o.r));
+      rows.forEach((r2, i) => { const tt = t0 + 3.2 + i * 0.8; op(r2[0], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc05g · the last day, mapped ----------------
+  scene('sc05g', (g, s) => {
+    sceneDate = '30 NOV 1948';
+    pageBG(g, { rad: [C.ovp, 0, 1080, 480] });
+    const h = headBlock(g, 'POLICE BELIEVE \u2014 30 NOVEMBER', { x: 120, y: 240, size: 76, shadow: { fill: C.hi, dx: 6, dy: 6 } });
+    const mp = mapAdelaide(g, 240, 420, 1440, 480);
+    const stops = [
+      { p: [240 + 1440 * 0.72, 420 + 480 * 0.30], s: 'OVERNIGHT TRAIN IN' },
+      { p: [240 + 1440 * 0.70, 420 + 480 * 0.36], s: '10:50 TICKET \u2014 UNUSED' },
+      { p: [240 + 1440 * 0.71, 420 + 480 * 0.40], s: 'SUITCASE CHECKED IN' },
+      { p: [240 + 1440 * 0.50, 420 + 480 * 0.52], s: 'BUS TO GLENELG' },
+    ];
+    const pins = stops.map(st => pin(g, 0, 0, C.red, 14));
+    pins.forEach(p => op(p, 0));
+    const labels = stops.map(st => txt(g, st.s, { x: st.p[0] + 24, y: st.p[1] - 18, 'font-size': 26, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, opacity: 0 }));
+    const route = el('path', { d: `M ${stops[0].p[0]} ${stops[0].p[1]} L ${stops[1].p[0]} ${stops[1].p[1]} L ${stops[2].p[0]} ${stops[2].p[1]} L ${stops[3].p[0]} ${stops[3].p[1]}`, fill: 'none', stroke: C.ink, 'stroke-width': 6, 'stroke-linecap': 'round' }, g);
+    const len = 900;
+    route.setAttribute('stroke-dasharray', `${len} ${len}`);
+    route.setAttribute('stroke-dashoffset', len);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      const rp = seg(t, t0 + 0.8, t0 + 3.2);
+      route.setAttribute('stroke-dashoffset', len * (1 - rp));
+      stops.forEach((st2, i) => {
+        const tt = t0 + 0.8 + (i + 1) * 0.6;
+        op(pins[i], t >= tt ? 1 : 0);
+        tf(pins[i], st2.p[0], st2.p[1], pop(t, tt, 0.3));
+        op(labels[i], seg(t, tt + 0.1, tt + 0.4));
+      });
+    };
+  });
+  // ---------------- sc05h · dissolves into a street map ----------------
+  scene('sc05h', (g, s) => {
+    sceneDate = '30 NOV 1948';
+    pageBG(g, {});
+    const mp = mapAdelaide(g, 300, 240, 1320, 700);
+    const fig = bodyFigure(g, {});
+    const t0 = s.t0;
+    return (t) => {
+      op(mp, 1);
+      const fadeFig = seg(t, t0 + 1.2, t0 + 3.2);
+      op(fig, 1 - fadeFig);
+      tf(fig, 960, 560, 1.6 - 0.4 * fadeFig);
+      mp.setAttribute('opacity', 0.6 + 0.4 * fadeFig);
+      const z = lerp(1, 1.07, E.io(seg(t, t0, s.t1 - s.t0)));
+      tf(g, 960 - 960 * z, 540 - 540 * z, z);
+    };
+  });
+  // ---------------- sc05i · 1986 destruction ----------------
+  scene('sc05i', (g, s) => {
+    sceneDate = '1986';
+    pageBG(g, { rad: [C.sep, 0, 0, 460, 80] });
+    const h = headBlock(g, '1986', { x: 960, y: 400, size: 220, anchor: 'middle', shadow: { fill: C.red, dx: 10, dy: 10 } });
+    const sk = suitcaseShape(g, {});
+    tf(sk, 960, 640, 1.1);
+    // redaction bars print over the suitcase
+    const bars = [0, 1, 2].map(i => {
+      const b = el('rect', { x: 700, y: 520 + i * 90, width: 0, height: 56, fill: C.ink }, g);
+      return { b, t0: s.t0 + 1.4 + i * 0.55, w: 520 };
+    });
+    const note = txt(g, 'DESTROYED — "NO LONGER REQUIRED"', { x: 960, y: 960, 'font-size': 36, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle', opacity: 0 });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.06, 0.4, 80);
+      tf(sk, 960, lerp(1500, 640, E.back(seg(t, t0 + 0.4, t0 + 1.0))), 1.1);
+      bars.forEach(bb => bb.b.setAttribute('width', Math.max(0, bb.w * E.out(seg(t, bb.t0, bb.t0 + 0.5)))));
+      op(note, seg(t, t0 + 3.4, t0 + 3.9));
+    };
+  });
+  // ---------------- sc05j · designed to say less ----------------
+  scene('sc05j', (g, s) => {
+    sceneDate = '1986 → TODAY';
+    pageBG(g, { rad: [C.ovp, 960, 1080, 560, 60] });
+    const sk = suitcaseShape(g, {});
+    const h = headBlock(g, 'SAY LESS.', { x: 960, y: 300, size: 160, anchor: 'middle', shadow: { fill: C.hi, dx: 8, dy: 8 } });
+    const h2 = headBlock(g, 'NOT MORE.', { x: 960, y: 480, size: 160, anchor: 'middle', fill: C.red, shadow: { fill: C.ink, dx: 8, dy: 8 } });
+    const t0 = s.t0, ts = LT('L46') + 2.2;
+    return (t) => {
+      // suitcase closes
+      const cl = seg(t, ts, ts + 0.5);
+      tf(sk, 960, 700, 1.2, 0);
+      if (t < ts) { op(sk, 0); } else { op(sk, 1); tf(sk, 960, 700 + 260 * (1 - E.back(cl)), 1.2); }
+      charsPop(h, t, t0 + 0.2, 0.05);
+      charsPop(h2, t, t0 + 0.9, 0.05);
+    };
+  });
+  // ---------------- sc06a · the theory frame ----------------
+  scene('sc06a', (g, s) => {
+    sceneDate = 'THEORIES';
+    pageBG(g, { rad: [C.hi, 0, 1080, 540, 70] });
+    const h = headBlock(g, 'THE CASE OF THE UNKNOWN MAN', { x: 120, y: 300, size: 92, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    const counts = ['COUNT 01 — ESPIONAGE', 'COUNT 02 — SUICIDE', 'COUNT 03 — A BODY MOVED', 'COUNT 04 — A HIDDEN NAME'].map((s2, i) => {
+      const c = el('g', {}, g);
+      el('rect', { x: 140, y: 420 + i * 130, width: 1100, height: 96, fill: i % 2 ? C.paper2 : '#F7F0DC', stroke: C.ink, 'stroke-width': 5 }, c);
+      txt(c, s2, { x: 170, y: 480 + i * 130, 'font-size': 44, 'font-family': F.mono, 'font-weight': 800, fill: C.ink });
+      return { c, t0: s.t0 + 0.6 + i * 0.5 };
+    });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.35, 40);
+      counts.forEach(c => op(c.c, t >= c.t0 ? 1 : 0));
+    };
+  });
+  // ---------------- sc06b · espionage (dark) ----------------
+  scene('sc06b', (g, s) => {
+    sceneDate = 'THE COLD WAR';
+    bg(g, C.night);
+    halftone(g, { color: C.night2, step: 24, angle: 20, f: edge(780, 1.2), maxK: 0.7 });
+    // rotating radar sweep
+    const radar = el('g', {}, g);
+    for (let i = 0; i < 12; i++) {
+      const a = i / 12 * Math.PI * 2;
+      el('line', { x1: Math.cos(a) * 60, y1: Math.sin(a) * 60, x2: Math.cos(a) * 420, y2: Math.sin(a) * 420, stroke: C.night2, 'stroke-width': 3, opacity: .5 }, radar);
+    }
+    const sweep = el('path', { d: 'M 0 0 L 420 0 A 420 420 0 0 0 297 -297 Z', fill: C.steel, opacity: .25 }, radar);
+    tf(radar, 560, 560);
+    const h = headBlock(g, 'THEORY: ESPIONAGE', { x: 1060, y: 330, size: 74, fill: C.cream, shadow: { fill: C.night2, dx: 7, dy: 7 } });
+    const rows = rowsType(g, [
+      ['A SECRET CODE'], ['AN UNDETECTABLE POISON'], ['THE COLD WAR OPENING OVERHEAD'],
+    ], { x: 1140, y0: 480, dy: 90, size: 38, width: 660, label: false, dark: true });
+    const st = stampEl(g, 'SPECULATION', { size: 84, color: C.red });
+    const t0 = s.t0, ts = LT('L48') + 5.6;
+    pushStamp(ts, 16);
+    return (t) => {
+      radar.setAttribute('transform', `translate(560 560) rotate(${(t * 40) % 360})`);
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      rows.forEach((r2, i) => { const tt = t0 + 0.9 + i * 1.1; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+      stampAnim(st, t, ts, 1460, 860, -8);
+    };
+  });
+  // ---------------- sc06c · suicide reading ----------------
+  scene('sc06c', (g, s) => {
+    sceneDate = 'THEORIES';
+    pageBG(g, {});
+    const h = headBlock(g, 'THEORY: SUICIDE', { x: 120, y: 300, size: 110, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    const rows = rowsType(g, [
+      ['THE RUBAIYAT\u2019S PROMISE: END WITHOUT REGRET'], ['POLICE SUSPECTED IT — HE CARRIED NO I.D.'],
+      ['BUT AT THE INQUEST:'], ['THE PAPER WAS GIVEN NO SIGNIFICANCE', null, 'AND NOTHING CORROBORATED IT'],
+    ], { x: 140, y0: 470, dy: 100, size: 38, width: 1500, label: false });
+    const st = stampEl(g, 'SPECULATION', { size: 84, color: C.red });
+    const t0 = s.t0, ts = LT('L49') + 5.4;
+    pushStamp(ts, 14);
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      rows.forEach((r2, i) => { const tt = t0 + 0.8 + i * 1.3; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+      stampAnim(st, t, ts, 1440, 880, -7);
+    };
+  });
+  // ---------------- sc06d · the body moved? ----------------
+  scene('sc06d', (g, s) => {
+    sceneDate = 'INQUEST · 1949';
+    pageBG(g, { rad: [C.hi, 1920, 0, 480] });
+    const h = headBlock(g, 'THEORY: THE BODY MOVED', { x: 120, y: 280, size: 96, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    const rows = rowsType(g, [
+      ['THE SHOES: "REMARKABLY CLEAN"', null, 'RECENTLY POLISHED'], ['POISON USUALLY KILLS WITH VOMITING', null, 'THERE WAS NONE'],
+      ['CLELAND: THE BODY MIGHT HAVE BEEN', null, 'BROUGHT TO THE BEACH'], ['"HE STRESSED THAT THIS WAS SPECULATION"', null, ''],
+    ], { x: 140, y0: 460, dy: 96, size: 36, width: 1240 });
+    const shoe = el('g', { filter: 'url(#boil)' }, g);
+    el('path', { d: 'M -140 60 C -120 -10 -40 -40 40 -30 C 120 -20 150 10 150 60 C 80 90 -80 90 -140 60 Z', fill: '#6E5024', stroke: C.ink, 'stroke-width': 7, 'stroke-linejoin': 'round' }, shoe);
+    el('path', { d: 'M -140 62 L 150 62', stroke: '#2B2118', 'stroke-width': 10 }, shoe);
+    txt(shoe, 'POLISHED', { x: 0, y: 130, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+    tf(shoe, 1560, 400, 1.3);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      rows.forEach((r2, i) => { const tt = t0 + 0.8 + i * 1.5; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+      op(shoe, seg(t, t0 + 1.0, t0 + 1.5));
+      tf(shoe, 1560, lerp(200, 400, E.back(seg(t, t0 + 1.0, t0 + 1.6))), 1.3, Math.sin(t * 1.2) * 1.5);
+    };
+  });
+  // ---------------- sc06e · the hidden name theory ----------------
+  scene('sc06e', (g, s) => {
+    sceneDate = 'THEORIES';
+    pageBG(g, {});
+    const h = headBlock(g, 'THE HIDDEN-NAME THEORY', { x: 120, y: 300, size: 100, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    const tags = ['THE NAME KEANE', 'THE AMERICAN TAILORING', 'THE STENCILLING BRUSH'].map((s2, i) => {
+      const c = card(g, { x: 460 + i * 500, y: 580, w: 420, h: 260, rot: (i - 1) * 3 });
+      txt(c, s2, { x: 0, y: -12, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+      return { c, x: 460 + i * 500 };
+    });
+    const st = stampEl(g, 'NO SURVIVOR', { size: 80, color: C.red, padX: 30 });
+    const t0 = s.t0, ts = LT('L51') + 3.4;
+    pushStamp(ts, 14);
+    // shake the tags at the stamp
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      tags.forEach((tg, i) => {
+        const tt = t0 + 0.7 + i * 0.5;
+        const shake = t > ts ? Math.sin(t * 60 + i * 2) * 5 * Math.max(0, 1 - (t - ts) / 0.5) : 0;
+        op(tg.c, t >= tt ? 1 : 0);
+        tf(tg.c, tg.x + shake, lerp(1600, 580, E.back(seg(t, tt, tt + 0.5))), 1, (i - 1) * 3);
+      });
+      stampAnim(st, t, ts, 960, 880, -6);
+    };
+  });
+  // ---------------- sc06f · the 1959 witness ----------------
+  scene('sc06f', (g, s) => {
+    sceneDate = '1959 · A LATE REPORT';
+    pageBG(g, { dark: true, edgy: true });
+    const h = headBlock(g, '1959: A LATE REPORT', { x: 120, y: 260, size: 96, fill: C.cream, shadow: { fill: C.night2, dx: 7, dy: 7 } });
+    // two figures, one carrying the other
+    const figs = el('g', { filter: 'url(#boil)' }, g);
+    // carrier
+    el('circle', { cx: -60, cy: -190, r: 34, fill: C.night2, stroke: C.cream, 'stroke-width': 6 }, figs);
+    el('path', { d: 'M -100 -160 C -110 -60 -100 20 -80 60 L -40 60 C -30 0 -34 -80 -26 -150 Z', fill: C.night2, stroke: C.cream, 'stroke-width': 6 }, figs);
+    // carried over shoulders
+    el('path', { d: 'M -150 -240 C -100 -270 40 -270 90 -240 C 100 -220 90 -200 60 -200 L -140 -204 C -160 -210 -160 -230 -150 -240 Z', fill: C.night2, stroke: C.cream, 'stroke-width': 6 }, figs);
+    el('circle', { cx: 118, cy: -222, r: 26, fill: C.night2, stroke: C.cream, 'stroke-width': 6 }, figs);
+    el('path', { d: 'M -150 -236 L -200 -210 M 60 -236 L 100 -250', stroke: C.cream, 'stroke-width': 6, 'stroke-linecap': 'round' }, figs);
+    tf(figs, 760, 620, 1.35);
+    const rows = rowsType(g, [
+      ['A WELL-DRESSED MAN', null, 'CARRYING'], ['ANOTHER ON HIS SHOULDERS', null, ''],
+      ['NEVER CORROBORATED', null, ''],
+    ], { x: 1160, y0: 480, dy: 90, size: 36, width: 640, label: false, dark: true });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      rows.forEach((r2, i) => { const tt = t0 + 0.9 + i * 1.4; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+      tf(figs, 760, 620 + Math.sin(t * 1.1) * 6, 1.35, Math.sin(t * 0.9) * 1.2);
+    };
+  });
+  // ---------------- sc06g · verdict board ----------------
+  scene('sc06g', (g, s) => {
+    sceneDate = 'THE FILE';
+    pageBG(g, {});
+    const h = headBlock(g, 'THE GLASS EMPTY, SAVE FOR SPECULATION', { x: 120, y: 240, size: 66, shadow: { fill: C.ovp, dx: 6, dy: 6 } });
+    txt(g, '"the Somerton Man seems to have made certain that the glass would be empty, save for speculation" — a journalist, June 1949', { x: 124, y: 296, 'font-size': 26, 'font-family': F.book, fill: C.sep });
+    // evidence board with pinned theory cards + string
+    const board = el('g', {}, g);
+    const defs = [
+      { x: 420, y: 560, s: 'ESPIONAGE' }, { x: 960, y: 520, s: 'SUICIDE' },
+      { x: 1500, y: 560, s: 'BODY MOVED' }, { x: 700, y: 830, s: 'HIDDEN NAME' }, { x: 1240, y: 830, s: 'THE 1959 WITNESS' },
+    ];
+    const cards = defs.map((d, i) => {
+      const c = card(board, { x: d.x, y: d.y, w: 380, h: 180, rot: (i - 2) * 1.6 });
+      txt(c, d.s, { x: 0, y: 10, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+      el('circle', { cx: 0, cy: -66, r: 10, fill: C.red, stroke: C.ink, 'stroke-width': 4 }, c);
+      return { c, ...d };
+    });
+    // connecting string
+    const strp = el('path', { d: `M ${defs[0].x} ${defs[0].y - 66} L ${defs[1].x} ${defs[1].y - 66} L ${defs[2].x} ${defs[2].y - 66} M ${defs[1].x} ${defs[1].y - 66} L ${defs[3].x} ${defs[3].y - 66} L ${defs[4].x} ${defs[4].y - 66}`, fill: 'none', stroke: C.red, 'stroke-width': 4, opacity: .6 }, board);
+    const stamps = defs.map((d, i) => ({ st: stampEl(board, 'SPECULATION', { size: 40, color: C.red, padX: 18, padY: 10, border: 6 }), i }));
+    const t0 = s.t0;
+    defs.forEach((d, i) => pushStamp(t0 + 2.2 + i * 0.45, 6, 0.18));
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.02, 0.28, 30);
+      cards.forEach((c, i) => {
+        const tt = t0 + 0.8 + i * 0.28;
+        op(c.c, t >= tt ? 1 : 0);
+        tf(c.c, c.x, lerp(-300, c.y, E.back(seg(t, tt, tt + 0.45))), 1, (i - 2) * 1.6);
+      });
+      stamps.forEach((o, i) => stampAnim(o.st, t, t0 + 2.2 + i * 0.45, defs[i].x, defs[i].y + 30, (i - 2) * 4));
+      // board shake on the last stamp
+      const shk = t > t0 + 4.0 ? Math.max(0, 1 - (t - t0 - 4.0) / 0.4) : 0;
+      tf(board, Math.sin(t * 70) * 6 * shk, Math.cos(t * 64) * 5 * shk);
+    };
+  });
+  // ---------------- sc07a · 2009: the file reopens ----------------
+  scene('sc07a', (g, s) => {
+    sceneDate = '2009';
+    pageBG(g, { rad: [C.ovp, 0, 0, 460, 60] });
+    const h = headBlock(g, '2009: THE FILE REOPENS', { x: 120, y: 300, size: 104, shadow: { fill: C.ovp, dx: 8, dy: 8 } });
+    // timeline strip
+    const strip = el('g', {}, g);
+    el('rect', { x: 140, y: 700, width: 1640, height: 26, rx: 12, fill: C.ink }, strip);
+    const marks = [[300, '2009'], [820, '2017'], [1180, '2021'], [1560, '2022']];
+    const knobs = marks.map(([x, s2]) => {
+      const kg = el('g', {}, strip);
+      el('line', { x1: x, y1: 660, x2: x, y2: 766, stroke: C.ink, 'stroke-width': 5 }, kg);
+      txt(kg, s2, { x, y: 640, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+      op(kg, 0);
+      return kg;
+    });
+    const rows = rowsType(g, [
+      ['A UNIVERSITY OF ADELAIDE TEAM', null, 'LED BY PROF. DEREK ABBOTT'],
+      ['THE 1948 AUTOPSY REPORTS', null, 'HAVE VANISHED'],
+    ], { x: 140, y0: 460, dy: 96, size: 38, width: 1500, label: false });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      rows.forEach((r2, i) => { const tt = t0 + 0.9 + i * 1.5; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+      const draw = seg(t, t0 + 2.0, t0 + 3.4);
+      knobs.forEach((k, i) => { op(k, t >= t0 + 2.0 + i * 0.35 ? 1 : 0); });
+      strip.setAttribute('opacity', 0.25 + 0.75 * draw);
+    };
+  });
+  // ---------------- sc07b · two anatomical rarities ----------------
+  scene('sc07b', (g, s) => {
+    sceneDate = '2009–2010';
+    pageBG(g, {});
+    const h = headBlock(g, 'TWO RARITIES', { x: 120, y: 280, size: 120, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    // ear diagram
+    const ear = el('g', { filter: 'url(#boil)' }, g);
+    el('path', { d: 'M -90 -120 C 60 -160 130 -40 90 60 C 60 140 -40 160 -100 100 C -140 60 -130 -80 -90 -120 Z', fill: '#E4D5B5', stroke: C.ink, 'stroke-width': 7 }, ear);
+    el('path', { d: 'M -50 -70 C 20 -95 60 -40 40 10 C 30 40 -10 50 -40 30', fill: 'none', stroke: C.ink, 'stroke-width': 6 }, ear);
+    txt(ear, 'CYMBA > CAVUM', { x: 0, y: 190, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+    txt(ear, '1–2 IN 100', { x: 0, y: 232, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    tf(ear, 560, 600, 1.35);
+    // teeth diagram
+    const teeth = el('g', { filter: 'url(#boil)' }, g);
+    el('path', { d: 'M -220 -40 C -120 -110 120 -110 220 -40 L 200 60 C 100 110 -100 110 -200 60 Z', fill: '#E4D5B5', stroke: C.ink, 'stroke-width': 7 }, teeth);
+    for (const [x, gap] of [[-160, 0], [-90, 0], [0, 1], [90, 0], [160, 0]]) {
+      if (gap) { el('path', { d: `M ${x - 28} -40 C ${x - 10} -20 ${x + 10} -20 ${x + 28} -40`, fill: 'none', stroke: C.red, 'stroke-width': 5, 'stroke-dasharray': '10 8' }, teeth); }
+      else el('path', { d: `M ${x - 28} -44 L ${x - 22} 50 L ${x + 22} 50 L ${x + 28} -44 C ${x + 10} -58 ${x - 10} -58 ${x - 28} -44 Z`, fill: '#FBF6E8', stroke: C.ink, 'stroke-width': 5 }, teeth);
+    }
+    txt(teeth, 'HYPODONTIA — MISSING INCISORS', { x: 0, y: 190, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+    txt(teeth, 'ABOUT 2 IN 100', { x: 0, y: 232, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    tf(teeth, 1400, 600, 1.35);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      tf(ear, 560, lerp(1500, 600, E.back(seg(t, t0 + 0.5, t0 + 1.1))), 1.35);
+      tf(teeth, 1400, lerp(1500, 600, E.back(seg(t, t0 + 1.2, t0 + 1.8))), 1.35);
+    };
+  });
+  // ---------------- sc07c · hair in the plaster ----------------
+  scene('sc07c', (g, s) => {
+    sceneDate = 'DECEMBER 2017';
+    pageBG(g, { rad: [C.ovp, 0, 1080, 500] });
+    const h = headBlock(g, 'HAIR, SEALED IN PLASTER', { x: 120, y: 260, size: 88, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    const bust = bustHead(g, {});
+    tf(bust, 660, 620, 1.8);
+    // three highlighted hairs
+    const hairs = [[-40, -120, -14], [10, -140, 4], [60, -118, 18]].map(([x, y, r2]) => {
+      const hp = el('path', { d: `M ${x} ${y} C ${x + 16} ${y - 46} ${x - 12} ${y - 90} ${x + 8} ${y - 130}`, fill: 'none', stroke: C.hi, 'stroke-width': 6, 'stroke-linecap': 'round' }, g);
+      return hp;
+    });
+    const rows = rowsType(g, [
+      ['STRANDS OF HIS OWN HAIR', null, 'PRESERVED'], ['MADE IN 1949 — SEALED', null, 'FOR 70 YEARS'],
+    ], { x: 1180, y0: 560, dy: 96, size: 36, width: 620, label: false });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      tf(bust, 660, lerp(1500, 620, E.back(seg(t, t0 + 0.3, t0 + 1.0))), 1.8);
+      hairs.forEach((hp, i) => {
+        const tt = t0 + 1.4 + i * 0.4;
+        op(hp, seg(t, tt, tt + 0.3));
+        hp.setAttribute('transform', `translate(660 620) scale(1.8)`);
+      });
+      rows.forEach((r2, i) => { const tt = t0 + 2.2 + i * 1.4; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc07d · mtDNA ----------------
+  scene('sc07d', (g, s) => {
+    sceneDate = 'FEBRUARY 2018';
+    pageBG(g, {});
+    const h = headBlock(g, 'FEBRUARY 2018: mtDNA', { x: 120, y: 280, size: 96, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    // helix
+    const helix = el('g', {}, g);
+    const rungs = [];
+    for (let i = 0; i < 12; i++) {
+      const y = 420 + i * 44;
+      const x1 = 480 + Math.sin(i * 0.9) * 110, x2 = 480 + Math.sin(i * 0.9 + Math.PI) * 110;
+      el('circle', { cx: x1, cy: y, r: 14, fill: C.ovp, stroke: C.ink, 'stroke-width': 4 }, helix);
+      el('circle', { cx: x2, cy: y, r: 14, fill: C.hi, stroke: C.ink, 'stroke-width': 4 }, helix);
+      el('line', { x1, y1: y, x2, y2: y, stroke: C.ink, 'stroke-width': 4 }, helix);
+      rungs.push(y);
+    }
+    const rows = rowsType(g, [
+      ['HAPLOGROUP H4a1a1a', null, '~1% OF EUROPEANS'], ['BUT mtDNA FOLLOWS', null, 'ONLY THE MOTHER\u2019S LINE'],
+    ], { x: 760, y0: 500, dy: 110, size: 40, width: 1020, label: false });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      helix.setAttribute('transform', `translate(0 0)`);
+      helix.setAttribute('opacity', seg(t, t0 + 0.6, t0 + 1.2));
+      helix.setAttribute('transform', `translate(${Math.sin(t * 0.8) * 14} 0)`);
+      rows.forEach((r2, i) => { const tt = t0 + 1.2 + i * 1.7; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc07e · exhumation ----------------
+  scene('sc07e', (g, s) => {
+    sceneDate = '19 MAY 2021';
+    pageBG(g, { rad: [C.ovp, 1920, 1080, 500] });
+    const h = headBlock(g, '19 MAY 2021: EXHUMED', { x: 120, y: 280, size: 92, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    const gs = gravestone(g, {});
+    tf(gs, 700, 560, 1.2);
+    txt(gs, 'HERE LIES THE UNKNOWN MAN', { x: 0, y: -60, 'font-size': 44, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(gs, 'WHO WAS FOUND AT', { x: 0, y: 0, 'font-size': 36, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(gs, 'SOMERTON BEACH', { x: 0, y: 62, 'font-size': 44, 'font-family': F.mono, 'font-weight': 800, fill: C.red, 'text-anchor': 'middle' });
+    const rows = rowsType(g, [
+      ['WEST TERRACE CEMETERY', null, 'ADELAIDE'], ['RESTED THERE SINCE 1949', null, ''],
+    ], { x: 1180, y0: 520, dy: 96, size: 36, width: 620, label: false });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      tf(gs, 700, lerp(1400, 560, E.back(seg(t, t0 + 0.3, t0 + 1.0))), 1.2, Math.sin(t) * 0.6);
+      rows.forEach((r2, i) => { const tt = t0 + 1.2 + i * 1.4; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc07f · the 2022 announcement ----------------
+  scene('sc07f', (g, s) => {
+    sceneDate = '26 JULY 2022';
+    bg(g, C.ink);
+    halftone(g, { color: '#4A3B2B', step: 26, angle: 30, f: edge(880, 1.2), maxK: 0.5 });
+    const h = headBlock(g, '26 JULY 2022', { x: 960, y: 340, size: 150, fill: C.cream, anchor: 'middle', shadow: { fill: C.night2, dx: 9, dy: 9 } });
+    const rows = rowsType(g, [
+      ['DEREK ABBOTT  +  COLLEEN FITZPATRICK', null, 'FORENSIC GENEALOGY'],
+      ['NOT FROM THE EXHUMATION —', null, 'FROM THE HAIRS IN THE MASK'],
+      ['MATCHES ON BOTH SIDES OF A FAMILY TREE', null, ''],
+    ], { x: 240, y0: 560, dy: 100, size: 40, width: 1440, label: false, dark: true });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.05, 0.4, 60);
+      rows.forEach((r2, i) => { const tt = t0 + 1.0 + i * 1.6; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+      pushBell(t0 + 1.0);
+    };
+  });
+  // ---------------- sc07g · THE NAME ----------------
+  scene('sc07g', (g, s) => {
+    sceneDate = '26 JULY 2022';
+    bg(g, C.ink);
+    halftone(g, { color: '#4A3B2B', step: 26, angle: 55, f: edge(880, 1.2), maxK: 0.5 });
+    pushFlash(s.t0 + 0.45, 0.5);
+    const nm = chars(g, 'CARL “CHARLES” WEBB', { x: 960, y: 480, size: 148, family: F.head, weight: 900, fill: C.cream, anchor: 'middle', ls: 2, shadow: { fill: C.ovp, dx: 10, dy: 10 } });
+    const sub = chars(g, 'BORN 16 NOVEMBER 1905 · FOOTSCRAY, MELBOURNE', { x: 960, y: 580, size: 34, family: F.mono, weight: 800, fill: C.hi, anchor: 'middle' });
+    const sub2 = chars(g, 'ELECTRICAL ENGINEER · INSTRUMENT MAKER', { x: 960, y: 640, size: 34, family: F.mono, weight: 800, fill: C.hi, anchor: 'middle' });
+    const st = stampEl(g, 'A CLAIM — NOT A VERDICT', { size: 52, color: C.red, padX: 30 });
+    const t0 = s.t0, ts = LT('L60') + 3.0;
+    pushStamp(ts, 16, 0.35);
+    return (t) => {
+      nm.items.forEach((it, i) => {
+        const tt = t0 + 0.4 + i * 0.045;
+        if (t < tt) { op(it.g, 0); return; }
+        op(it.g, 1);
+        const p = seg(t, tt, tt + 0.4);
+        it.g.setAttribute('transform', `translate(${it.x} ${it.y + 90 * (1 - E.out(p))}) scale(${E.back(p).toFixed(3)})`);
+      });
+      charsPop(sub, t, t0 + 1.4, 0.012, 0.25, 14);
+      charsPop(sub2, t, t0 + 1.7, 0.012, 0.25, 14);
+      stampAnim(st, t, ts, 960, 800, -5);
+    };
+  });
+  // ---------------- sc07h · Webb bio sheet ----------------
+  scene('sc07h', (g, s) => {
+    sceneDate = 'THE CLAIMED FILE';
+    pageBG(g, { rad: [C.ovp, 0, 0, 420, 60] });
+    const h = headBlock(g, 'THE FILE BEHIND THE NAME', { x: 120, y: 260, size: 88, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    const rows = rowsType(g, [
+      ['B. 1905 FOOTSCRAY — YOUNGEST OF SIX'], ['ELECTRICAL INSTRUMENT MAKER'], ['MARRIED DOROTHY ROBERTSON, 1941'],
+      ['FOUR CLOSE RELATIVES LOST IN SEVEN YEARS'], ['POEMS — SHE SAID — MOSTLY ABOUT DEATH'],
+    ], { x: 140, y0: 440, dy: 96, size: 38, width: 1240 });
+    const t0 = s.t0;
+    rows.forEach((r2, i) => pushType(t0 + 0.8 + i * 1.1));
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      rows.forEach((r2, i) => { const tt = t0 + 0.8 + i * 1.1; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc07i · the Keane link ----------------
+  scene('sc07i', (g, s) => {
+    sceneDate = 'THE CLAIMED FILE';
+    pageBG(g, {});
+    const h = headBlock(g, 'AND THE TAGS BEGIN TO FIT', { x: 120, y: 280, size: 92, shadow: { fill: C.hi, dx: 7, dy: 7 } });
+    const a = card(g, { x: 460, y: 640, w: 560, h: 300 });
+    txt(a, 'SISTER: FREDA KEANE', { x: 0, y: -30, 'font-size': 40, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(a, '(née Webb)', { x: 0, y: 30, 'font-size': 32, 'font-family': F.book, fill: C.sep, 'text-anchor': 'middle' });
+    const b = card(g, { x: 1460, y: 640, w: 560, h: 300 });
+    txt(b, 'BROTHER-IN-LAW: JOHN KEANE', { x: 0, y: -30, 'font-size': 36, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+    txt(b, 'US coins · a map of Chicago', { x: 0, y: 30, 'font-size': 32, 'font-family': F.book, fill: C.sep, 'text-anchor': 'middle' });
+    const link = arrowPath(g, 740, 640, 1180, 640, C.red, 6);
+    op(link, 0);
+    const note = txt(g, 'RESEARCHERS\u2019 EXPLANATION — NOT ESTABLISHED FACT', { x: 960, y: 920, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.sep, 'text-anchor': 'middle', opacity: 0 });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      tf(a, 460, lerp(1500, 640, E.back(seg(t, t0 + 0.5, t0 + 1.1))), 1, -1);
+      tf(b, 1460, lerp(1500, 640, E.back(seg(t, t0 + 0.9, t0 + 1.5))), 1, 1);
+      op(link, seg(t, t0 + 1.8, t0 + 2.3));
+      op(note, seg(t, t0 + 2.6, t0 + 3.1));
+    };
+  });
+  // ---------------- sc07j · the caveat ----------------
+  scene('sc07j', (g, s) => {
+    sceneDate = 'THE STATUS';
+    pageBG(g, { rad: [C.red, 960, 1080, 560, 80] });
+    const h = headBlock(g, 'NOT VERIFIED', { x: 960, y: 380, size: 160, anchor: 'middle', fill: C.red, shadow: { fill: C.ink, dx: 9, dy: 9 } });
+    const rows = rowsType(g, [
+      ['SOUTH AUSTRALIA POLICE:', null, 'NOT VERIFIED'], ['FORENSIC SCIENCE SA:', null, 'NO COMMENT'],
+      ['THE POLICE WORD:', null, '"CAUTIOUSLY OPTIMISTIC"'], ['FORMALLY, THE NAME REMAINS', null, 'A CLAIM'],
+    ], { x: 240, y0: 560, dy: 96, size: 38, width: 1440, label: false });
+    const bell = true;
+    const t0 = s.t0;
+    pushBell(t0 + 0.4);
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.05, 0.4, 60);
+      rows.forEach((r2, i) => { const tt = t0 + 1.0 + i * 1.4; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc08a · the ledger: proven ----------------
+  scene('sc08a', (g, s) => {
+    sceneDate = 'THE EVIDENCE LEDGER';
+    pageBG(g, { rad: [C.ovp, 0, 0, 420, 60] });
+    const h = headBlock(g, 'WHAT THE FILE PROVES', { x: 120, y: 240, size: 100, shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    const rows = rowsType(g, [
+      ['A MAN DIED ON SOMERTON BEACH', null, '1 DEC 1948, EARLY HOURS'],
+      ['HE ERASED HIS NAME — DELIBERATELY', null, 'LABELS, TAGS, I.D.'],
+      ['HE CARRIED THE END OF A POEM', null, '"TAMÁM SHUD"'],
+      ['SCIENCE GAVE A PROBABLE NAME', null, 'CARL WEBB'],
+      ['THE AUTHORITIES STOP SHORT', null, 'UNVERIFIED'],
+    ], { x: 140, y0: 420, dy: 108, size: 40, width: 1560 });
+    const t0 = s.t0;
+    rows.forEach((r2, i) => pushType(t0 + 0.7 + i * 1.5));
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      rows.forEach((r2, i) => { const tt = t0 + 0.7 + i * 1.5; op(r2[0], t >= tt ? 1 : 0); if (r2[1]) op(r2[1], t >= tt ? 1 : 0); });
+    };
+  });
+  // ---------------- sc08b · what still does not fit ----------------
+  scene('sc08b', (g, s) => {
+    sceneDate = 'THE CONTRADICTIONS';
+    pageBG(g, { rad: [C.hi, 960, 1080, 560, 70] });
+    const h = headBlock(g, 'WHAT STILL DOES NOT FIT', { x: 960, y: 300, size: 104, anchor: 'middle', shadow: { fill: C.red, dx: 8, dy: 8 } });
+    const cards = [['THE POLISHED SHOES'], ['THE ABSENCE OF VOMITING'], ['THE UNUSED TICKET']].map((d, i) => {
+      const c = card(g, { x: 480 + i * 480, y: 620, w: 420, h: 300, rot: (i - 1) * 2.5 });
+      txt(c, d[0], { x: 0, y: -16, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.ink, 'text-anchor': 'middle' });
+      txt(c, '?', { x: 0, y: 80, 'font-size': 90, 'font-family': F.disp, fill: C.red, 'text-anchor': 'middle' });
+      return { c, x: 480 + i * 480 };
+    });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.04, 0.3, 40);
+      cards.forEach((cd, i) => {
+        const tt = t0 + 1.2 + i * 0.9;
+        op(cd.c, t >= tt ? 1 : 0);
+        tf(cd.c, cd.x, lerp(1500, 620, E.back(seg(t, tt, tt + 0.5))), 1, (i - 1) * 2.5);
+      });
+    };
+  });
+  // ---------------- sc08c · never determined / never broken ----------------
+  scene('sc08c', (g, s) => {
+    sceneDate = 'THE OPEN QUESTIONS';
+    pageBG(g, {});
+    const r1 = headBlock(g, 'THE CAUSE OF DEATH — NEVER DETERMINED', { x: 960, y: 420, size: 58, anchor: 'middle', shadow: { fill: C.ovp, dx: 7, dy: 7 } });
+    const r2 = headBlock(g, 'THE CODE — NEVER BROKEN', { x: 960, y: 580, size: 72, anchor: 'middle', fill: C.red, shadow: { fill: C.ink, dx: 7, dy: 7 } });
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(r1, t, t0 + 0.2, 0.03, 0.3, 30);
+      charsPop(r2, t, t0 + 1.6, 0.03, 0.3, 30);
+    };
+  });
+  // ---------------- sc08d · story, waiting for proof ----------------
+  scene('sc08d', (g, s) => {
+    sceneDate = 'THE REST';
+    pageBG(g, { dark: true, edgy: true });
+    const h = headBlock(g, 'THE SPIES. THE SECRETS. THE ROMANCE.', { x: 960, y: 420, size: 64, fill: C.cream, anchor: 'middle', shadow: { fill: C.night2, dx: 8, dy: 8 } });
+    const h2 = headBlock(g, 'STORY, WAITING FOR PROOF.', { x: 960, y: 570, size: 92, fill: C.hi, anchor: 'middle', shadow: { fill: C.night2, dx: 8, dy: 8 } });
+    // redaction bars lifting one by one, one stays
+    const bars = [0, 1, 2].map(i => {
+      const b = el('rect', { x: 460, y: 700 + i * 0, width: 1000, height: 0, fill: C.ink, opacity: 0 }, g);
+      return b;
+    });
+    const one = el('rect', { x: 460, y: 700, width: 1000, height: 84, fill: C.ink, opacity: 0 }, g);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(h, t, t0 + 0.2, 0.03, 0.3, 30);
+      charsPop(h2, t, t0 + 1.6, 0.03, 0.3, 30);
+      op(one, seg(t, t0 + 3.0, t0 + 3.5) * 0.9);
+    };
+  });
+  // ---------------- sc09a · the drawer ----------------
+  scene('sc09a', (g, s) => {
+    sceneDate = 'THE ARCHIVE';
+    pageBG(g, {});
+    const dw = drawerShape(g);
+    const fd = folderShape(g);
+    tf(fd, 0, 0, 0.62);
+    const label = txt(fd, 'UNKNOWN MALE — SOMERTON', { x: -350, y: 96, 'font-size': 44, 'font-family': F.mono, 'font-weight': 800, fill: C.ink });
+    const st = stampEl(g, 'OPEN', { size: 110, color: C.red });
+    const t0 = s.t0, ts = LT('L68') + 2.6;
+    pushStamp(ts, 14);
+    EV.push({ t: ts - 0.5, type: 'drawer' });
+    return (t) => {
+      tf(dw, 960, 700);
+      const slide = seg(t, t0 + 0.6, t0 + 2.2);
+      tf(fd, 960, lerp(1600, 560, E.io(slide)), 0.62, 0);
+      fd.setAttribute('opacity', String(0.4 + 0.6 * slide));
+      stampAnim(st, t, ts, 1300, 400, -8);
+    };
+  });
+  // ---------------- sc09b · the grave marker ----------------
+  scene('sc09b', (g, s) => {
+    sceneDate = 'WEST TERRACE CEMETERY';
+    pageBG(g, { dark: true, edgy: true });
+    const gs = gravestone(g, { dark: true });
+    tf(gs, 960, 540, 1.55);
+    txt(gs, 'HERE LIES THE', { x: 0, y: -150, 'font-size': 30, 'font-family': F.mono, 'font-weight': 800, fill: C.cream, 'text-anchor': 'middle' });
+    txt(gs, 'UNKNOWN MAN', { x: 0, y: -100, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.cream, 'text-anchor': 'middle' });
+    txt(gs, 'WHO WAS FOUND AT', { x: 0, y: -40, 'font-size': 24, 'font-family': F.mono, 'font-weight': 800, fill: C.cream, 'text-anchor': 'middle' });
+    txt(gs, 'SOMERTON BEACH', { x: 0, y: 14, 'font-size': 34, 'font-family': F.mono, 'font-weight': 800, fill: C.hi, 'text-anchor': 'middle' });
+    const t0 = s.t0;
+    return (t) => {
+      tf(gs, 960, lerp(700, 540, E.io(seg(t, t0, t0 + 3.5))), 1.55);
+      const z = lerp(1, 1.05, E.io(seg(t, t0 + 0.5, s.t1 - s.t0)));
+      tf(g, 960 - 960 * z, 540 - 540 * z, z);
+    };
+  });
+  // ---------------- sc09c · final card ----------------
+  scene('sc09c', (g, s) => {
+    sceneDate = 'SOMERTON BEACH';
+    bg(g, C.ink);
+    halftone(g, { color: '#4A3B2B', step: 26, angle: 45, f: radial(960, 540, 900, 0.8), maxK: 0.4 });
+    const l1 = chars(g, 'THE EVIDENCE IS REAL.', { x: 960, y: 380, size: 84, family: F.head, weight: 900, fill: C.cream, anchor: 'middle', shadow: { fill: C.night2, dx: 7, dy: 7 } });
+    const l2 = chars(g, 'THE NAME IS NEW.', { x: 960, y: 520, size: 84, family: F.head, weight: 900, fill: C.cream, anchor: 'middle', shadow: { fill: C.night2, dx: 7, dy: 7 } });
+    const l3 = chars(g, 'THE ANSWER IS STILL MISSING.', { x: 960, y: 660, size: 96, family: F.head, weight: 900, fill: C.hi, anchor: 'middle', shadow: { fill: C.night2, dx: 8, dy: 8 } });
+    const bell = LT('L70') + 0.8;
+    pushBell(bell); pushBell(bell + 1.1); pushBell(bell + 2.3);
+    const t0 = s.t0;
+    return (t) => {
+      charsPop(l1, t, t0 + 0.4, 0.03, 0.3, 30);
+      charsPop(l2, t, t0 + 1.2, 0.03, 0.3, 30);
+      charsPop(l3, t, t0 + 2.2, 0.035, 0.35, 40);
+    };
+  });
+
+  // ============================================================
+  // Global narration captions (from timeline.js cues)
+  // ============================================================
+  const capG = el('g', {}, world);
+  const capEls = window.TL.cues.map(c => {
+    const dark = DARK.has(curSceneId(c.t0 + 0.1));   // fixed for the whole cue: no mid-run swaps
+    return { c, dark, e: caption(capG, c.parts, { y: 990, size: 38, dark }) };
+  });
+  capUpdate = (t) => {
+    for (const { c, e } of capEls) {
+      e.g.style.display = 'none';
+      if (t >= c.t0 - 0.5 && t < c.t1 + 0.3) { e.g.style.display = ''; captionAnim(e, t, c.t0); }
+    }
+  };
+
+  // ============================================================
+  // HUD
+  // ============================================================
+  const hudG = el('g', {}, hud);
+  const caseNo = txt(hudG, 'CASE FILE 48 / 1948', { x: 60, y: 62, 'font-size': 22, 'font-family': F.mono, 'font-weight': 800 });
+  const chip = el('g', {}, hudG);
+  const chipBg = el('rect', { x: 60, y: 76, height: 40, rx: 6 }, chip);
+  const chipA = txt(chip, '', { x: 74, y: 104, 'font-size': 22, 'font-family': F.sans });
+  const chipB = txt(chip, '', { y: 104, 'font-size': 22, 'font-family': F.sans });
+  const date = el('g', {}, hudG);
+  const dateBg = el('rect', { x: 1470, y: 40, width: 400, height: 50, rx: 8, fill: 'none', 'stroke-width': 4 }, date);
+  const rec = el('circle', { cx: 1498, cy: 65, r: 9, fill: C.red }, date);
+  const dateT = txt(date, '', { x: 1520, y: 75, 'font-size': 26, 'font-family': F.mono, 'font-weight': 800 });
+  hudUpdate = (t) => {
+    const c = window.TL.chips.find(c2 => t >= c2[0] && t < c2[1]);
+    show(hudG, !!c);
+    if (!c) return;
+    const dark = DARK.has(curSceneId(t));
+    const ink = dark ? C.cream : C.ink;
+    caseNo.setAttribute('fill', ink);
+    chipBg.setAttribute('fill', dark ? C.cream : C.ink);
+    chipA.textContent = c[2]; chipA.setAttribute('fill', dark ? C.red : C.hi);
+    chipB.textContent = c[3]; chipB.setAttribute('fill', dark ? C.ink : C.cream);
+    const wa = measure(c[2], 22, F.sans), wb = measure(c[3], 22, F.sans);
+    chipB.setAttribute('x', 74 + wa + 14);
+    chipBg.setAttribute('width', wa + wb + 42);
+    dateBg.setAttribute('stroke', ink); dateT.setAttribute('fill', ink);
+    dateT.textContent = sceneDate || '';
+    op(rec, Math.floor(t * 2) % 2 ? 0.25 : 1);
+  };
+  // wipe transitions from the timeline (colour per section)
+  const dotsG = el('g', {}, wipe);
+  const wipeDots = [];
+  for (let y = 0; y <= 1080 + 80; y += 80) for (let x = 0; x <= 1920 + 80; x += 80) {
+    wipeDots.push({ el: el('circle', { cx: x, cy: y, r: 0 }, dotsG), x, y });
+  }
+  window.TL.wipes.forEach(w => WIPES.push([w.t, SECCOL[w.cut === 'fade' ? 'S9' : curSceneId(w.t)] || C.ovp, w.cut]));
+  wipeUpdate = (t) => {
+    const w = WIPES.find(([b]) => Math.abs(t - b) < 0.22);
+    show(dotsG, !!w);
+    if (!w) return;
+    dotsG.setAttribute('fill', w[1]);
+    const u = (t - w[0] + 0.22) / 0.44;
+    wipeDots.forEach(d => {
+      const delay = (d.x / 1920 * 0.6 + d.y / 1080 * 0.4) * 0.35;
+      const p = clamp((u - delay) / 0.65);
+      const r = Math.sin(p * Math.PI) * 62;
+      d.el.setAttribute('r', r.toFixed(1));
+    });
+  };
+}
+let hudUpdate = () => {}, wipeUpdate = () => {}, capUpdate = () => {};
+function curSceneId(t) {
+  for (const s of window.TL.scenes) if (t >= s.t0 && t < s.t1) return s.id;
+  return '';
+}
+
+// ============================================================
+// Paper & grain
+// ============================================================
+function buildPaper() {
+  const cv = document.getElementById('paper'), ctx = cv.getContext('2d');
+  const img = ctx.createImageData(1920, 1080);
+  const r = rng(3);
+  const small = document.createElement('canvas'); small.width = 96; small.height = 54;
+  const sctx = small.getContext('2d'); const sim = sctx.createImageData(96, 54);
+  for (let i = 0; i < sim.data.length; i += 4) { const v = 242 + r() * 13; sim.data[i] = sim.data[i + 1] = sim.data[i + 2] = v; sim.data[i + 3] = 255; }
+  sctx.putImageData(sim, 0, 0);
+  ctx.imageSmoothingEnabled = true; ctx.drawImage(small, 0, 0, 1920, 1080);
+  const base = ctx.getImageData(0, 0, 1920, 1080);
+  for (let i = 0; i < base.data.length; i += 4) {
+    const n = (r() - 0.5) * 26;
+    base.data[i] = clamp(base.data[i] + n, 0, 255);
+    base.data[i + 1] = clamp(base.data[i + 1] + n, 0, 255);
+    base.data[i + 2] = clamp(base.data[i + 2] + n - 4, 0, 255);
+  }
+  ctx.putImageData(base, 0, 0);
+  const gr = ctx.createRadialGradient(960, 540, 400, 960, 540, 1150);
+  gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(120,100,80,0.35)');
+  ctx.fillStyle = gr; ctx.fillRect(0, 0, 1920, 1080);
+  ctx.strokeStyle = 'rgba(140,120,100,0.18)'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(960, 0); ctx.lineTo(962, 1080); ctx.stroke();
+}
+function drawFx(frame) {
+  const cv = document.getElementById('fx'), ctx = cv.getContext('2d');
+  ctx.clearRect(0, 0, 1920, 1080);
+  const r = rng(1000 + Math.floor(frame / 2));
+  ctx.fillStyle = 'rgba(255,248,235,0.75)';
+  for (let i = 0; i < 420; i++) {
+    const x = r() * 1920, y = r() * 1080, s = 0.6 + r() * 1.8;
+    ctx.beginPath(); ctx.arc(x, y, s, 0, 7); ctx.fill();
+  }
+  ctx.fillStyle = 'rgba(51,41,30,0.22)';
+  for (let i = 0; i < 80; i++) { ctx.beginPath(); ctx.arc(r() * 1920, r() * 1080, 0.6 + r() * 1.3, 0, 7); ctx.fill(); }
+}
+
+// ============================================================
+// Render
+// ============================================================
+const boilT = document.getElementById('boilT');
+window.DUR = (T1 > T0) ? (T1 - T0) : DUR;   // segment mode renders only [T0, T1)
+function render(tAbs) {
+  const t = tAbs + (T1 > T0 ? T0 : 0);
+  const frame = Math.round(t * FPS);
+  boilT.setAttribute('seed', 1 + (Math.floor(t * 10) % 40));
+  let actDate = '';
+  for (const s of scenes) {
+    const on = t >= s.t0 && t < s.t1;
+    show(s.g, on);
+    if (on) { s.update(t); actDate = s.date || actDate; }
+  }
+  sceneDate = actDate;
+  let dx = 0, dy = 0;
+  for (const [t0, a, d] of SHAKES) {
+    if (t >= t0 && t < t0 + d) { const k = 1 - (t - t0) / d; dx += a * k * k * Math.sin(t * 91 + t0); dy += a * k * k * Math.cos(t * 77 + t0 * 3); }
+  }
+  let inGroove = false;
+  for (const [a, b] of GROOVES) if (t >= a && t < b) inGroove = true;
+  const pulse = inGroove ? 1 + 0.006 * Math.exp(-((t % 0.5) / 0.07)) : 1;
+  cam.setAttribute('transform', `translate(${(dx + 960 * (1 - pulse)).toFixed(2)} ${(dy + 540 * (1 - pulse)).toFixed(2)}) scale(${pulse.toFixed(4)})`);
+  let fl = 0;
+  for (const [f0, amp] of FLASHES) if (t >= f0 && t < f0 + 0.3) fl = Math.max(fl, amp * Math.pow(1 - (t - f0) / 0.3, 2));
+  op(flash, fl);
+  const fadeOut = seg(t, DUR - 1.4, DUR - 0.05);
+  const fadeIn = 1 - seg(t, 0, 0.9);
+  op(fade, Math.max(fadeOut, fadeIn));
+  capUpdate(t);
+  hudUpdate(t);
+  wipeUpdate(t);
+  drawFx(frame);
+}
+window.render = render;
+window.DUR = DUR;
+window.EV = EV;
+// readcheck contract: every on-screen text visible at t
+const textId = new WeakMap(); let textN = 0;
+window.TEXTS = (t) => {
+  const out = [];
+  document.querySelectorAll('#stage text').forEach(e => {
+    let node = e;
+    let vis = true;
+    while (node && node.id !== 'stage') {
+      if (node.style && node.style.display === 'none') { vis = false; break; }
+      if (node.getAttribute && node.getAttribute('opacity') !== null && parseFloat(node.getAttribute('opacity')) < 0.05) { vis = false; break; }
+      node = node.parentNode;
+    }
+    if (!vis) return;
+    const s = (e.textContent || '').trim();
+    if (!s) return;
+    let id = textId.get(e);
+    if (!id) { id = 'tx' + (textN++); textId.set(e, id); }
+    try {
+      const r = e.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) return;
+      out.push({ id, text: s, x0: Math.round(r.x), y0: Math.round(r.y), x1: Math.round(r.right), y1: Math.round(r.bottom) });
+    } catch (err) { }
+  });
+  return out;
+};
+async function init() {
+  const all = document.documentElement.innerHTML;
+  const fams = ['900 50px "Playfair Display"', '400 50px "Lilita One"', '800 50px "JetBrains Mono"', '500 50px "JetBrains Mono"', '400 50px "Archivo Black"', '400 50px "IM Fell English"'];
+  const sample = all.replace(/[\x00-\x2f]/g, '') + 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:;.,!?—\u201C\u201D\u2019\u00E9\u00C1\u00E1&';
+  await Promise.all(fams.map(f => document.fonts.load(f, sample)));
+  await document.fonts.ready;
+  buildPaper();
+  buildAll();
+  const all2 = document.getElementById('stage').textContent + ' CARL \u201CCHARLES\u201D WEBB TAM\u00C1M SHUD \u2014 \u2019';
+  await Promise.all(fams.map(f => document.fonts.load(f, all2)));
+  await document.fonts.ready;
+  const q = new URLSearchParams(location.search);
+  const tq = parseFloat(q.get('t') || '0');
+  render(T1 > T0 ? tq - T0 : tq);
+  window.READY = true;
+}
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,672 @@
+[
+{
+"id": "L01",
+"sec": "S1",
+"text": "It is just after dawn on the first of December, nineteen forty-eight. On Somerton Beach, Adelaide, a man is found sitting against the sea wall. Dead.",
+"display": "It is just after dawn on «1 December 1948». On Somerton Beach, Adelaide, a man is found sitting against the sea wall. Dead.",
+"vis": "dark dawn, waves, figure at seawall",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "It is just after dawn on the 1st of December, 1948. On Somerton Beach, Adelaide, a man is found sitting against the sea wall. Dead."
+},
+{
+"id": "L02",
+"sec": "S1",
+"text": "He is well dressed. His shoes are polished. And there is not a single label on his clothes.",
+"display": "He is well dressed. His shoes are polished. And there is not a single «label» on his clothes.",
+"vis": "clothing vignette hints",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L03",
+"sec": "S1",
+"text": "In his pockets: no wallet. No identification. No name.",
+"display": "In his pockets: no wallet. No identification. «No name.»",
+"vis": "empty pocket cards",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L04",
+"sec": "S1",
+"text": "He would become Australia's most profound mystery. The Somerton Man.",
+"display": "He would become «Australia's most profound mystery». The Somerton Man.",
+"vis": "file cover assembles, title",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L05",
+"sec": "S1",
+"text": "This is that file, read out one exhibit at a time. What the evidence proves. What it does not. And the name science attached to the man on the beach, seventy-four years later.",
+"display": "This is that file, read out one exhibit at a time. What the evidence «proves». What it does not. And the name science attached to the man on the beach, «74 years» later.",
+"vis": "three cards: PROVES / DOES NOT / THE NAME",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L06",
+"sec": "S2",
+"text": "The body was found at half past six in the morning, on the sand at Somerton Park, opposite the Crippled Children's Home.",
+"display": "The body was found at «6:30 am», on the sand at Somerton Park, opposite the Crippled Children's Home.",
+"vis": "map pan, X marks spot",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "The body was found at half past six in the morning on the sand at Summerton Park opposite the crippled children's home."
+},
+{
+"id": "L07",
+"sec": "S2",
+"text": "He was lying back against the sea wall, legs extended, feet crossed, a half smoked cigarette resting on his right collar.",
+"display": "Lying back against the sea wall, legs extended, feet crossed — a «half-smoked cigarette» on his right collar.",
+"vis": "height-chart silhouette reconstruction",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "He was lying back against the seawall, legs extended, feet crossed, a half-smoked cigarette resting on his right collar."
+},
+{
+"id": "L08",
+"sec": "S2",
+"text": "Pathologist John Burton Cleland recorded a man in top physical condition. About forty to forty-five. Five foot eleven. Grey eyes. Fair to ginger hair, greying at the temples. Hands that showed no sign of manual labour.",
+"display": "Pathologist John Burton Cleland: a man in «top physical condition». About 40–45. 180 cm. Grey eyes. Fair to ginger hair, greying at the temples. Hands with no sign of manual labour.",
+"vis": "profile card rows type in",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Pathologist John Burton Klelland recorded a man in top physical condition, about 40 to 45, 5 foot 11, gray eyes, fair to ginger hair, graying at the temples, hands that showed no sign of manual labor."
+},
+{
+"id": "L09",
+"sec": "S2",
+"text": "And toes that met in a wedge, like a dancer, or a man used to pointed boots.",
+"display": "Toes that met in a «wedge» — like a dancer, or a man used to pointed boots.",
+"vis": "boot/shoe detail callout",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L10",
+"sec": "S2",
+"text": "He wore a white shirt, a red, white and blue tie, a brown knitted pullover, and a fashionable double breasted jacket of apparently American tailoring.",
+"display": "White shirt. Red, white and blue tie. Brown knitted pullover. A double-breasted jacket of apparently «American tailoring».",
+"vis": "clothing exhibit with callouts",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L11",
+"sec": "S2",
+"text": "Every label had been removed. No hat, which was unusual in nineteen forty-eight. No wallet. Clean shaven. And no identification of any kind.",
+"display": "«Every label removed». No hat — unusual in 1948. No wallet. Clean-shaven. No identification of any kind.",
+"vis": "labels lift off, redaction bars",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Every label had been removed, no hat, which was unusual in 1948, no wallet, clean shaven, and no identification of any kind."
+},
+{
+"id": "L12",
+"sec": "S2",
+"text": "His pockets held only ordinary things. An unused rail ticket to Henley Beach. A bus ticket. An American made comb. A half empty packet of Juicy Fruit gum. An Army Club cigarette packet holding seven cigarettes of another brand, Kensitas. And a quarter full box of matches.",
+"display": "Pockets: an «unused rail ticket» to Henley Beach. A bus ticket. A US-made comb. Half-empty Juicy Fruit gum. An Army Club packet holding 7 «Kensitas» cigarettes. A quarter-full box of matches.",
+"vis": "pocket contents grid",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "His pockets held only ordinary things, an unused rail ticket to Henley Beach, a bus ticket, an American-made comb, a half-empty packet of juicy fruit gum, an army club cigarette packet holding seven cigarettes of another brand, cancedas, and a quarter full box of matches."
+},
+{
+"id": "L13",
+"sec": "S2",
+"text": "The night before, witnesses had seen a man lying in the same spot. At around seven o'clock, one couple watched him extend his right arm to its fullest extent, and drop it. Limply.",
+"display": "At «7 pm» the night before, a couple watched him extend his right arm to its fullest extent — and drop it. Limply.",
+"vis": "figure pantomime, arm drops",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L14",
+"sec": "S2",
+"text": "Others saw him motionless for half an hour, from half past seven. It struck them as odd that he never once swatted at the mosquitoes. They assumed he was drunk, or asleep.",
+"display": "Motionless for half an hour. It struck them as odd that he never once swatted at the «mosquitoes». Drunk, they assumed. Or asleep.",
+"vis": "streetlights come on over the beach",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L15",
+"sec": "S2",
+"text": "The autopsy found no injury that could kill. But the organs were congested. The spleen three times normal size. Blood mixed with food in the stomach. And no foreign substance. None. Was ever found.",
+"display": "The autopsy: organs congested, «spleen three times» normal size, blood mixed with food in the stomach. And no foreign substance — none — was ever found.",
+"vis": "pathology table rows",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L16",
+"sec": "S2",
+"text": "Pathologist John Dwyer was certain. I am quite convinced, he wrote, the death could not have been natural. He suspected a soluble hypnotic. Poison, invisible to every test nineteen forty-eight could run.",
+"display": "\"I am quite convinced the death «could not have been natural».\" — pathologist John Dwyer. Poison, invisible to every test 1948 could run.",
+"vis": "typewritten quote card, POISON? stamp",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Pathologist John Dwyer was certain, I am quite convinced, he wrote, the death could not have been natural, he suspected a soluble hypnotic. Poison, invisible to every test 1948 could run."
+},
+{
+"id": "L17",
+"sec": "S3",
+"text": "Then, in June nineteen forty-nine, around the time of the inquest, police re-examined the dead man's clothing.",
+"display": "«June 1949», around the inquest: police re-examine the dead man's clothing.",
+"vis": "folder slide, trousers exhibit",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Then, in June 1949, around the time of the inquest, police reexamined the dead man's clothing."
+},
+{
+"id": "L18",
+"sec": "S3",
+"text": "Sewn inside a trouser pocket was a second, hidden pocket. And rolled up inside it, a tiny scrap of paper.",
+"display": "Sewn inside a trouser pocket: a concealed «fob pocket». Rolled inside it — a tiny scrap of paper.",
+"vis": "pocket diagram, fob pocket outline",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Zone inside a trouser pocket was a second hidden pocket and rolled up inside it a tiny scrap of paper."
+},
+{
+"id": "L19",
+"sec": "S3",
+"text": "Two printed words. Tamam Shud. Persian. It means: ended. It is finished.",
+"display": "Two printed words. «Tamám Shud». Persian. It means: ended. It is finished.",
+"vis": "SNAP ZOOM onto the scrap — silence before",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L20",
+"sec": "S3",
+"text": "The words close the final page of the Rubaiyat of Omar Khayyam. A book of Persian verse whose promise is to live fully, and to end without regret.",
+"display": "The final words of the «Rubaiyat of Omar Khayyam» — a book whose promise is to live fully, and end without regret.",
+"vis": "book page glimpse",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "The words close the final page of the Rubei Yat of Omar Khayyam, a book of Persian verse whose promise is to live fully and to end without regret."
+},
+{
+"id": "L21",
+"sec": "S3",
+"text": "Police photographed the scrap and released it to the press. Somewhere in Australia was the book it had been torn from. A copy whose last page had a blank reverse.",
+"display": "Police released the photograph. Somewhere in Australia was the book it was torn from — a copy whose last page had a «blank reverse».",
+"vis": "Australia-wide search map",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L22",
+"sec": "S3",
+"text": "On the twenty second of July, a man came forward. In the back of his unlocked car, on Jetty Road, Glenelg, he had found a copy of the Rubaiyat. Reading the newspaper the day before, he had finally connected it to the case.",
+"display": "«22 July 1949»: a man comes forward. In the back of his unlocked car, on Jetty Road, Glenelg — a copy of the Rubaiyat.",
+"vis": "Jetty Road pin drops",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "On the 22nd of July, a man came forward. In the back of his unlocked car, on Jeddi Road, Glenelg, he had found a copy of the Roubaillat. Reading the newspaper the day before, he had finally connected it to the case."
+},
+{
+"id": "L23",
+"sec": "S3",
+"text": "Police shielded his privacy with a false name. Ronald Francis. His real name has never been officially established.",
+"display": "Police shielded him with a false name: «Ronald Francis». His real name has never been officially established.",
+"vis": "pseudonym card, redaction bar",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L24",
+"sec": "S3",
+"text": "Under the microscope, the scrap matched the page torn from the book. This was the book. And the timing is disputed to this day. Some accounts say it was found a week or two before the body. Others, just after.",
+"display": "The scrap matched the torn page. «This was the book.» But its timing is disputed to this day — a week or two before the body? Or just after?",
+"vis": "MATCHED stamp + two date cards",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L25",
+"sec": "S3",
+"text": "And then, on the inside back cover, the case changed shape entirely.",
+"display": "And then, on the inside back cover, the case «changed shape entirely».",
+"vis": "transition into UV dark scene",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L26",
+"sec": "S4",
+"text": "The book was a nineteen forty-one edition of Edward Fitzgerald's translation, published by Whitcombe and Tombs in Christchurch, New Zealand.",
+"display": "A 1941 edition of Edward FitzGerald's translation, published by «Whitcombe and Tombs», Christchurch, New Zealand.",
+"vis": "Rubaiyat spread + colophon",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "The book was a 1941 edition of Edward Fitzgerald's translation, published by Whit Coom and Toom's in Chris Church, New Zealand."
+},
+{
+"id": "L27",
+"sec": "S4",
+"text": "Under ultraviolet light, faint indentations rose from the inside back cover. Someone had written on the page above it, and the pressure had carried through.",
+"display": "Under «ultraviolet light», indentations rise from the inside back cover — writing from the page above, carried through.",
+"vis": "UV dark scene reveal",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L28",
+"sec": "S4",
+"text": "A local telephone number. A second, unidentified number. And five lines of capital letters that looked like a code.",
+"display": "A local «telephone number». A second, unidentified number. And five lines of capital letters that looked like a code.",
+"vis": "phone number surfaces first",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L29",
+"sec": "S4",
+"text": "Line after line of them. Forty nine letters in five groups. The second line struck out, as if the writer had made an error and begun again. And a single letter X, hovering above the end of another line.",
+"display": "«49 letters» in five groups. The second line struck out — as if the writer had erred and begun again. And a single «X», above the end of another line.",
+"vis": "the five code lines type out letter by letter",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L30",
+"sec": "S4",
+"text": "The telephone number belonged to a young nurse living on Moseley Street, Glenelg. Four hundred metres from where the body lay. Her name was Jessica Thomson.",
+"display": "The number belonged to a young nurse on «Moseley Street, Glenelg» — 400 metres from where the body lay. Jessica Thomson.",
+"vis": "map line to Moseley St + name card",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "The telephone number belonged to a young nurse living on Mostly Street, Glenelg, 400 meters from where the body lay. Her name was Jessica Thompson."
+},
+{
+"id": "L31",
+"sec": "S4",
+"text": "Thomson told police she did not know the dead man, and could not explain the number. She recalled only that in late nineteen forty eight, an unknown man had come asking about her at a neighbour's door.",
+"display": "She said she did not know the dead man. She recalled only that in late 1948, «an unknown man» had come asking about her at a neighbour's door.",
+"vis": "interview card + door knock beat",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Thompson told police she did not know the dead man and could not explain the number. She recalled only that in late 1948 an unknown man had come asking about her at a neighbor's door."
+},
+{
+"id": "L32",
+"sec": "S4",
+"text": "Shown the plaster cast of the dead man's face, she was, in Detective Sergeant Lionel Leane's words, completely taken aback, to the point of giving the appearance that she was about to faint.",
+"display": "Shown the plaster cast, she was — in Detective Sergeant Lionel Leane's words — \"«completely taken aback», to the point of giving the appearance that she was about to faint.\"",
+"vis": "bust reconstruction + quote",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Showing the plaster cast of the dead man's face, she was, in detective sergeant Lionel Lean's words, completely taken aback to the point of giving the appearance that she was about to faint."
+},
+{
+"id": "L33",
+"sec": "S4",
+"text": "She asked that her name be kept from the record. Police agreed. It would hamper the case for decades.",
+"display": "She asked that her name be kept from the record. Police agreed. It would «hamper the case for decades».",
+"vis": "redaction bars over name",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L34",
+"sec": "S4",
+"text": "The code itself defeated everyone. In nineteen seventy eight, cryptographers at the Australian Department of Defence concluded there were too few symbols for any meaningful answer. The letters might even be the meaningless product of a disturbed mind.",
+"display": "1978: Defence cryptographers find «too few symbols» for any meaningful answer. The letters might even be the \"meaningless\" product of a disturbed mind.",
+"vis": "1978 verdict card",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "The code itself defeated everyone. In 1978, cryptographers at the Australian Department of Defense concluded there were too few symbols for any meaningful answer. The letters might even be the meaningless product of a disturbed mind."
+},
+{
+"id": "L35",
+"sec": "S4",
+"text": "In two thousand and four, former detective Gerry Feltus suggested the last line could read: it's time to move to South Australia, Moseley Street. In two thousand and fourteen, a computational linguist found the pattern matched the initials of English text. But no text on earth matched the initials.",
+"display": "2004: detective Gerry Feltus reads the last line as \"It's Time To Move To South Australia — Moseley Street.\" 2014: the letters match «initials of English text» — but no text on earth matches them.",
+"vis": "2004 + 2014 verdict cards",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "In 2004, former detective Jerry Feltis suggested the last line could read. It's time to move to South Australia, mostly street. In 2014, a computational linguist found the pattern matched the initials of English text, but no text on earth matched the initials."
+},
+{
+"id": "L36",
+"sec": "S4",
+"text": "The original book was lost in the nineteen fifties. The code has never been broken.",
+"display": "The original book was «lost in the 1950s». The code has never been broken.",
+"vis": "UNBROKEN stamp, book vanishes",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "The original book was lost in the 1950s. The code has never been broken."
+},
+{
+"id": "L37",
+"sec": "S5",
+"text": "Six weeks after the body was found, Adelaide railway station turned up an unclaimed brown suitcase, checked into the cloakroom after eleven a m on the thirtieth of November. The day before the death.",
+"display": "«14 January 1949»: an unclaimed brown suitcase, checked into the Adelaide station cloakroom after 11 am on 30 November — the day before the death.",
+"vis": "cloakroom tag slides in",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Six weeks after the body was found, Adelaide Railway Station turned up an unclaimed brown suitcase checked into the cloakroom after 11 a.m. on the 30th of November, the day before the death."
+},
+{
+"id": "L38",
+"sec": "S5",
+"text": "Inside, a dressing gown. Slippers. Underpants. Pyjamas. Shaving things. And trousers with sand in the cuffs.",
+"display": "Inside: a dressing gown, slippers, underpants, pyjamas, shaving things — and trousers with «sand in the cuffs».",
+"vis": "inventory rows",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Inside a dressing gown, slippers, underpants, pajamas, shaving things, and trousers with sand in the cuffs."
+},
+{
+"id": "L39",
+"sec": "S5",
+"text": "An electrician's screwdriver. A table knife cut down into a short, sharp instrument. Scissors with their points sharpened. A square of zinc, perhaps a sheath. And a stencilling brush of the kind used by officers aboard merchant ships.",
+"display": "An electrician's screwdriver. A table knife cut down into a «short, sharp instrument». Scissors with sharpened points. A square of zinc — perhaps a sheath. A stencilling brush of the kind used aboard «merchant ships».",
+"vis": "exhibit pan across pinned objects",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "An electrician's screwdriver, a table knife cut down into a short, sharp instrument, scissors with their points sharpened, a square of zinc, perhaps a sheath, and a stenciling brush of the kind used by officers aboard merchant ships."
+},
+{
+"id": "L40",
+"sec": "S5",
+"text": "A card of Barbour's orange waxed thread, a type not sold in Australia. The same thread had repaired the pocket of the trousers the dead man was wearing.",
+"display": "A card of «Barbour orange waxed thread» — a type not sold in Australia. The same thread had repaired the pocket of the trousers he was wearing.",
+"vis": "thread card + pocket link line",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "A card of barbers orange waxed thread, a type not sold in Australia. The same thread had repaired the pocket of the trousers the dead man was wearing."
+},
+{
+"id": "L41",
+"sec": "S5",
+"text": "Again the labels were gone. But this time, three had been missed. A tie marked T Keane. A laundry bag marked Keane. And a singlet marked Kean.",
+"display": "Again, the labels were gone. This time, three had been missed: a tie marked «T. Keane». A laundry bag marked Keane. A singlet marked Kean.",
+"vis": "three tag cards stagger in",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Again, the labels were gone, but this time three had been missed, a tie marked t-kene, a laundry bag marked kene, and a singlet marked kene."
+},
+{
+"id": "L42",
+"sec": "S5",
+"text": "Police circulated the name across every English speaking country. No T Keane was missing. The dry cleaning marks in the clothes led nowhere.",
+"display": "No «T. Keane» was missing in any English-speaking country. The dry-cleaning marks in the clothes led nowhere.",
+"vis": "world check cards, dead ends",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Police circulated the name across every English-speaking country. No tea-keen was missing. The dry cleaning marks in the clothes led nowhere."
+},
+{
+"id": "L43",
+"sec": "S5",
+"text": "Police believed he had arrived by overnight train, from Melbourne, Sydney, or Port Augusta. He bought a ticket for the ten fifty a m train to Henley Beach, and never boarded it.",
+"display": "Police believed he arrived by «overnight train» — Melbourne, Sydney, or Port Augusta. He bought a ticket for the 10:50 am train to Henley Beach — and never boarded it.",
+"vis": "animated route map of the last day",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Police believed he had arrived by Overnight Train from Melbourne, Sydney or Port Augusta. He bought a ticket for the 10.50 AM train to Henley Beach and never boarded it."
+},
+{
+"id": "L44",
+"sec": "S5",
+"text": "He checked the suitcase. He caught a bus to Glenelg. And the last day of his life dissolves into an ordinary street map.",
+"display": "He checked the suitcase. He caught a bus to Glenelg. And the last day of his life «dissolves» into an ordinary street map.",
+"vis": "map route fades to paper",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L45",
+"sec": "S5",
+"text": "In nineteen eighty six, the suitcase and everything in it was destroyed. The objects are gone. Only photographs and lists remain.",
+"display": "In «1986», the suitcase and everything in it was destroyed. The objects are gone. Only photographs and lists remain.",
+"vis": "redaction bars print over exhibits",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "In 1986, the suitcase and everything in it was destroyed. The objects are gone, only photographs and lists remain."
+},
+{
+"id": "L46",
+"sec": "S5",
+"text": "Nothing in that case explained who he was. Everything in it seemed designed to say less. Not more.",
+"display": "Nothing in that case explained who he was. Everything in it seemed designed to «say less, not more».",
+"vis": "suitcase closes",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L47",
+"sec": "S6",
+"text": "A body without a name invites theories. Separate them from the evidence, and the case becomes clearer. By becoming smaller.",
+"display": "A body without a name invites theories. Separate them from the evidence, and the case becomes clearer — «by becoming smaller».",
+"vis": "theory frame: the counts",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L48",
+"sec": "S6",
+"text": "Theory one. Espionage. A secret code. An undetectable poison. The Cold War opening overhead. It is a seductive story, and nothing in the file supports it. No document. No witness. No intelligence trace.",
+"display": "Theory: «espionage». A secret code. An undetectable poison. The Cold War overhead. A seductive story — and nothing in the file supports it.",
+"vis": "dark scene, bass and snaps, SPECULATION stamp",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L49",
+"sec": "S6",
+"text": "Theory two. Suicide. The Rubaiyat's promise, to end without regret. Police themselves suspected it, because he carried no identification. But at the inquest, police gave the scrap of paper no significance, and no evidence corroborated it.",
+"display": "Theory: «suicide». The Rubaiyat's promise — to end without regret. Police suspected it; at the inquest they gave the paper no significance, and no evidence corroborated it.",
+"vis": "quiet card + stamp",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Theory 2, suicide. The Rube-Yat's promise to end without regret. Police themselves suspected it because he carried no identification. But at the inquest, police gave the scrap of paper no significance and no evidence corroborated it."
+},
+{
+"id": "L50",
+"sec": "S6",
+"text": "Theory three. That he did not die on that beach at all. The coroner noted the shoes were remarkably clean, recently polished, for a man said to have wandered Glenelg all day. Poison usually kills with vomiting and convulsions. There was none. Cleland allowed that the body might have been brought there. He stressed that this was speculation.",
+"display": "Theory: the body was «brought to the beach». The shoes were \"remarkably clean\" for a man said to have wandered Glenelg all day. Poison usually kills with vomiting and convulsions — there was none. Cleland allowed it — and stressed: speculation.",
+"vis": "callouts on shoes + Cleland card",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Theory 3, that he did not die on that beach at all. The coroner noted the shoes were remarkably clean, recently polished, for a man said to have wandered Glenelg all day. Poison usually kills with vomiting and convulsions. There was none. Klelland allowed that the body might have been brought there. He stressed that this was speculation."
+},
+{
+"id": "L51",
+"sec": "S6",
+"text": "The name Keane. The American tailoring. The stencilling brush. Each has fed a theory of hidden identity. None survives contact with the file.",
+"display": "«The name Keane». The American tailoring. The stencilling brush. Each has fed a theory of hidden identity. None survives contact with the file.",
+"vis": "three tags shake, stamp",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "The name Keen, the American tailoring, the stenciling brush, each has fed a theory of hidden identity. None survives contact with the file."
+},
+{
+"id": "L52",
+"sec": "S6",
+"text": "And in nineteen fifty nine, a witness reported that he and three others had seen a well dressed man carrying another man on his shoulders along the beach, the night before the body was found. It has never been corroborated.",
+"display": "1959: a witness reports he and three others saw «a well-dressed man carrying another man» on his shoulders along the beach, the night before. Never corroborated.",
+"vis": "shoulder-carry silhouette card",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "And in 1959, a witness reported that he and three others had seen a well-dressed man carrying another man on his shoulders along the beach, the night before the body was found. It has never been corroborated."
+},
+{
+"id": "L53",
+"sec": "S6",
+"text": "As one journalist wrote in nineteen forty nine, the Somerton Man seems to have made certain that the glass would be empty. Save for speculation.",
+"display": "As one journalist wrote in 1949: the Somerton Man \"made certain that the glass would be empty, «save for speculation».\"",
+"vis": "verdict board: every theory stamped",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "As one journalist wrote in 1949, the Summerton man seems to have made certain that the glass would be empty, save for speculation."
+},
+{
+"id": "L54",
+"sec": "S7",
+"text": "For sixty years the case would not close. In two thousand and nine, a University of Adelaide team led by professor Derek Abbott took it up, and found that the autopsy reports themselves had vanished from the record.",
+"display": "2009: a University of Adelaide team led by «Derek Abbott» takes up the case — and finds the autopsy reports themselves have vanished from the record.",
+"vis": "timeline strip draws 2009",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "For 60 years the case would not close. In 2009 a University of Adelaide team led by Professor Derek Abbott took it up and found that the autopsy reports themselves had vanished from the record."
+},
+{
+"id": "L55",
+"sec": "S7",
+"text": "Two anatomical rarities emerged. An unusually formed ear. And hypodontia, missing lateral incisors. Each found in only one or two people in a hundred.",
+"display": "Two anatomical rarities: an unusually formed «ear». And «hypodontia» — missing lateral incisors. Each in only 1–2 people in a hundred.",
+"vis": "ear diagram + teeth diagram",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L56",
+"sec": "S7",
+"text": "Then, a small miracle of bureaucracy. In the plaster death cast made in nineteen forty nine, strands of the man's own hair had been sealed beneath the surface. Preserved for seventy years.",
+"display": "In the plaster «death cast» of 1949, strands of the man's own hair had been sealed beneath the surface — preserved for 70 years.",
+"vis": "bust reconstruction + three hairs",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Then a small miracle of bureaucracy. In the plaster death cast made in 1949, strands of the man's own hair had been sealed beneath the surface, preserved for seventy years."
+},
+{
+"id": "L57",
+"sec": "S7",
+"text": "In February two thousand and eighteen, the mitochondrial DNA was read. A lineage carried by about one percent of Europeans. It was not enough. Mitochondrial DNA follows only the mother's line.",
+"display": "February 2018: mitochondrial DNA read — a lineage carried by «about 1%» of Europeans. Not enough. mtDNA follows only the mother's line.",
+"vis": "mtDNA card H4a1a1a",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "In February 2018, the mitochondrial DNA was read. A lineage carried by about 1% of Europeans. It was not enough. Mitochondrial DNA follows only the mother's line."
+},
+{
+"id": "L58",
+"sec": "S7",
+"text": "In May twenty twenty one, after formal approval, the body was exhumed from West Terrace Cemetery, where it had rested under a marker reading, here lies the unknown man who was found at Somerton Beach.",
+"display": "May 2021: the body is exhumed from West Terrace Cemetery — where it had rested under a marker: \"«Here lies the unknown man» who was found at Somerton Beach.\"",
+"vis": "grave marker lettering",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "In May 2021, after formal approval, the body was exhumed from West Terrace Cemetery, where it had rested under a marker reading. Here lies the unknown man who was found at Somerton Beach."
+},
+{
+"id": "L59",
+"sec": "S7",
+"text": "On the twenty sixth of July, twenty twenty two, Abbott and forensic genealogist Colleen Fitzpatrick announced a name. Built not from the exhumation, but from those hairs in the death mask. Genealogical matches on both the father's and the mother's side of a family tree.",
+"display": "«26 July 2022»: Abbott and forensic genealogist «Colleen Fitzpatrick» announce a name — built from those hairs in the death mask. Genealogical matches on both sides of a family tree.",
+"vis": "timeline to 2022, silence before",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "On the 26th of July, 2022, Abbott and forensic genealogist Colleen Fitzpatrick announced a name, built not from the exhumation, but from those hairs in the death mask, genealogical matches on both the fathers and the mothers side of a family tree."
+},
+{
+"id": "L60",
+"sec": "S7",
+"text": "Carl. Charles. Webb. Born in Footscray, Melbourne, on the sixteenth of November, nineteen oh five. An electrical engineer and instrument maker.",
+"display": "«CARL “CHARLES” WEBB» · born 16 November 1905, Footscray, Melbourne · electrical engineer and instrument maker.",
+"vis": "NAME CARD — reveal + caveat",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "Carl Charles Webb, born in Footscray, Melbourne, on the 16th of November 1905, an electrical engineer and instrument maker."
+},
+{
+"id": "L61",
+"sec": "S7",
+"text": "The file behind the name is not simple. Webb had lost four close relatives in seven years. His marriage to Dorothy Robertson had collapsed. She described a solitary, moody man, fond of poetry. Poems, she said, mostly about death.",
+"display": "Webb had lost «four close relatives» in 7 years. His marriage to Dorothy Robertson had collapsed — she described a solitary, moody man, fond of poetry. Poems, she said, mostly about death.",
+"vis": "bio sheet rows type in",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "The file behind the name is not simple. Web had lost four close relatives in seven years. His marriage to Dorothy Robertson had collapsed. She described a solitary, moody man, fond of poetry. Poems, she said, mostly about death."
+},
+{
+"id": "L62",
+"sec": "S7",
+"text": "And the strange details began to fit. A sister named Keane, and a brother in law who had travelled through the United States, could explain the American clothes, and the tags that misled police for seventy years.",
+"display": "A sister named «Keane», and a brother-in-law who had travelled through the US — could explain the American clothes, and the tags that misled police for 70 years.",
+"vis": "link line ties the tags to family",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "And the strange details began to fit. A sister named Keen and a brother-in-law who had traveled through the United States could explain the American clothes and the tags that misled police for 70 years."
+},
+{
+"id": "L63",
+"sec": "S7",
+"text": "But this matters. South Australia Police, and Forensic Science South Australia, have not verified the identification. They were, they said, cautiously optimistic. The name rests on the strongest genetic case yet assembled. And it remains, formally, a claim.",
+"display": "South Australia Police and Forensic Science SA have «not verified» the identification. They were \"cautiously optimistic.\" The name rests on the strongest genetic case yet assembled — and remains, formally, a claim.",
+"vis": "caveat stamp NOT OFFICIALLY VERIFIED",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L64",
+"sec": "S8",
+"text": "So what does the file actually prove? A man died on Somerton Beach in the early hours of the first of December, nineteen forty eight. He went to great lengths to erase his name. He carried the end of a poem. And the best science of our century has given him a probable name. Carl Webb. While the authorities stop short of confirming it.",
+"display": "What the file proves: a man died on Somerton Beach, 1 December 1948. He went to great lengths to «erase his name». He carried the end of a poem. Science has given him a probable name — Carl Webb — while the authorities stop short of confirming it.",
+"vis": "PROVEN ledger column prints",
+"voice": "bm_george",
+"speed": 0.92,
+"asr": "So, what does the file actually prove? A man died on Somerton Beach in the early hours of the 1st of December, 1948. He went to great lengths to erase his name. He carried the end of a poem, and the best science of our century has given him a probable name, Carl Webb, while the authorities stop short of confirming it."
+},
+{
+"id": "L65",
+"sec": "S8",
+"text": "Three things still do not fit. The polished shoes. The absence of vomiting. The unused ticket. Each is evidence of something. We do not know of what.",
+"display": "Three things still do not fit: the «polished shoes». The absence of vomiting. The unused ticket. Each is evidence of something. We do not know of what.",
+"vis": "contradiction cards stagger",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L66",
+"sec": "S8",
+"text": "The cause of death was never determined. The code was never broken.",
+"display": "The cause of death was «never determined». The code was never broken.",
+"vis": "two verdict rows, then partial redaction",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L67",
+"sec": "S8",
+"text": "Everything else, the spies, the secrets, the romance, remains what it always was. Story, waiting for proof.",
+"display": "Everything else — the spies, the secrets, the romance — remains what it always was. «Story, waiting for proof.»",
+"vis": "redactions lift except one",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L68",
+"sec": "S9",
+"text": "The file goes back in the drawer, among others like it. But the drawer does not close the case.",
+"display": "The file goes back in the drawer, among others like it. But the drawer does not «close the case».",
+"vis": "drawer slides, OPEN stamp stays",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L69",
+"sec": "S9",
+"text": "On a grave in West Terrace Cemetery, the words still stand. Here lies the unknown man who was found at Somerton Beach.",
+"display": "On a grave in West Terrace Cemetery, the words still stand: \"«Here lies the unknown man» who was found at Somerton Beach.\"",
+"vis": "grave marker, slow push, near-silence",
+"voice": "bm_george",
+"speed": 0.92
+},
+{
+"id": "L70",
+"sec": "S9",
+"text": "The evidence is real. The name is new. The answer is still missing.",
+"display": "The evidence is real. The name is new. «The answer is still missing.»",
+"vis": "final card",
+"voice": "bm_george",
+"speed": 0.92
+}
+]

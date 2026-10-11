@@ -1,0 +1,9082 @@
+{
+ "DUR": 930.448,
+ "fps": 24,
+ "W": 1920,
+ "H": 1080,
+ "sections": {
+  "S1": [
+   0.0,
+   61.63
+  ],
+  "S2": [
+   61.63,
+   210.74
+  ],
+  "S3": [
+   210.74,
+   312.58
+  ],
+  "S4": [
+   312.58,
+   458.25
+  ],
+  "S5": [
+   458.25,
+   575.6
+  ],
+  "S6": [
+   575.6,
+   681.07
+  ],
+  "S7": [
+   681.07,
+   844.27
+  ],
+  "S8": [
+   844.27,
+   896.45
+  ],
+  "S9": [
+   896.45,
+   930.45
+  ]
+ },
+ "scenes": [
+  {
+   "id": "sc01a",
+   "sec": "S1",
+   "lines": [
+    [
+     "L01",
+     9.5,
+     19.742
+    ]
+   ],
+   "t0": 0.0,
+   "t1": 20.142,
+   "cut": "fade"
+  },
+  {
+   "id": "sc01b",
+   "sec": "S1",
+   "lines": [
+    [
+     "L02",
+     21.142,
+     27.136
+    ]
+   ],
+   "t0": 20.142,
+   "t1": 27.536,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc01c",
+   "sec": "S1",
+   "lines": [
+    [
+     "L03",
+     28.535999999999998,
+     33.102
+    ]
+   ],
+   "t0": 27.536,
+   "t1": 35.536,
+   "cut": "hard"
+  },
+  {
+   "id": "sc01d",
+   "sec": "S1",
+   "lines": [
+    [
+     "L04",
+     36.936,
+     42.006
+    ]
+   ],
+   "t0": 35.536,
+   "t1": 47.536,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc01e",
+   "sec": "S1",
+   "lines": [
+    [
+     "L05",
+     48.536,
+     60.232
+    ]
+   ],
+   "t0": 47.536,
+   "t1": 61.632,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc02a",
+   "sec": "S2",
+   "lines": [
+    [
+     "L06",
+     62.832,
+     70.614
+    ]
+   ],
+   "t0": 61.632,
+   "t1": 72.632,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc02b",
+   "sec": "S2",
+   "lines": [
+    [
+     "L07",
+     73.632,
+     81.741
+    ]
+   ],
+   "t0": 72.632,
+   "t1": 84.632,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc02c",
+   "sec": "S2",
+   "lines": [
+    [
+     "L08",
+     85.432,
+     101.286
+    ]
+   ],
+   "t0": 84.632,
+   "t1": 101.586,
+   "cut": "hard"
+  },
+  {
+   "id": "sc02d",
+   "sec": "S2",
+   "lines": [
+    [
+     "L09",
+     102.286,
+     107.84
+    ]
+   ],
+   "t0": 101.586,
+   "t1": 108.14,
+   "cut": "hard"
+  },
+  {
+   "id": "sc02e",
+   "sec": "S2",
+   "lines": [
+    [
+     "L10",
+     108.94,
+     119.39699999999999
+    ]
+   ],
+   "t0": 108.14,
+   "t1": 120.597,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc02f",
+   "sec": "S2",
+   "lines": [
+    [
+     "L11",
+     121.297,
+     131.6
+    ]
+   ],
+   "t0": 120.597,
+   "t1": 131.9,
+   "cut": "hard"
+  },
+  {
+   "id": "sc02g",
+   "sec": "S2",
+   "lines": [
+    [
+     "L12",
+     132.70000000000002,
+     152.573
+    ]
+   ],
+   "t0": 131.9,
+   "t1": 152.873,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc02h",
+   "sec": "S2",
+   "lines": [
+    [
+     "L13",
+     153.87300000000002,
+     166.35700000000003
+    ]
+   ],
+   "t0": 152.873,
+   "t1": 166.857,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc02i",
+   "sec": "S2",
+   "lines": [
+    [
+     "L14",
+     167.65700000000004,
+     178.89300000000003
+    ]
+   ],
+   "t0": 166.857,
+   "t1": 179.293,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc02j",
+   "sec": "S2",
+   "lines": [
+    [
+     "L15",
+     180.19300000000004,
+     194.25900000000004
+    ]
+   ],
+   "t0": 179.293,
+   "t1": 194.659,
+   "cut": "hard"
+  },
+  {
+   "id": "sc02k",
+   "sec": "S2",
+   "lines": [
+    [
+     "L16",
+     195.55900000000005,
+     209.93700000000007
+    ]
+   ],
+   "t0": 194.659,
+   "t1": 210.737,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc03a",
+   "sec": "S3",
+   "lines": [
+    [
+     "L17",
+     211.93700000000007,
+     219.60600000000008
+    ]
+   ],
+   "t0": 210.737,
+   "t1": 220.006,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc03b",
+   "sec": "S3",
+   "lines": [
+    [
+     "L18",
+     220.8060000000001,
+     228.6260000000001
+    ]
+   ],
+   "t0": 220.006,
+   "t1": 229.006,
+   "cut": "hard"
+  },
+  {
+   "id": "sc03c",
+   "sec": "S3",
+   "lines": [
+    [
+     "L19",
+     234.20600000000007,
+     239.66500000000008
+    ]
+   ],
+   "t0": 229.006,
+   "t1": 240.165,
+   "cut": "hard"
+  },
+  {
+   "id": "sc03d",
+   "sec": "S3",
+   "lines": [
+    [
+     "L20",
+     240.9650000000001,
+     251.9710000000001
+    ]
+   ],
+   "t0": 240.165,
+   "t1": 252.271,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc03e",
+   "sec": "S3",
+   "lines": [
+    [
+     "L21",
+     253.0710000000001,
+     264.1850000000001
+    ]
+   ],
+   "t0": 252.271,
+   "t1": 264.585,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc03f",
+   "sec": "S3",
+   "lines": [
+    [
+     "L22",
+     265.3850000000001,
+     280.5530000000001
+    ]
+   ],
+   "t0": 264.585,
+   "t1": 280.953,
+   "cut": "hard"
+  },
+  {
+   "id": "sc03g",
+   "sec": "S3",
+   "lines": [
+    [
+     "L23",
+     281.6530000000001,
+     289.8670000000001
+    ]
+   ],
+   "t0": 280.953,
+   "t1": 290.267,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc03h",
+   "sec": "S3",
+   "lines": [
+    [
+     "L24",
+     291.06700000000006,
+     305.0810000000001
+    ]
+   ],
+   "t0": 290.267,
+   "t1": 305.581,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc03i",
+   "sec": "S3",
+   "lines": [
+    [
+     "L25",
+     306.3810000000001,
+     311.2550000000001
+    ]
+   ],
+   "t0": 305.581,
+   "t1": 312.581,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc04a",
+   "sec": "S4",
+   "lines": [
+    [
+     "L26",
+     313.5810000000001,
+     323.29600000000005
+    ]
+   ],
+   "t0": 312.581,
+   "t1": 323.696,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc04b",
+   "sec": "S4",
+   "lines": [
+    [
+     "L27",
+     324.49600000000004,
+     334.72900000000004
+    ]
+   ],
+   "t0": 323.696,
+   "t1": 335.129,
+   "cut": "hard"
+  },
+  {
+   "id": "sc04c",
+   "sec": "S4",
+   "lines": [
+    [
+     "L28",
+     335.829,
+     344.297
+    ]
+   ],
+   "t0": 335.129,
+   "t1": 344.597,
+   "cut": "hard"
+  },
+  {
+   "id": "sc04d",
+   "sec": "S4",
+   "lines": [
+    [
+     "L29",
+     345.39700000000005,
+     358.845
+    ]
+   ],
+   "t0": 344.597,
+   "t1": 359.597,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc04e",
+   "sec": "S4",
+   "lines": [
+    [
+     "L30",
+     360.39700000000005,
+     371.28700000000003
+    ]
+   ],
+   "t0": 359.597,
+   "t1": 371.687,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc04f",
+   "sec": "S4",
+   "lines": [
+    [
+     "L31",
+     372.387,
+     385.849
+    ]
+   ],
+   "t0": 371.687,
+   "t1": 386.149,
+   "cut": "hard"
+  },
+  {
+   "id": "sc04g",
+   "sec": "S4",
+   "lines": [
+    [
+     "L32",
+     386.949,
+     400.015
+    ]
+   ],
+   "t0": 386.149,
+   "t1": 400.415,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc04h",
+   "sec": "S4",
+   "lines": [
+    [
+     "L33",
+     401.11499999999995,
+     407.69999999999993
+    ]
+   ],
+   "t0": 400.415,
+   "t1": 408.415,
+   "cut": "hard"
+  },
+  {
+   "id": "sc04i",
+   "sec": "S4",
+   "lines": [
+    [
+     "L34",
+     409.215,
+     426.469
+    ]
+   ],
+   "t0": 408.415,
+   "t1": 426.869,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc04j",
+   "sec": "S4",
+   "lines": [
+    [
+     "L35",
+     427.56899999999996,
+     447.80499999999995
+    ]
+   ],
+   "t0": 426.869,
+   "t1": 448.205,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc04k",
+   "sec": "S4",
+   "lines": [
+    [
+     "L36",
+     451.405,
+     457.452
+    ]
+   ],
+   "t0": 448.205,
+   "t1": 458.252,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc05a",
+   "sec": "S5",
+   "lines": [
+    [
+     "L37",
+     459.452,
+     473.194
+    ]
+   ],
+   "t0": 458.252,
+   "t1": 473.594,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc05b",
+   "sec": "S5",
+   "lines": [
+    [
+     "L38",
+     474.294,
+     482.567
+    ]
+   ],
+   "t0": 473.594,
+   "t1": 482.867,
+   "cut": "hard"
+  },
+  {
+   "id": "sc05c",
+   "sec": "S5",
+   "lines": [
+    [
+     "L39",
+     483.66700000000003,
+     499.742
+    ]
+   ],
+   "t0": 482.867,
+   "t1": 500.142,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc05d",
+   "sec": "S5",
+   "lines": [
+    [
+     "L40",
+     500.842,
+     511.426
+    ]
+   ],
+   "t0": 500.142,
+   "t1": 511.726,
+   "cut": "hard"
+  },
+  {
+   "id": "sc05e",
+   "sec": "S5",
+   "lines": [
+    [
+     "L41",
+     512.526,
+     522.2439999999999
+    ]
+   ],
+   "t0": 511.726,
+   "t1": 522.726,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc05f",
+   "sec": "S5",
+   "lines": [
+    [
+     "L42",
+     523.426,
+     533.522
+    ]
+   ],
+   "t0": 522.726,
+   "t1": 533.822,
+   "cut": "hard"
+  },
+  {
+   "id": "sc05g",
+   "sec": "S5",
+   "lines": [
+    [
+     "L43",
+     534.722,
+     546.626
+    ]
+   ],
+   "t0": 533.822,
+   "t1": 547.822,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc05h",
+   "sec": "S5",
+   "lines": [
+    [
+     "L44",
+     548.522,
+     556.614
+    ]
+   ],
+   "t0": 547.822,
+   "t1": 557.014,
+   "cut": "hard"
+  },
+  {
+   "id": "sc05i",
+   "sec": "S5",
+   "lines": [
+    [
+     "L45",
+     557.914,
+     566.948
+    ]
+   ],
+   "t0": 557.014,
+   "t1": 567.348,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc05j",
+   "sec": "S5",
+   "lines": [
+    [
+     "L46",
+     568.1479999999999,
+     574.8029999999999
+    ]
+   ],
+   "t0": 567.348,
+   "t1": 575.603,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc06a",
+   "sec": "S6",
+   "lines": [
+    [
+     "L47",
+     576.8029999999999,
+     585.0479999999999
+    ]
+   ],
+   "t0": 575.603,
+   "t1": 585.448,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc06b",
+   "sec": "S6",
+   "lines": [
+    [
+     "L48",
+     586.3479999999998,
+     601.9619999999999
+    ]
+   ],
+   "t0": 585.448,
+   "t1": 602.462,
+   "cut": "hard"
+  },
+  {
+   "id": "sc06c",
+   "sec": "S6",
+   "lines": [
+    [
+     "L49",
+     603.2619999999998,
+     620.0629999999999
+    ]
+   ],
+   "t0": 602.462,
+   "t1": 620.463,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc06d",
+   "sec": "S6",
+   "lines": [
+    [
+     "L50",
+     621.2629999999998,
+     642.2079999999999
+    ]
+   ],
+   "t0": 620.463,
+   "t1": 642.708,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc06e",
+   "sec": "S6",
+   "lines": [
+    [
+     "L51",
+     643.4079999999999,
+     653.2899999999998
+    ]
+   ],
+   "t0": 642.708,
+   "t1": 653.69,
+   "cut": "hard"
+  },
+  {
+   "id": "sc06f",
+   "sec": "S6",
+   "lines": [
+    [
+     "L52",
+     654.4899999999998,
+     669.0939999999998
+    ]
+   ],
+   "t0": 653.69,
+   "t1": 669.494,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc06g",
+   "sec": "S6",
+   "lines": [
+    [
+     "L53",
+     670.3939999999998,
+     680.0709999999998
+    ]
+   ],
+   "t0": 669.494,
+   "t1": 681.071,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc07a",
+   "sec": "S7",
+   "lines": [
+    [
+     "L54",
+     682.2709999999998,
+     697.1409999999998
+    ]
+   ],
+   "t0": 681.071,
+   "t1": 697.541,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc07b",
+   "sec": "S7",
+   "lines": [
+    [
+     "L55",
+     698.3409999999998,
+     709.9439999999997
+    ]
+   ],
+   "t0": 697.541,
+   "t1": 710.244,
+   "cut": "hard"
+  },
+  {
+   "id": "sc07c",
+   "sec": "S7",
+   "lines": [
+    [
+     "L56",
+     711.0439999999996,
+     724.0009999999996
+    ]
+   ],
+   "t0": 710.244,
+   "t1": 724.401,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc07d",
+   "sec": "S7",
+   "lines": [
+    [
+     "L57",
+     725.1009999999997,
+     739.1139999999997
+    ]
+   ],
+   "t0": 724.401,
+   "t1": 739.414,
+   "cut": "hard"
+  },
+  {
+   "id": "sc07e",
+   "sec": "S7",
+   "lines": [
+    [
+     "L58",
+     740.2139999999996,
+     753.6329999999996
+    ]
+   ],
+   "t0": 739.414,
+   "t1": 754.033,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc07f",
+   "sec": "S7",
+   "lines": [
+    [
+     "L59",
+     758.8329999999995,
+     778.2649999999995
+    ]
+   ],
+   "t0": 754.033,
+   "t1": 778.765,
+   "cut": "hard"
+  },
+  {
+   "id": "sc07g",
+   "sec": "S7",
+   "lines": [
+    [
+     "L60",
+     779.7649999999995,
+     789.7819999999996
+    ]
+   ],
+   "t0": 778.765,
+   "t1": 790.982,
+   "cut": "hard"
+  },
+  {
+   "id": "sc07h",
+   "sec": "S7",
+   "lines": [
+    [
+     "L61",
+     791.7819999999996,
+     808.3889999999996
+    ]
+   ],
+   "t0": 790.982,
+   "t1": 808.789,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc07i",
+   "sec": "S7",
+   "lines": [
+    [
+     "L62",
+     809.4889999999996,
+     823.8009999999996
+    ]
+   ],
+   "t0": 808.789,
+   "t1": 824.201,
+   "cut": "hard"
+  },
+  {
+   "id": "sc07j",
+   "sec": "S7",
+   "lines": [
+    [
+     "L63",
+     825.0009999999995,
+     843.2719999999995
+    ]
+   ],
+   "t0": 824.201,
+   "t1": 844.272,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc08a",
+   "sec": "S8",
+   "lines": [
+    [
+     "L64",
+     845.4719999999995,
+     866.7659999999995
+    ]
+   ],
+   "t0": 844.272,
+   "t1": 867.266,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc08b",
+   "sec": "S8",
+   "lines": [
+    [
+     "L65",
+     868.0659999999995,
+     878.8199999999995
+    ]
+   ],
+   "t0": 867.266,
+   "t1": 879.266,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc08c",
+   "sec": "S8",
+   "lines": [
+    [
+     "L66",
+     880.0659999999995,
+     885.0169999999995
+    ]
+   ],
+   "t0": 879.266,
+   "t1": 887.266,
+   "cut": "hard"
+  },
+  {
+   "id": "sc08d",
+   "sec": "S8",
+   "lines": [
+    [
+     "L67",
+     888.0659999999995,
+     895.6469999999995
+    ]
+   ],
+   "t0": 887.266,
+   "t1": 896.447,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc09a",
+   "sec": "S9",
+   "lines": [
+    [
+     "L68",
+     897.6469999999995,
+     903.9009999999995
+    ]
+   ],
+   "t0": 896.447,
+   "t1": 906.447,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc09b",
+   "sec": "S9",
+   "lines": [
+    [
+     "L69",
+     907.6469999999995,
+     915.9609999999994
+    ]
+   ],
+   "t0": 906.447,
+   "t1": 918.447,
+   "cut": "wipe"
+  },
+  {
+   "id": "sc09c",
+   "sec": "S9",
+   "lines": [
+    [
+     "L70",
+     919.4469999999994,
+     924.0749999999995
+    ]
+   ],
+   "t0": 918.447,
+   "t1": 930.447,
+   "cut": "wipe"
+  }
+ ],
+ "lines": {
+  "L01": 9.5,
+  "L02": 21.142,
+  "L03": 28.536,
+  "L04": 36.936,
+  "L05": 48.536,
+  "L06": 62.832,
+  "L07": 73.632,
+  "L08": 85.432,
+  "L09": 102.286,
+  "L10": 108.94,
+  "L11": 121.297,
+  "L12": 132.7,
+  "L13": 153.873,
+  "L14": 167.657,
+  "L15": 180.193,
+  "L16": 195.559,
+  "L17": 211.937,
+  "L18": 220.806,
+  "L19": 234.206,
+  "L20": 240.965,
+  "L21": 253.071,
+  "L22": 265.385,
+  "L23": 281.653,
+  "L24": 291.067,
+  "L25": 306.381,
+  "L26": 313.581,
+  "L27": 324.496,
+  "L28": 335.829,
+  "L29": 345.397,
+  "L30": 360.397,
+  "L31": 372.387,
+  "L32": 386.949,
+  "L33": 401.115,
+  "L34": 409.215,
+  "L35": 427.569,
+  "L36": 451.405,
+  "L37": 459.452,
+  "L38": 474.294,
+  "L39": 483.667,
+  "L40": 500.842,
+  "L41": 512.526,
+  "L42": 523.426,
+  "L43": 534.722,
+  "L44": 548.522,
+  "L45": 557.914,
+  "L46": 568.148,
+  "L47": 576.803,
+  "L48": 586.348,
+  "L49": 603.262,
+  "L50": 621.263,
+  "L51": 643.408,
+  "L52": 654.49,
+  "L53": 670.394,
+  "L54": 682.271,
+  "L55": 698.341,
+  "L56": 711.044,
+  "L57": 725.101,
+  "L58": 740.214,
+  "L59": 758.833,
+  "L60": 779.765,
+  "L61": 791.782,
+  "L62": 809.489,
+  "L63": 825.001,
+  "L64": 845.472,
+  "L65": 868.066,
+  "L66": 880.066,
+  "L67": 888.066,
+  "L68": 897.647,
+  "L69": 907.647,
+  "L70": 919.447
+ },
+ "chips": [
+  [
+   0.0,
+   61.63,
+   "PROLOGUE",
+   "SOMERTON BEACH"
+  ],
+  [
+   61.63,
+   210.74,
+   "EXHIBIT 01",
+   "THE MAN WITHOUT AN IDENTITY"
+  ],
+  [
+   210.74,
+   312.58,
+   "EXHIBIT 02",
+   "TAMÁM SHUD"
+  ],
+  [
+   312.58,
+   458.25,
+   "EXHIBIT 03",
+   "THE BOOK AND THE CIPHER"
+  ],
+  [
+   458.25,
+   575.6,
+   "EXHIBIT 04",
+   "THE SUITCASE"
+  ],
+  [
+   575.6,
+   681.07,
+   "EXHIBIT 05",
+   "THE THEORIES"
+  ],
+  [
+   681.07,
+   844.27,
+   "EXHIBIT 06",
+   "THE DNA INVESTIGATION"
+  ],
+  [
+   844.27,
+   896.45,
+   "EXHIBIT 07",
+   "WHAT THE EVIDENCE PROVES"
+  ],
+  [
+   896.45,
+   930.45,
+   "CLOSE",
+   "SOMERTON BEACH"
+  ]
+ ],
+ "wipes": [
+  {
+   "t": 0.0,
+   "cut": "fade"
+  },
+  {
+   "t": 20.142,
+   "cut": "wipe"
+  },
+  {
+   "t": 35.536,
+   "cut": "wipe"
+  },
+  {
+   "t": 47.536,
+   "cut": "wipe"
+  },
+  {
+   "t": 61.632,
+   "cut": "wipe"
+  },
+  {
+   "t": 72.632,
+   "cut": "wipe"
+  },
+  {
+   "t": 108.14,
+   "cut": "wipe"
+  },
+  {
+   "t": 131.9,
+   "cut": "wipe"
+  },
+  {
+   "t": 152.873,
+   "cut": "wipe"
+  },
+  {
+   "t": 166.857,
+   "cut": "wipe"
+  },
+  {
+   "t": 194.659,
+   "cut": "wipe"
+  },
+  {
+   "t": 210.737,
+   "cut": "wipe"
+  },
+  {
+   "t": 240.165,
+   "cut": "wipe"
+  },
+  {
+   "t": 252.271,
+   "cut": "wipe"
+  },
+  {
+   "t": 280.953,
+   "cut": "wipe"
+  },
+  {
+   "t": 290.267,
+   "cut": "wipe"
+  },
+  {
+   "t": 305.581,
+   "cut": "wipe"
+  },
+  {
+   "t": 312.581,
+   "cut": "wipe"
+  },
+  {
+   "t": 344.597,
+   "cut": "wipe"
+  },
+  {
+   "t": 359.597,
+   "cut": "wipe"
+  },
+  {
+   "t": 386.149,
+   "cut": "wipe"
+  },
+  {
+   "t": 408.415,
+   "cut": "wipe"
+  },
+  {
+   "t": 426.869,
+   "cut": "wipe"
+  },
+  {
+   "t": 448.205,
+   "cut": "wipe"
+  },
+  {
+   "t": 458.252,
+   "cut": "wipe"
+  },
+  {
+   "t": 482.867,
+   "cut": "wipe"
+  },
+  {
+   "t": 511.726,
+   "cut": "wipe"
+  },
+  {
+   "t": 533.822,
+   "cut": "wipe"
+  },
+  {
+   "t": 557.014,
+   "cut": "wipe"
+  },
+  {
+   "t": 567.348,
+   "cut": "wipe"
+  },
+  {
+   "t": 575.603,
+   "cut": "wipe"
+  },
+  {
+   "t": 602.462,
+   "cut": "wipe"
+  },
+  {
+   "t": 620.463,
+   "cut": "wipe"
+  },
+  {
+   "t": 653.69,
+   "cut": "wipe"
+  },
+  {
+   "t": 669.494,
+   "cut": "wipe"
+  },
+  {
+   "t": 681.071,
+   "cut": "wipe"
+  },
+  {
+   "t": 710.244,
+   "cut": "wipe"
+  },
+  {
+   "t": 739.414,
+   "cut": "wipe"
+  },
+  {
+   "t": 790.982,
+   "cut": "wipe"
+  },
+  {
+   "t": 824.201,
+   "cut": "wipe"
+  },
+  {
+   "t": 844.272,
+   "cut": "wipe"
+  },
+  {
+   "t": 867.266,
+   "cut": "wipe"
+  },
+  {
+   "t": 887.266,
+   "cut": "wipe"
+  },
+  {
+   "t": 896.447,
+   "cut": "wipe"
+  },
+  {
+   "t": 906.447,
+   "cut": "wipe"
+  },
+  {
+   "t": 918.447,
+   "cut": "wipe"
+  }
+ ],
+ "cues": [
+  {
+   "id": "L01c0",
+   "line": "L01",
+   "sec": "S1",
+   "t0": 8.85,
+   "t1": 19.19,
+   "text": "It is just after dawn on 1 December 1948. On Somerton Beach, Adelaide, a man is found sitting against the sea wall.",
+   "parts": [
+    [
+     "It ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "just ",
+     false
+    ],
+    [
+     "after ",
+     false
+    ],
+    [
+     "dawn ",
+     false
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "1 ",
+     true
+    ],
+    [
+     "December ",
+     true
+    ],
+    [
+     "1948. ",
+     true
+    ],
+    [
+     "On ",
+     true
+    ],
+    [
+     "Somerton ",
+     true
+    ],
+    [
+     "Beach, ",
+     true
+    ],
+    [
+     "Adelaide, ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "man ",
+     true
+    ],
+    [
+     "is ",
+     true
+    ],
+    [
+     "found ",
+     true
+    ],
+    [
+     "sitting ",
+     true
+    ],
+    [
+     "against ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "sea ",
+     true
+    ],
+    [
+     "wall.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L01c1",
+   "line": "L01",
+   "sec": "S1",
+   "t0": 19.21,
+   "t1": 21.043333333333333,
+   "text": "Dead.",
+   "parts": [
+    [
+     "Dead.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L02c0",
+   "line": "L02",
+   "sec": "S1",
+   "t0": 21.063333333333333,
+   "t1": 28.63,
+   "text": "He is well dressed. His shoes are polished. And there is not a single label on his clothes.",
+   "parts": [
+    [
+     "He ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "well ",
+     false
+    ],
+    [
+     "dressed. ",
+     false
+    ],
+    [
+     "His ",
+     false
+    ],
+    [
+     "shoes ",
+     false
+    ],
+    [
+     "are ",
+     false
+    ],
+    [
+     "polished. ",
+     false
+    ],
+    [
+     "And ",
+     false
+    ],
+    [
+     "there ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "not ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "single ",
+     false
+    ],
+    [
+     "label ",
+     true
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "his ",
+     false
+    ],
+    [
+     "clothes.",
+     false
+    ]
+   ],
+   "_lag": 0.5713333333333317
+  },
+  {
+   "id": "L03c0",
+   "line": "L03",
+   "sec": "S1",
+   "t0": 28.65,
+   "t1": 36.266,
+   "text": "In his pockets: no wallet. No identification. No name.",
+   "parts": [
+    [
+     "In ",
+     false
+    ],
+    [
+     "his ",
+     false
+    ],
+    [
+     "pockets: ",
+     false
+    ],
+    [
+     "no ",
+     false
+    ],
+    [
+     "wallet. ",
+     false
+    ],
+    [
+     "No ",
+     false
+    ],
+    [
+     "identification. ",
+     false
+    ],
+    [
+     "No ",
+     true
+    ],
+    [
+     "name.",
+     true
+    ]
+   ],
+   "_lag": 0.7639999999999993
+  },
+  {
+   "id": "L04c0",
+   "line": "L04",
+   "sec": "S1",
+   "t0": 36.286,
+   "t1": 47.866,
+   "text": "He would become Australia's most profound mystery. The Somerton Man.",
+   "parts": [
+    [
+     "He ",
+     false
+    ],
+    [
+     "would ",
+     false
+    ],
+    [
+     "become ",
+     false
+    ],
+    [
+     "Australia's ",
+     true
+    ],
+    [
+     "most ",
+     true
+    ],
+    [
+     "profound ",
+     true
+    ],
+    [
+     "mystery. ",
+     true
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "Somerton ",
+     true
+    ],
+    [
+     "Man.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L05c0",
+   "line": "L05",
+   "sec": "S1",
+   "t0": 47.886,
+   "t1": 51.965999999999994,
+   "text": "This is that file, read out one exhibit at a time.",
+   "parts": [
+    [
+     "This ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "that ",
+     false
+    ],
+    [
+     "file, ",
+     false
+    ],
+    [
+     "read ",
+     false
+    ],
+    [
+     "out ",
+     false
+    ],
+    [
+     "one ",
+     false
+    ],
+    [
+     "exhibit ",
+     false
+    ],
+    [
+     "at ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "time.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L05c1",
+   "line": "L05",
+   "sec": "S1",
+   "t0": 51.986,
+   "t1": 62.162,
+   "text": "What the evidence proves. What it does not. And the name science attached to the man on the beach, 74 years later.",
+   "parts": [
+    [
+     "What ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "evidence ",
+     false
+    ],
+    [
+     "proves. ",
+     true
+    ],
+    [
+     "What ",
+     true
+    ],
+    [
+     "it ",
+     true
+    ],
+    [
+     "does ",
+     true
+    ],
+    [
+     "not. ",
+     true
+    ],
+    [
+     "And ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "name ",
+     true
+    ],
+    [
+     "science ",
+     true
+    ],
+    [
+     "attached ",
+     true
+    ],
+    [
+     "to ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "man ",
+     true
+    ],
+    [
+     "on ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "beach, ",
+     true
+    ],
+    [
+     "74 ",
+     true
+    ],
+    [
+     "years ",
+     true
+    ],
+    [
+     "later.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L06c0",
+   "line": "L06",
+   "sec": "S2",
+   "t0": 62.182,
+   "t1": 72.962,
+   "text": "The body was found at 6:30 am, on the sand at Somerton Park, opposite the Crippled Children's Home.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "body ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "found ",
+     false
+    ],
+    [
+     "at ",
+     false
+    ],
+    [
+     "6:30 ",
+     true
+    ],
+    [
+     "am, ",
+     true
+    ],
+    [
+     "on ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "sand ",
+     true
+    ],
+    [
+     "at ",
+     true
+    ],
+    [
+     "Somerton ",
+     true
+    ],
+    [
+     "Park, ",
+     true
+    ],
+    [
+     "opposite ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "Crippled ",
+     true
+    ],
+    [
+     "Children's ",
+     true
+    ],
+    [
+     "Home.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L07c0",
+   "line": "L07",
+   "sec": "S2",
+   "t0": 72.982,
+   "t1": 84.762,
+   "text": "Lying back against the sea wall, legs extended, feet crossed — a half-smoked cigarette on his right collar.",
+   "parts": [
+    [
+     "Lying ",
+     false
+    ],
+    [
+     "back ",
+     false
+    ],
+    [
+     "against ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "sea ",
+     false
+    ],
+    [
+     "wall, ",
+     false
+    ],
+    [
+     "legs ",
+     false
+    ],
+    [
+     "extended, ",
+     false
+    ],
+    [
+     "feet ",
+     false
+    ],
+    [
+     "crossed ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "half-smoked ",
+     true
+    ],
+    [
+     "cigarette ",
+     true
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "his ",
+     false
+    ],
+    [
+     "right ",
+     false
+    ],
+    [
+     "collar.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L08c0",
+   "line": "L08",
+   "sec": "S2",
+   "t0": 84.782,
+   "t1": 89.862,
+   "text": "Pathologist John Burton Cleland: a man in top physical condition.",
+   "parts": [
+    [
+     "Pathologist ",
+     false
+    ],
+    [
+     "John ",
+     false
+    ],
+    [
+     "Burton ",
+     false
+    ],
+    [
+     "Cleland: ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "man ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "top ",
+     true
+    ],
+    [
+     "physical ",
+     true
+    ],
+    [
+     "condition.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L08c1",
+   "line": "L08",
+   "sec": "S2",
+   "t0": 89.88199999999999,
+   "t1": 98.44200000000001,
+   "text": "About 40–45. 180 cm. Grey eyes. Fair to ginger hair, greying at the temples.",
+   "parts": [
+    [
+     "About ",
+     true
+    ],
+    [
+     "40–45. ",
+     true
+    ],
+    [
+     "180 ",
+     true
+    ],
+    [
+     "cm. ",
+     true
+    ],
+    [
+     "Grey ",
+     true
+    ],
+    [
+     "eyes. ",
+     true
+    ],
+    [
+     "Fair ",
+     true
+    ],
+    [
+     "to ",
+     true
+    ],
+    [
+     "ginger ",
+     true
+    ],
+    [
+     "hair, ",
+     true
+    ],
+    [
+     "greying ",
+     true
+    ],
+    [
+     "at ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "temples.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L08c2",
+   "line": "L08",
+   "sec": "S2",
+   "t0": 98.462,
+   "t1": 102.36200000000001,
+   "text": "Hands with no sign of manual labour.",
+   "parts": [
+    [
+     "Hands ",
+     true
+    ],
+    [
+     "with ",
+     true
+    ],
+    [
+     "no ",
+     true
+    ],
+    [
+     "sign ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "manual ",
+     true
+    ],
+    [
+     "labour.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L09c0",
+   "line": "L09",
+   "sec": "S2",
+   "t0": 102.382,
+   "t1": 108.74866666666667,
+   "text": "Toes that met in a wedge — like a dancer, or a man used to pointed boots.",
+   "parts": [
+    [
+     "Toes ",
+     false
+    ],
+    [
+     "that ",
+     false
+    ],
+    [
+     "met ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "wedge ",
+     true
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "like ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "dancer, ",
+     false
+    ],
+    [
+     "or ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "man ",
+     false
+    ],
+    [
+     "used ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "pointed ",
+     false
+    ],
+    [
+     "boots.",
+     false
+    ]
+   ],
+   "_lag": 0.7460000000000093
+  },
+  {
+   "id": "L10c0",
+   "line": "L10",
+   "sec": "S2",
+   "t0": 108.76866666666666,
+   "t1": 114.65,
+   "text": "White shirt. Red, white and blue tie. Brown knitted pullover.",
+   "parts": [
+    [
+     "White ",
+     false
+    ],
+    [
+     "shirt. ",
+     false
+    ],
+    [
+     "Red, ",
+     false
+    ],
+    [
+     "white ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "blue ",
+     false
+    ],
+    [
+     "tie. ",
+     false
+    ],
+    [
+     "Brown ",
+     false
+    ],
+    [
+     "knitted ",
+     false
+    ],
+    [
+     "pullover.",
+     false
+    ]
+   ],
+   "_lag": 0.4786666666666548
+  },
+  {
+   "id": "L10c1",
+   "line": "L10",
+   "sec": "S2",
+   "t0": 114.67,
+   "t1": 120.62700000000001,
+   "text": "A double-breasted jacket of apparently American tailoring.",
+   "parts": [
+    [
+     "A ",
+     false
+    ],
+    [
+     "double-breasted ",
+     false
+    ],
+    [
+     "jacket ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "apparently ",
+     false
+    ],
+    [
+     "American ",
+     true
+    ],
+    [
+     "tailoring.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L11c0",
+   "line": "L11",
+   "sec": "S2",
+   "t0": 120.647,
+   "t1": 125.21366666666667,
+   "text": "Every label removed. No hat — unusual in 1948.",
+   "parts": [
+    [
+     "Every ",
+     true
+    ],
+    [
+     "label ",
+     true
+    ],
+    [
+     "removed. ",
+     true
+    ],
+    [
+     "No ",
+     true
+    ],
+    [
+     "hat ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "unusual ",
+     true
+    ],
+    [
+     "in ",
+     true
+    ],
+    [
+     "1948.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L11c1",
+   "line": "L11",
+   "sec": "S2",
+   "t0": 125.23366666666666,
+   "t1": 132.03,
+   "text": "No wallet. Clean-shaven. No identification of any kind.",
+   "parts": [
+    [
+     "No ",
+     true
+    ],
+    [
+     "wallet. ",
+     true
+    ],
+    [
+     "Clean-shaven. ",
+     true
+    ],
+    [
+     "No ",
+     true
+    ],
+    [
+     "identification ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "any ",
+     true
+    ],
+    [
+     "kind.",
+     true
+    ]
+   ],
+   "_lag": 0.22666666666665947
+  },
+  {
+   "id": "L12c0",
+   "line": "L12",
+   "sec": "S2",
+   "t0": 132.05,
+   "t1": 137.14999999999998,
+   "text": "Pockets: an unused rail ticket to Henley Beach.",
+   "parts": [
+    [
+     "Pockets: ",
+     false
+    ],
+    [
+     "an ",
+     false
+    ],
+    [
+     "unused ",
+     true
+    ],
+    [
+     "rail ",
+     true
+    ],
+    [
+     "ticket ",
+     true
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "Henley ",
+     false
+    ],
+    [
+     "Beach.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L12c1",
+   "line": "L12",
+   "sec": "S2",
+   "t0": 137.17,
+   "t1": 143.81,
+   "text": "A bus ticket. A US-made comb. Half-empty Juicy Fruit gum.",
+   "parts": [
+    [
+     "A ",
+     false
+    ],
+    [
+     "bus ",
+     false
+    ],
+    [
+     "ticket. ",
+     false
+    ],
+    [
+     "A ",
+     false
+    ],
+    [
+     "US-made ",
+     false
+    ],
+    [
+     "comb. ",
+     false
+    ],
+    [
+     "Half-empty ",
+     false
+    ],
+    [
+     "Juicy ",
+     false
+    ],
+    [
+     "Fruit ",
+     false
+    ],
+    [
+     "gum.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L12c2",
+   "line": "L12",
+   "sec": "S2",
+   "t0": 143.83,
+   "t1": 153.203,
+   "text": "An Army Club packet holding 7 Kensitas cigarettes. A quarter-full box of matches.",
+   "parts": [
+    [
+     "An ",
+     false
+    ],
+    [
+     "Army ",
+     false
+    ],
+    [
+     "Club ",
+     false
+    ],
+    [
+     "packet ",
+     false
+    ],
+    [
+     "holding ",
+     false
+    ],
+    [
+     "7 ",
+     false
+    ],
+    [
+     "Kensitas ",
+     true
+    ],
+    [
+     "cigarettes. ",
+     false
+    ],
+    [
+     "A ",
+     false
+    ],
+    [
+     "quarter-full ",
+     false
+    ],
+    [
+     "box ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "matches.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L13c0",
+   "line": "L13",
+   "sec": "S2",
+   "t0": 153.223,
+   "t1": 164.743,
+   "text": "At 7 pm the night before, a couple watched him extend his right arm to its fullest extent — and drop it.",
+   "parts": [
+    [
+     "At ",
+     false
+    ],
+    [
+     "7 ",
+     true
+    ],
+    [
+     "pm ",
+     true
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "night ",
+     false
+    ],
+    [
+     "before, ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "couple ",
+     false
+    ],
+    [
+     "watched ",
+     false
+    ],
+    [
+     "him ",
+     false
+    ],
+    [
+     "extend ",
+     false
+    ],
+    [
+     "his ",
+     false
+    ],
+    [
+     "right ",
+     false
+    ],
+    [
+     "arm ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "its ",
+     false
+    ],
+    [
+     "fullest ",
+     false
+    ],
+    [
+     "extent ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "drop ",
+     false
+    ],
+    [
+     "it.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L13c1",
+   "line": "L13",
+   "sec": "S2",
+   "t0": 164.763,
+   "t1": 166.987,
+   "text": "Limply.",
+   "parts": [
+    [
+     "Limply.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L14c0",
+   "line": "L14",
+   "sec": "S2",
+   "t0": 167.007,
+   "t1": 174.947,
+   "text": "Motionless for half an hour. It struck them as odd that he never once swatted at the mosquitoes.",
+   "parts": [
+    [
+     "Motionless ",
+     false
+    ],
+    [
+     "for ",
+     false
+    ],
+    [
+     "half ",
+     false
+    ],
+    [
+     "an ",
+     false
+    ],
+    [
+     "hour. ",
+     false
+    ],
+    [
+     "It ",
+     false
+    ],
+    [
+     "struck ",
+     false
+    ],
+    [
+     "them ",
+     false
+    ],
+    [
+     "as ",
+     false
+    ],
+    [
+     "odd ",
+     false
+    ],
+    [
+     "that ",
+     false
+    ],
+    [
+     "he ",
+     false
+    ],
+    [
+     "never ",
+     false
+    ],
+    [
+     "once ",
+     false
+    ],
+    [
+     "swatted ",
+     false
+    ],
+    [
+     "at ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "mosquitoes.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L14c1",
+   "line": "L14",
+   "sec": "S2",
+   "t0": 174.967,
+   "t1": 179.523,
+   "text": "Drunk, they assumed. Or asleep.",
+   "parts": [
+    [
+     "Drunk, ",
+     true
+    ],
+    [
+     "they ",
+     true
+    ],
+    [
+     "assumed. ",
+     true
+    ],
+    [
+     "Or ",
+     true
+    ],
+    [
+     "asleep.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L15c0",
+   "line": "L15",
+   "sec": "S2",
+   "t0": 179.543,
+   "t1": 184.643,
+   "text": "The autopsy: organs congested, spleen three times normal",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "autopsy: ",
+     false
+    ],
+    [
+     "organs ",
+     false
+    ],
+    [
+     "congested, ",
+     false
+    ],
+    [
+     "spleen ",
+     true
+    ],
+    [
+     "three ",
+     true
+    ],
+    [
+     "times ",
+     true
+    ],
+    [
+     "normal",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L15c1",
+   "line": "L15",
+   "sec": "S2",
+   "t0": 184.663,
+   "t1": 194.88899999999998,
+   "text": "size, blood mixed with food in the stomach. And no foreign substance — none — was ever found.",
+   "parts": [
+    [
+     "size, ",
+     false
+    ],
+    [
+     "blood ",
+     false
+    ],
+    [
+     "mixed ",
+     false
+    ],
+    [
+     "with ",
+     false
+    ],
+    [
+     "food ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "stomach. ",
+     false
+    ],
+    [
+     "And ",
+     false
+    ],
+    [
+     "no ",
+     false
+    ],
+    [
+     "foreign ",
+     false
+    ],
+    [
+     "substance ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "none ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "ever ",
+     false
+    ],
+    [
+     "found.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L16c0",
+   "line": "L16",
+   "sec": "S2",
+   "t0": 194.909,
+   "t1": 203.429,
+   "text": "\"I am quite convinced the death could not have been natural.\" — pathologist John Dwyer.",
+   "parts": [
+    [
+     "\"I ",
+     false
+    ],
+    [
+     "am ",
+     false
+    ],
+    [
+     "quite ",
+     false
+    ],
+    [
+     "convinced ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "death ",
+     false
+    ],
+    [
+     "could ",
+     true
+    ],
+    [
+     "not ",
+     true
+    ],
+    [
+     "have ",
+     true
+    ],
+    [
+     "been ",
+     true
+    ],
+    [
+     "natural.\" ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "pathologist ",
+     true
+    ],
+    [
+     "John ",
+     true
+    ],
+    [
+     "Dwyer.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L16c1",
+   "line": "L16",
+   "sec": "S2",
+   "t0": 203.449,
+   "t1": 211.267,
+   "text": "Poison, invisible to every test 1948 could run.",
+   "parts": [
+    [
+     "Poison, ",
+     true
+    ],
+    [
+     "invisible ",
+     true
+    ],
+    [
+     "to ",
+     true
+    ],
+    [
+     "every ",
+     true
+    ],
+    [
+     "test ",
+     true
+    ],
+    [
+     "1948 ",
+     true
+    ],
+    [
+     "could ",
+     true
+    ],
+    [
+     "run.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L17c0",
+   "line": "L17",
+   "sec": "S3",
+   "t0": 211.287,
+   "t1": 220.136,
+   "text": "June 1949, around the inquest: police re-examine the dead man's clothing.",
+   "parts": [
+    [
+     "June ",
+     true
+    ],
+    [
+     "1949, ",
+     true
+    ],
+    [
+     "around ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "inquest: ",
+     true
+    ],
+    [
+     "police ",
+     true
+    ],
+    [
+     "re-examine ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "dead ",
+     true
+    ],
+    [
+     "man's ",
+     true
+    ],
+    [
+     "clothing.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L18c0",
+   "line": "L18",
+   "sec": "S3",
+   "t0": 220.156,
+   "t1": 233.536,
+   "text": "Sewn inside a trouser pocket: a concealed fob pocket. Rolled inside it — a tiny scrap of paper.",
+   "parts": [
+    [
+     "Sewn ",
+     false
+    ],
+    [
+     "inside ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "trouser ",
+     false
+    ],
+    [
+     "pocket: ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "concealed ",
+     false
+    ],
+    [
+     "fob ",
+     true
+    ],
+    [
+     "pocket. ",
+     true
+    ],
+    [
+     "Rolled ",
+     true
+    ],
+    [
+     "inside ",
+     true
+    ],
+    [
+     "it ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "tiny ",
+     true
+    ],
+    [
+     "scrap ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "paper.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L19c0",
+   "line": "L19",
+   "sec": "S3",
+   "t0": 233.556,
+   "t1": 240.295,
+   "text": "Two printed words. Tamám Shud. Persian. It means: ended. It is finished.",
+   "parts": [
+    [
+     "Two ",
+     false
+    ],
+    [
+     "printed ",
+     false
+    ],
+    [
+     "words. ",
+     false
+    ],
+    [
+     "Tamám ",
+     true
+    ],
+    [
+     "Shud. ",
+     true
+    ],
+    [
+     "Persian. ",
+     true
+    ],
+    [
+     "It ",
+     true
+    ],
+    [
+     "means: ",
+     true
+    ],
+    [
+     "ended. ",
+     true
+    ],
+    [
+     "It ",
+     true
+    ],
+    [
+     "is ",
+     true
+    ],
+    [
+     "finished.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L20c0",
+   "line": "L20",
+   "sec": "S3",
+   "t0": 240.315,
+   "t1": 244.94833333333332,
+   "text": "The final words of the Rubaiyat of Omar Khayyam",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "final ",
+     false
+    ],
+    [
+     "words ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "Rubaiyat ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "Omar ",
+     true
+    ],
+    [
+     "Khayyam",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L20c1",
+   "line": "L20",
+   "sec": "S3",
+   "t0": 244.96833333333333,
+   "t1": 252.40099999999998,
+   "text": "— a book whose promise is to live fully, and end without regret.",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "book ",
+     false
+    ],
+    [
+     "whose ",
+     false
+    ],
+    [
+     "promise ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "live ",
+     false
+    ],
+    [
+     "fully, ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "end ",
+     false
+    ],
+    [
+     "without ",
+     false
+    ],
+    [
+     "regret.",
+     false
+    ]
+   ],
+   "_lag": 0.37333333333333485
+  },
+  {
+   "id": "L21c0",
+   "line": "L21",
+   "sec": "S3",
+   "t0": 252.421,
+   "t1": 264.71500000000003,
+   "text": "Police released the photograph. Somewhere in Australia was the book it was torn from — a copy whose last page had a blank reverse.",
+   "parts": [
+    [
+     "Police ",
+     false
+    ],
+    [
+     "released ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "photograph. ",
+     false
+    ],
+    [
+     "Somewhere ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "Australia ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "book ",
+     false
+    ],
+    [
+     "it ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "torn ",
+     false
+    ],
+    [
+     "from ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "copy ",
+     false
+    ],
+    [
+     "whose ",
+     false
+    ],
+    [
+     "last ",
+     false
+    ],
+    [
+     "page ",
+     false
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "blank ",
+     true
+    ],
+    [
+     "reverse.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L22c0",
+   "line": "L22",
+   "sec": "S3",
+   "t0": 264.735,
+   "t1": 280.983,
+   "text": "22 July 1949: a man comes forward. In the back of his unlocked car, on Jetty Road, Glenelg — a copy of the Rubaiyat.",
+   "parts": [
+    [
+     "22 ",
+     true
+    ],
+    [
+     "July ",
+     true
+    ],
+    [
+     "1949: ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "man ",
+     true
+    ],
+    [
+     "comes ",
+     true
+    ],
+    [
+     "forward. ",
+     true
+    ],
+    [
+     "In ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "back ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "his ",
+     true
+    ],
+    [
+     "unlocked ",
+     true
+    ],
+    [
+     "car, ",
+     true
+    ],
+    [
+     "on ",
+     true
+    ],
+    [
+     "Jetty ",
+     true
+    ],
+    [
+     "Road, ",
+     true
+    ],
+    [
+     "Glenelg ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "copy ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "Rubaiyat.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L23c0",
+   "line": "L23",
+   "sec": "S3",
+   "t0": 281.003,
+   "t1": 286.083,
+   "text": "Police shielded him with a false name: Ronald Francis.",
+   "parts": [
+    [
+     "Police ",
+     false
+    ],
+    [
+     "shielded ",
+     false
+    ],
+    [
+     "him ",
+     false
+    ],
+    [
+     "with ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "false ",
+     false
+    ],
+    [
+     "name: ",
+     false
+    ],
+    [
+     "Ronald ",
+     true
+    ],
+    [
+     "Francis.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L23c1",
+   "line": "L23",
+   "sec": "S3",
+   "t0": 286.103,
+   "t1": 291.06966666666665,
+   "text": "His real name has never been officially established.",
+   "parts": [
+    [
+     "His ",
+     true
+    ],
+    [
+     "real ",
+     true
+    ],
+    [
+     "name ",
+     true
+    ],
+    [
+     "has ",
+     true
+    ],
+    [
+     "never ",
+     true
+    ],
+    [
+     "been ",
+     true
+    ],
+    [
+     "officially ",
+     true
+    ],
+    [
+     "established.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L24c0",
+   "line": "L24",
+   "sec": "S3",
+   "t0": 291.08966666666663,
+   "t1": 295.9896666666666,
+   "text": "The scrap matched the torn page. This was the book.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "scrap ",
+     false
+    ],
+    [
+     "matched ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "torn ",
+     false
+    ],
+    [
+     "page. ",
+     false
+    ],
+    [
+     "This ",
+     true
+    ],
+    [
+     "was ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "book.",
+     true
+    ]
+   ],
+   "_lag": 0.6726666666666574
+  },
+  {
+   "id": "L24c1",
+   "line": "L24",
+   "sec": "S3",
+   "t0": 296.0096666666666,
+   "t1": 305.711,
+   "text": "But its timing is disputed to this day — a week or two before the body? Or just after?",
+   "parts": [
+    [
+     "But ",
+     false
+    ],
+    [
+     "its ",
+     false
+    ],
+    [
+     "timing ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "disputed ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "this ",
+     false
+    ],
+    [
+     "day ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "week ",
+     false
+    ],
+    [
+     "or ",
+     false
+    ],
+    [
+     "two ",
+     false
+    ],
+    [
+     "before ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "body? ",
+     false
+    ],
+    [
+     "Or ",
+     false
+    ],
+    [
+     "just ",
+     false
+    ],
+    [
+     "after?",
+     false
+    ]
+   ],
+   "_lag": 0.1326666666665801
+  },
+  {
+   "id": "L25c0",
+   "line": "L25",
+   "sec": "S3",
+   "t0": 305.731,
+   "t1": 312.911,
+   "text": "And then, on the inside back cover, the case changed shape entirely.",
+   "parts": [
+    [
+     "And ",
+     false
+    ],
+    [
+     "then, ",
+     false
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "inside ",
+     false
+    ],
+    [
+     "back ",
+     false
+    ],
+    [
+     "cover, ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "case ",
+     false
+    ],
+    [
+     "changed ",
+     true
+    ],
+    [
+     "shape ",
+     true
+    ],
+    [
+     "entirely.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L26c0",
+   "line": "L26",
+   "sec": "S4",
+   "t0": 312.931,
+   "t1": 323.826,
+   "text": "A 1941 edition of Edward FitzGerald's translation, published by Whitcombe and Tombs, Christchurch, New Zealand.",
+   "parts": [
+    [
+     "A ",
+     false
+    ],
+    [
+     "1941 ",
+     false
+    ],
+    [
+     "edition ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "Edward ",
+     false
+    ],
+    [
+     "FitzGerald's ",
+     false
+    ],
+    [
+     "translation, ",
+     false
+    ],
+    [
+     "published ",
+     false
+    ],
+    [
+     "by ",
+     false
+    ],
+    [
+     "Whitcombe ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "Tombs, ",
+     true
+    ],
+    [
+     "Christchurch, ",
+     true
+    ],
+    [
+     "New ",
+     true
+    ],
+    [
+     "Zealand.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L27c0",
+   "line": "L27",
+   "sec": "S4",
+   "t0": 323.846,
+   "t1": 330.966,
+   "text": "Under ultraviolet light, indentations rise from the inside back cover",
+   "parts": [
+    [
+     "Under ",
+     false
+    ],
+    [
+     "ultraviolet ",
+     true
+    ],
+    [
+     "light, ",
+     true
+    ],
+    [
+     "indentations ",
+     true
+    ],
+    [
+     "rise ",
+     true
+    ],
+    [
+     "from ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "inside ",
+     true
+    ],
+    [
+     "back ",
+     true
+    ],
+    [
+     "cover",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L27c1",
+   "line": "L27",
+   "sec": "S4",
+   "t0": 330.986,
+   "t1": 335.6193333333333,
+   "text": "— writing from the page above, carried through.",
+   "parts": [
+    [
+     "— ",
+     true
+    ],
+    [
+     "writing ",
+     true
+    ],
+    [
+     "from ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "page ",
+     true
+    ],
+    [
+     "above, ",
+     true
+    ],
+    [
+     "carried ",
+     true
+    ],
+    [
+     "through.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L28c0",
+   "line": "L28",
+   "sec": "S4",
+   "t0": 335.6393333333333,
+   "t1": 340.87266666666665,
+   "text": "A local telephone number. A second, unidentified number.",
+   "parts": [
+    [
+     "A ",
+     false
+    ],
+    [
+     "local ",
+     false
+    ],
+    [
+     "telephone ",
+     true
+    ],
+    [
+     "number. ",
+     true
+    ],
+    [
+     "A ",
+     true
+    ],
+    [
+     "second, ",
+     true
+    ],
+    [
+     "unidentified ",
+     true
+    ],
+    [
+     "number.",
+     true
+    ]
+   ],
+   "_lag": 0.46033333333332394
+  },
+  {
+   "id": "L28c1",
+   "line": "L28",
+   "sec": "S4",
+   "t0": 340.8926666666666,
+   "t1": 345.52700000000004,
+   "text": "And five lines of capital letters that looked like a code.",
+   "parts": [
+    [
+     "And ",
+     true
+    ],
+    [
+     "five ",
+     true
+    ],
+    [
+     "lines ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "capital ",
+     true
+    ],
+    [
+     "letters ",
+     true
+    ],
+    [
+     "that ",
+     true
+    ],
+    [
+     "looked ",
+     true
+    ],
+    [
+     "like ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "code.",
+     true
+    ]
+   ],
+   "_lag": 0.5136666666666088
+  },
+  {
+   "id": "L29c0",
+   "line": "L29",
+   "sec": "S4",
+   "t0": 345.547,
+   "t1": 355.107,
+   "text": "49 letters in five groups. The second line struck out — as if the writer had erred and begun again.",
+   "parts": [
+    [
+     "49 ",
+     true
+    ],
+    [
+     "letters ",
+     true
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "five ",
+     false
+    ],
+    [
+     "groups. ",
+     false
+    ],
+    [
+     "The ",
+     false
+    ],
+    [
+     "second ",
+     false
+    ],
+    [
+     "line ",
+     false
+    ],
+    [
+     "struck ",
+     false
+    ],
+    [
+     "out ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "as ",
+     false
+    ],
+    [
+     "if ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "writer ",
+     false
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "erred ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "begun ",
+     false
+    ],
+    [
+     "again.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L29c1",
+   "line": "L29",
+   "sec": "S4",
+   "t0": 355.127,
+   "t1": 359.72700000000003,
+   "text": "And a single X, above the end of another line.",
+   "parts": [
+    [
+     "And ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "single ",
+     false
+    ],
+    [
+     "X, ",
+     true
+    ],
+    [
+     "above ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "end ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "another ",
+     true
+    ],
+    [
+     "line.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L30c0",
+   "line": "L30",
+   "sec": "S4",
+   "t0": 359.747,
+   "t1": 364.16700000000003,
+   "text": "The number belonged to a young nurse on Moseley",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "number ",
+     false
+    ],
+    [
+     "belonged ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "young ",
+     false
+    ],
+    [
+     "nurse ",
+     false
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "Moseley",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L30c1",
+   "line": "L30",
+   "sec": "S4",
+   "t0": 364.187,
+   "t1": 371.71700000000004,
+   "text": "Street, Glenelg — 400 metres from where the body lay. Jessica Thomson.",
+   "parts": [
+    [
+     "Street, ",
+     true
+    ],
+    [
+     "Glenelg ",
+     true
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "400 ",
+     false
+    ],
+    [
+     "metres ",
+     false
+    ],
+    [
+     "from ",
+     false
+    ],
+    [
+     "where ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "body ",
+     false
+    ],
+    [
+     "lay. ",
+     false
+    ],
+    [
+     "Jessica ",
+     false
+    ],
+    [
+     "Thomson.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L31c0",
+   "line": "L31",
+   "sec": "S4",
+   "t0": 371.737,
+   "t1": 378.437,
+   "text": "She said she did not know the dead man. She recalled only that in late",
+   "parts": [
+    [
+     "She ",
+     false
+    ],
+    [
+     "said ",
+     false
+    ],
+    [
+     "she ",
+     false
+    ],
+    [
+     "did ",
+     false
+    ],
+    [
+     "not ",
+     false
+    ],
+    [
+     "know ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "dead ",
+     false
+    ],
+    [
+     "man. ",
+     false
+    ],
+    [
+     "She ",
+     false
+    ],
+    [
+     "recalled ",
+     false
+    ],
+    [
+     "only ",
+     false
+    ],
+    [
+     "that ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "late",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L31c1",
+   "line": "L31",
+   "sec": "S4",
+   "t0": 378.457,
+   "t1": 386.279,
+   "text": "1948, an unknown man had come asking about her at a neighbour's door.",
+   "parts": [
+    [
+     "1948, ",
+     false
+    ],
+    [
+     "an ",
+     true
+    ],
+    [
+     "unknown ",
+     true
+    ],
+    [
+     "man ",
+     true
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "come ",
+     false
+    ],
+    [
+     "asking ",
+     false
+    ],
+    [
+     "about ",
+     false
+    ],
+    [
+     "her ",
+     false
+    ],
+    [
+     "at ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "neighbour's ",
+     false
+    ],
+    [
+     "door.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L32c0",
+   "line": "L32",
+   "sec": "S4",
+   "t0": 386.299,
+   "t1": 392.86566666666664,
+   "text": "Shown the plaster cast, she was — in Detective Sergeant Lionel Leane's words",
+   "parts": [
+    [
+     "Shown ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "plaster ",
+     false
+    ],
+    [
+     "cast, ",
+     false
+    ],
+    [
+     "she ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "Detective ",
+     false
+    ],
+    [
+     "Sergeant ",
+     false
+    ],
+    [
+     "Lionel ",
+     false
+    ],
+    [
+     "Leane's ",
+     false
+    ],
+    [
+     "words",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L32c1",
+   "line": "L32",
+   "sec": "S4",
+   "t0": 392.8856666666666,
+   "t1": 400.6523333333333,
+   "text": "— \"completely taken aback, to the point of giving the appearance that she was about to faint.\"",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "\"completely ",
+     false
+    ],
+    [
+     "taken ",
+     false
+    ],
+    [
+     "aback, ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "point ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "giving ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "appearance ",
+     false
+    ],
+    [
+     "that ",
+     false
+    ],
+    [
+     "she ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "about ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "faint.\"",
+     false
+    ]
+   ],
+   "_lag": 0.646666666666647
+  },
+  {
+   "id": "L33c0",
+   "line": "L33",
+   "sec": "S4",
+   "t0": 400.67233333333326,
+   "t1": 404.785,
+   "text": "She asked that her name be kept from the record.",
+   "parts": [
+    [
+     "She ",
+     false
+    ],
+    [
+     "asked ",
+     false
+    ],
+    [
+     "that ",
+     false
+    ],
+    [
+     "her ",
+     false
+    ],
+    [
+     "name ",
+     false
+    ],
+    [
+     "be ",
+     false
+    ],
+    [
+     "kept ",
+     false
+    ],
+    [
+     "from ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "record.",
+     false
+    ]
+   ],
+   "_lag": 0.2073333333332812
+  },
+  {
+   "id": "L33c1",
+   "line": "L33",
+   "sec": "S4",
+   "t0": 404.805,
+   "t1": 409.345,
+   "text": "Police agreed. It would hamper the case for decades.",
+   "parts": [
+    [
+     "Police ",
+     false
+    ],
+    [
+     "agreed. ",
+     false
+    ],
+    [
+     "It ",
+     false
+    ],
+    [
+     "would ",
+     false
+    ],
+    [
+     "hamper ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "case ",
+     true
+    ],
+    [
+     "for ",
+     true
+    ],
+    [
+     "decades.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L34c0",
+   "line": "L34",
+   "sec": "S4",
+   "t0": 409.365,
+   "t1": 418.26500000000004,
+   "text": "1978: Defence cryptographers find too few symbols for any meaningful answer.",
+   "parts": [
+    [
+     "1978: ",
+     false
+    ],
+    [
+     "Defence ",
+     false
+    ],
+    [
+     "cryptographers ",
+     false
+    ],
+    [
+     "find ",
+     false
+    ],
+    [
+     "too ",
+     true
+    ],
+    [
+     "few ",
+     true
+    ],
+    [
+     "symbols ",
+     true
+    ],
+    [
+     "for ",
+     false
+    ],
+    [
+     "any ",
+     false
+    ],
+    [
+     "meaningful ",
+     false
+    ],
+    [
+     "answer.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L34c1",
+   "line": "L34",
+   "sec": "S4",
+   "t0": 418.285,
+   "t1": 426.899,
+   "text": "The letters might even be the \"meaningless\" product of a disturbed mind.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "letters ",
+     false
+    ],
+    [
+     "might ",
+     false
+    ],
+    [
+     "even ",
+     false
+    ],
+    [
+     "be ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "\"meaningless\" ",
+     false
+    ],
+    [
+     "product ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "disturbed ",
+     false
+    ],
+    [
+     "mind.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L35c0",
+   "line": "L35",
+   "sec": "S4",
+   "t0": 426.919,
+   "t1": 436.379,
+   "text": "2004: detective Gerry Feltus reads the last line as \"It's Time To Move To South Australia",
+   "parts": [
+    [
+     "2004: ",
+     false
+    ],
+    [
+     "detective ",
+     false
+    ],
+    [
+     "Gerry ",
+     false
+    ],
+    [
+     "Feltus ",
+     false
+    ],
+    [
+     "reads ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "last ",
+     false
+    ],
+    [
+     "line ",
+     false
+    ],
+    [
+     "as ",
+     false
+    ],
+    [
+     "\"It's ",
+     false
+    ],
+    [
+     "Time ",
+     false
+    ],
+    [
+     "To ",
+     false
+    ],
+    [
+     "Move ",
+     false
+    ],
+    [
+     "To ",
+     false
+    ],
+    [
+     "South ",
+     false
+    ],
+    [
+     "Australia",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L35c1",
+   "line": "L35",
+   "sec": "S4",
+   "t0": 436.399,
+   "t1": 443.85900000000004,
+   "text": "— Moseley Street.\" 2014: the letters match initials of English text",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "Moseley ",
+     false
+    ],
+    [
+     "Street.\" ",
+     false
+    ],
+    [
+     "2014: ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "letters ",
+     false
+    ],
+    [
+     "match ",
+     false
+    ],
+    [
+     "initials ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "English ",
+     true
+    ],
+    [
+     "text",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L35c2",
+   "line": "L35",
+   "sec": "S4",
+   "t0": 443.879,
+   "t1": 450.735,
+   "text": "— but no text on earth matches them.",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "but ",
+     false
+    ],
+    [
+     "no ",
+     false
+    ],
+    [
+     "text ",
+     false
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "earth ",
+     false
+    ],
+    [
+     "matches ",
+     false
+    ],
+    [
+     "them.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L36c0",
+   "line": "L36",
+   "sec": "S4",
+   "t0": 450.755,
+   "t1": 458.78200000000004,
+   "text": "The original book was lost in the 1950s. The code has never been broken.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "original ",
+     false
+    ],
+    [
+     "book ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "lost ",
+     true
+    ],
+    [
+     "in ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "1950s. ",
+     true
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "code ",
+     true
+    ],
+    [
+     "has ",
+     true
+    ],
+    [
+     "never ",
+     true
+    ],
+    [
+     "been ",
+     true
+    ],
+    [
+     "broken.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L37c0",
+   "line": "L37",
+   "sec": "S5",
+   "t0": 458.802,
+   "t1": 470.322,
+   "text": "14 January 1949: an unclaimed brown suitcase, checked into the Adelaide station cloakroom after 11 am on 30 November",
+   "parts": [
+    [
+     "14 ",
+     true
+    ],
+    [
+     "January ",
+     true
+    ],
+    [
+     "1949: ",
+     true
+    ],
+    [
+     "an ",
+     true
+    ],
+    [
+     "unclaimed ",
+     true
+    ],
+    [
+     "brown ",
+     true
+    ],
+    [
+     "suitcase, ",
+     true
+    ],
+    [
+     "checked ",
+     true
+    ],
+    [
+     "into ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "Adelaide ",
+     true
+    ],
+    [
+     "station ",
+     true
+    ],
+    [
+     "cloakroom ",
+     true
+    ],
+    [
+     "after ",
+     true
+    ],
+    [
+     "11 ",
+     true
+    ],
+    [
+     "am ",
+     true
+    ],
+    [
+     "on ",
+     true
+    ],
+    [
+     "30 ",
+     true
+    ],
+    [
+     "November",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L37c1",
+   "line": "L37",
+   "sec": "S5",
+   "t0": 470.342,
+   "t1": 473.642,
+   "text": "— the day before the death.",
+   "parts": [
+    [
+     "— ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "day ",
+     true
+    ],
+    [
+     "before ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "death.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L38c0",
+   "line": "L38",
+   "sec": "S5",
+   "t0": 473.662,
+   "t1": 478.22866666666664,
+   "text": "Inside: a dressing gown, slippers, underpants,",
+   "parts": [
+    [
+     "Inside: ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "dressing ",
+     false
+    ],
+    [
+     "gown, ",
+     false
+    ],
+    [
+     "slippers, ",
+     false
+    ],
+    [
+     "underpants,",
+     false
+    ]
+   ],
+   "_lag": 0.01799999999997226
+  },
+  {
+   "id": "L38c1",
+   "line": "L38",
+   "sec": "S5",
+   "t0": 478.2486666666666,
+   "t1": 483.797,
+   "text": "pyjamas, shaving things — and trousers with sand in the cuffs.",
+   "parts": [
+    [
+     "pyjamas, ",
+     false
+    ],
+    [
+     "shaving ",
+     false
+    ],
+    [
+     "things ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "trousers ",
+     false
+    ],
+    [
+     "with ",
+     false
+    ],
+    [
+     "sand ",
+     true
+    ],
+    [
+     "in ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "cuffs.",
+     true
+    ]
+   ],
+   "_lag": 0.00466666666659421
+  },
+  {
+   "id": "L39c0",
+   "line": "L39",
+   "sec": "S5",
+   "t0": 483.817,
+   "t1": 490.257,
+   "text": "An electrician's screwdriver. A table knife cut down into a short, sharp instrument.",
+   "parts": [
+    [
+     "An ",
+     false
+    ],
+    [
+     "electrician's ",
+     false
+    ],
+    [
+     "screwdriver. ",
+     false
+    ],
+    [
+     "A ",
+     false
+    ],
+    [
+     "table ",
+     false
+    ],
+    [
+     "knife ",
+     false
+    ],
+    [
+     "cut ",
+     false
+    ],
+    [
+     "down ",
+     false
+    ],
+    [
+     "into ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "short, ",
+     true
+    ],
+    [
+     "sharp ",
+     true
+    ],
+    [
+     "instrument.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L39c1",
+   "line": "L39",
+   "sec": "S5",
+   "t0": 490.277,
+   "t1": 495.677,
+   "text": "Scissors with sharpened points. A square of zinc — perhaps a sheath.",
+   "parts": [
+    [
+     "Scissors ",
+     true
+    ],
+    [
+     "with ",
+     true
+    ],
+    [
+     "sharpened ",
+     true
+    ],
+    [
+     "points. ",
+     true
+    ],
+    [
+     "A ",
+     true
+    ],
+    [
+     "square ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "zinc ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "perhaps ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "sheath.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L39c2",
+   "line": "L39",
+   "sec": "S5",
+   "t0": 495.697,
+   "t1": 500.97200000000004,
+   "text": "A stencilling brush of the kind used aboard merchant ships.",
+   "parts": [
+    [
+     "A ",
+     true
+    ],
+    [
+     "stencilling ",
+     true
+    ],
+    [
+     "brush ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "kind ",
+     true
+    ],
+    [
+     "used ",
+     true
+    ],
+    [
+     "aboard ",
+     true
+    ],
+    [
+     "merchant ",
+     true
+    ],
+    [
+     "ships.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L40c0",
+   "line": "L40",
+   "sec": "S5",
+   "t0": 500.992,
+   "t1": 507.09200000000004,
+   "text": "A card of Barbour orange waxed thread — a type not sold in Australia.",
+   "parts": [
+    [
+     "A ",
+     false
+    ],
+    [
+     "card ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "Barbour ",
+     true
+    ],
+    [
+     "orange ",
+     true
+    ],
+    [
+     "waxed ",
+     true
+    ],
+    [
+     "thread ",
+     true
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "type ",
+     false
+    ],
+    [
+     "not ",
+     false
+    ],
+    [
+     "sold ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "Australia.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L40c1",
+   "line": "L40",
+   "sec": "S5",
+   "t0": 507.112,
+   "t1": 512.656,
+   "text": "The same thread had repaired the pocket of the trousers he was wearing.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "same ",
+     false
+    ],
+    [
+     "thread ",
+     false
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "repaired ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "pocket ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "trousers ",
+     false
+    ],
+    [
+     "he ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "wearing.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L41c0",
+   "line": "L41",
+   "sec": "S5",
+   "t0": 512.6759999999999,
+   "t1": 518.356,
+   "text": "Again, the labels were gone. This time, three had been missed: a tie marked T.",
+   "parts": [
+    [
+     "Again, ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "labels ",
+     false
+    ],
+    [
+     "were ",
+     false
+    ],
+    [
+     "gone. ",
+     false
+    ],
+    [
+     "This ",
+     false
+    ],
+    [
+     "time, ",
+     false
+    ],
+    [
+     "three ",
+     false
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "been ",
+     false
+    ],
+    [
+     "missed: ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "tie ",
+     false
+    ],
+    [
+     "marked ",
+     false
+    ],
+    [
+     "T.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L41c1",
+   "line": "L41",
+   "sec": "S5",
+   "t0": 518.376,
+   "t1": 523.5559999999999,
+   "text": "Keane. A laundry bag marked Keane. A singlet marked Kean.",
+   "parts": [
+    [
+     "Keane. ",
+     true
+    ],
+    [
+     "A ",
+     true
+    ],
+    [
+     "laundry ",
+     true
+    ],
+    [
+     "bag ",
+     true
+    ],
+    [
+     "marked ",
+     true
+    ],
+    [
+     "Keane. ",
+     true
+    ],
+    [
+     "A ",
+     true
+    ],
+    [
+     "singlet ",
+     true
+    ],
+    [
+     "marked ",
+     true
+    ],
+    [
+     "Kean.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L42c0",
+   "line": "L42",
+   "sec": "S5",
+   "t0": 523.5759999999999,
+   "t1": 528.8093333333333,
+   "text": "No T. Keane was missing in any English-speaking country.",
+   "parts": [
+    [
+     "No ",
+     false
+    ],
+    [
+     "T. ",
+     true
+    ],
+    [
+     "Keane ",
+     true
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "missing ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "any ",
+     false
+    ],
+    [
+     "English-speaking ",
+     false
+    ],
+    [
+     "country.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L42c1",
+   "line": "L42",
+   "sec": "S5",
+   "t0": 528.8293333333332,
+   "t1": 534.052,
+   "text": "The dry-cleaning marks in the clothes led nowhere.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "dry-cleaning ",
+     false
+    ],
+    [
+     "marks ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "clothes ",
+     false
+    ],
+    [
+     "led ",
+     false
+    ],
+    [
+     "nowhere.",
+     false
+    ]
+   ],
+   "_lag": 0.4333333333332803
+  },
+  {
+   "id": "L43c0",
+   "line": "L43",
+   "sec": "S5",
+   "t0": 534.072,
+   "t1": 540.6519999999999,
+   "text": "Police believed he arrived by overnight train — Melbourne, Sydney, or Port Augusta.",
+   "parts": [
+    [
+     "Police ",
+     false
+    ],
+    [
+     "believed ",
+     false
+    ],
+    [
+     "he ",
+     false
+    ],
+    [
+     "arrived ",
+     false
+    ],
+    [
+     "by ",
+     false
+    ],
+    [
+     "overnight ",
+     true
+    ],
+    [
+     "train ",
+     true
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "Melbourne, ",
+     false
+    ],
+    [
+     "Sydney, ",
+     false
+    ],
+    [
+     "or ",
+     false
+    ],
+    [
+     "Port ",
+     false
+    ],
+    [
+     "Augusta.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L43c1",
+   "line": "L43",
+   "sec": "S5",
+   "t0": 540.6719999999999,
+   "t1": 547.852,
+   "text": "He bought a ticket for the 10:50 am train to Henley Beach — and never boarded it.",
+   "parts": [
+    [
+     "He ",
+     false
+    ],
+    [
+     "bought ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "ticket ",
+     false
+    ],
+    [
+     "for ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "10:50 ",
+     false
+    ],
+    [
+     "am ",
+     false
+    ],
+    [
+     "train ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "Henley ",
+     false
+    ],
+    [
+     "Beach ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "never ",
+     false
+    ],
+    [
+     "boarded ",
+     false
+    ],
+    [
+     "it.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L44c0",
+   "line": "L44",
+   "sec": "S5",
+   "t0": 547.872,
+   "t1": 552.8386666666667,
+   "text": "He checked the suitcase. He caught a bus to Glenelg.",
+   "parts": [
+    [
+     "He ",
+     false
+    ],
+    [
+     "checked ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "suitcase. ",
+     false
+    ],
+    [
+     "He ",
+     false
+    ],
+    [
+     "caught ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "bus ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "Glenelg.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L44c1",
+   "line": "L44",
+   "sec": "S5",
+   "t0": 552.8586666666666,
+   "t1": 558.044,
+   "text": "And the last day of his life dissolves into an ordinary street map.",
+   "parts": [
+    [
+     "And ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "last ",
+     false
+    ],
+    [
+     "day ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "his ",
+     false
+    ],
+    [
+     "life ",
+     false
+    ],
+    [
+     "dissolves ",
+     true
+    ],
+    [
+     "into ",
+     false
+    ],
+    [
+     "an ",
+     false
+    ],
+    [
+     "ordinary ",
+     false
+    ],
+    [
+     "street ",
+     false
+    ],
+    [
+     "map.",
+     false
+    ]
+   ],
+   "_lag": 0.6866666666666106
+  },
+  {
+   "id": "L45c0",
+   "line": "L45",
+   "sec": "S5",
+   "t0": 558.064,
+   "t1": 563.3639999999999,
+   "text": "In 1986, the suitcase and everything in it was destroyed.",
+   "parts": [
+    [
+     "In ",
+     false
+    ],
+    [
+     "1986, ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "suitcase ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "everything ",
+     true
+    ],
+    [
+     "in ",
+     true
+    ],
+    [
+     "it ",
+     true
+    ],
+    [
+     "was ",
+     true
+    ],
+    [
+     "destroyed.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L45c1",
+   "line": "L45",
+   "sec": "S5",
+   "t0": 563.3839999999999,
+   "t1": 568.278,
+   "text": "The objects are gone. Only photographs and lists remain.",
+   "parts": [
+    [
+     "The ",
+     true
+    ],
+    [
+     "objects ",
+     true
+    ],
+    [
+     "are ",
+     true
+    ],
+    [
+     "gone. ",
+     true
+    ],
+    [
+     "Only ",
+     true
+    ],
+    [
+     "photographs ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "lists ",
+     true
+    ],
+    [
+     "remain.",
+     true
+    ]
+   ],
+   "_lag": 0.5399999999998499
+  },
+  {
+   "id": "L46c0",
+   "line": "L46",
+   "sec": "S5",
+   "t0": 568.298,
+   "t1": 576.3313333333333,
+   "text": "Nothing in that case explained who he was. Everything in it seemed designed to say less, not more.",
+   "parts": [
+    [
+     "Nothing ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "that ",
+     false
+    ],
+    [
+     "case ",
+     false
+    ],
+    [
+     "explained ",
+     false
+    ],
+    [
+     "who ",
+     false
+    ],
+    [
+     "he ",
+     false
+    ],
+    [
+     "was. ",
+     false
+    ],
+    [
+     "Everything ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "it ",
+     false
+    ],
+    [
+     "seemed ",
+     false
+    ],
+    [
+     "designed ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "say ",
+     true
+    ],
+    [
+     "less, ",
+     true
+    ],
+    [
+     "not ",
+     true
+    ],
+    [
+     "more.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L47c0",
+   "line": "L47",
+   "sec": "S6",
+   "t0": 576.3513333333333,
+   "t1": 586.1179999999999,
+   "text": "A body without a name invites theories. Separate them from the evidence, and the case becomes clearer — by becoming smaller.",
+   "parts": [
+    [
+     "A ",
+     false
+    ],
+    [
+     "body ",
+     false
+    ],
+    [
+     "without ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "name ",
+     false
+    ],
+    [
+     "invites ",
+     false
+    ],
+    [
+     "theories. ",
+     false
+    ],
+    [
+     "Separate ",
+     false
+    ],
+    [
+     "them ",
+     false
+    ],
+    [
+     "from ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "evidence, ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "case ",
+     false
+    ],
+    [
+     "becomes ",
+     false
+    ],
+    [
+     "clearer ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "by ",
+     true
+    ],
+    [
+     "becoming ",
+     true
+    ],
+    [
+     "smaller.",
+     true
+    ]
+   ],
+   "_lag": 0.19833333333326664
+  },
+  {
+   "id": "L48c0",
+   "line": "L48",
+   "sec": "S6",
+   "t0": 586.1379999999999,
+   "t1": 592.938,
+   "text": "Theory: espionage. A secret code. An undetectable poison.",
+   "parts": [
+    [
+     "Theory: ",
+     false
+    ],
+    [
+     "espionage. ",
+     true
+    ],
+    [
+     "A ",
+     true
+    ],
+    [
+     "secret ",
+     true
+    ],
+    [
+     "code. ",
+     true
+    ],
+    [
+     "An ",
+     true
+    ],
+    [
+     "undetectable ",
+     true
+    ],
+    [
+     "poison.",
+     true
+    ]
+   ],
+   "_lag": 0.4399999999999409
+  },
+  {
+   "id": "L48c1",
+   "line": "L48",
+   "sec": "S6",
+   "t0": 592.958,
+   "t1": 602.592,
+   "text": "The Cold War overhead. A seductive story — and nothing in the file supports it.",
+   "parts": [
+    [
+     "The ",
+     true
+    ],
+    [
+     "Cold ",
+     true
+    ],
+    [
+     "War ",
+     true
+    ],
+    [
+     "overhead. ",
+     true
+    ],
+    [
+     "A ",
+     true
+    ],
+    [
+     "seductive ",
+     true
+    ],
+    [
+     "story ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "nothing ",
+     true
+    ],
+    [
+     "in ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "file ",
+     true
+    ],
+    [
+     "supports ",
+     true
+    ],
+    [
+     "it.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L49c0",
+   "line": "L49",
+   "sec": "S6",
+   "t0": 602.612,
+   "t1": 609.392,
+   "text": "Theory: suicide. The Rubaiyat's promise — to end without regret.",
+   "parts": [
+    [
+     "Theory: ",
+     false
+    ],
+    [
+     "suicide. ",
+     true
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "Rubaiyat's ",
+     true
+    ],
+    [
+     "promise ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "to ",
+     true
+    ],
+    [
+     "end ",
+     true
+    ],
+    [
+     "without ",
+     true
+    ],
+    [
+     "regret.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L49c1",
+   "line": "L49",
+   "sec": "S6",
+   "t0": 609.412,
+   "t1": 615.452,
+   "text": "Police suspected it; at the inquest they gave the paper no",
+   "parts": [
+    [
+     "Police ",
+     true
+    ],
+    [
+     "suspected ",
+     true
+    ],
+    [
+     "it; ",
+     true
+    ],
+    [
+     "at ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "inquest ",
+     true
+    ],
+    [
+     "they ",
+     true
+    ],
+    [
+     "gave ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "paper ",
+     true
+    ],
+    [
+     "no",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L49c2",
+   "line": "L49",
+   "sec": "S6",
+   "t0": 615.472,
+   "t1": 620.5930000000001,
+   "text": "significance, and no evidence corroborated it.",
+   "parts": [
+    [
+     "significance, ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "no ",
+     true
+    ],
+    [
+     "evidence ",
+     true
+    ],
+    [
+     "corroborated ",
+     true
+    ],
+    [
+     "it.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L50c0",
+   "line": "L50",
+   "sec": "S6",
+   "t0": 620.613,
+   "t1": 632.493,
+   "text": "Theory: the body was brought to the beach. The shoes were \"remarkably clean\" for a man said to have wandered Glenelg all day.",
+   "parts": [
+    [
+     "Theory: ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "body ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "brought ",
+     true
+    ],
+    [
+     "to ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "beach. ",
+     true
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "shoes ",
+     true
+    ],
+    [
+     "were ",
+     true
+    ],
+    [
+     "\"remarkably ",
+     true
+    ],
+    [
+     "clean\" ",
+     true
+    ],
+    [
+     "for ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "man ",
+     true
+    ],
+    [
+     "said ",
+     true
+    ],
+    [
+     "to ",
+     true
+    ],
+    [
+     "have ",
+     true
+    ],
+    [
+     "wandered ",
+     true
+    ],
+    [
+     "Glenelg ",
+     true
+    ],
+    [
+     "all ",
+     true
+    ],
+    [
+     "day.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L50c1",
+   "line": "L50",
+   "sec": "S6",
+   "t0": 632.513,
+   "t1": 638.5463333333333,
+   "text": "Poison usually kills with vomiting and convulsions — there was none.",
+   "parts": [
+    [
+     "Poison ",
+     true
+    ],
+    [
+     "usually ",
+     true
+    ],
+    [
+     "kills ",
+     true
+    ],
+    [
+     "with ",
+     true
+    ],
+    [
+     "vomiting ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "convulsions ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "there ",
+     true
+    ],
+    [
+     "was ",
+     true
+    ],
+    [
+     "none.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L50c2",
+   "line": "L50",
+   "sec": "S6",
+   "t0": 638.5663333333333,
+   "t1": 643.1996666666666,
+   "text": "Cleland allowed it — and stressed: speculation.",
+   "parts": [
+    [
+     "Cleland ",
+     true
+    ],
+    [
+     "allowed ",
+     true
+    ],
+    [
+     "it ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "stressed: ",
+     true
+    ],
+    [
+     "speculation.",
+     true
+    ]
+   ],
+   "_lag": 0.33333333333337123
+  },
+  {
+   "id": "L51c0",
+   "line": "L51",
+   "sec": "S6",
+   "t0": 643.2196666666666,
+   "t1": 648.6379999999999,
+   "text": "The name Keane. The American tailoring. The stencilling brush.",
+   "parts": [
+    [
+     "The ",
+     true
+    ],
+    [
+     "name ",
+     true
+    ],
+    [
+     "Keane. ",
+     true
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "American ",
+     true
+    ],
+    [
+     "tailoring. ",
+     true
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "stencilling ",
+     true
+    ],
+    [
+     "brush.",
+     true
+    ]
+   ],
+   "_lag": 0.46166666666658784
+  },
+  {
+   "id": "L51c1",
+   "line": "L51",
+   "sec": "S6",
+   "t0": 648.6579999999999,
+   "t1": 654.62,
+   "text": "Each has fed a theory of hidden identity. None survives contact with the file.",
+   "parts": [
+    [
+     "Each ",
+     true
+    ],
+    [
+     "has ",
+     true
+    ],
+    [
+     "fed ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "theory ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "hidden ",
+     true
+    ],
+    [
+     "identity. ",
+     true
+    ],
+    [
+     "None ",
+     true
+    ],
+    [
+     "survives ",
+     true
+    ],
+    [
+     "contact ",
+     true
+    ],
+    [
+     "with ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "file.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L52c0",
+   "line": "L52",
+   "sec": "S6",
+   "t0": 654.64,
+   "t1": 665.0,
+   "text": "1959: a witness reports he and three others saw a well-dressed man carrying another man on his shoulders along the",
+   "parts": [
+    [
+     "1959: ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "witness ",
+     false
+    ],
+    [
+     "reports ",
+     false
+    ],
+    [
+     "he ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "three ",
+     false
+    ],
+    [
+     "others ",
+     false
+    ],
+    [
+     "saw ",
+     false
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "well-dressed ",
+     true
+    ],
+    [
+     "man ",
+     true
+    ],
+    [
+     "carrying ",
+     true
+    ],
+    [
+     "another ",
+     true
+    ],
+    [
+     "man ",
+     true
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "his ",
+     false
+    ],
+    [
+     "shoulders ",
+     false
+    ],
+    [
+     "along ",
+     false
+    ],
+    [
+     "the",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L52c1",
+   "line": "L52",
+   "sec": "S6",
+   "t0": 665.02,
+   "t1": 669.724,
+   "text": "beach, the night before. Never corroborated.",
+   "parts": [
+    [
+     "beach, ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "night ",
+     false
+    ],
+    [
+     "before. ",
+     false
+    ],
+    [
+     "Never ",
+     false
+    ],
+    [
+     "corroborated.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L53c0",
+   "line": "L53",
+   "sec": "S6",
+   "t0": 669.744,
+   "t1": 677.044,
+   "text": "As one journalist wrote in 1949: the Somerton Man \"made certain that the glass would be",
+   "parts": [
+    [
+     "As ",
+     false
+    ],
+    [
+     "one ",
+     false
+    ],
+    [
+     "journalist ",
+     false
+    ],
+    [
+     "wrote ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "1949: ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "Somerton ",
+     false
+    ],
+    [
+     "Man ",
+     false
+    ],
+    [
+     "\"made ",
+     false
+    ],
+    [
+     "certain ",
+     false
+    ],
+    [
+     "that ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "glass ",
+     false
+    ],
+    [
+     "would ",
+     false
+    ],
+    [
+     "be",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L53c1",
+   "line": "L53",
+   "sec": "S6",
+   "t0": 677.064,
+   "t1": 681.601,
+   "text": "empty, save for speculation.\"",
+   "parts": [
+    [
+     "empty, ",
+     false
+    ],
+    [
+     "save ",
+     true
+    ],
+    [
+     "for ",
+     true
+    ],
+    [
+     "speculation.\"",
+     true
+    ]
+   ],
+   "_lag": 0.31999999999993634
+  },
+  {
+   "id": "L54c0",
+   "line": "L54",
+   "sec": "S7",
+   "t0": 681.621,
+   "t1": 690.421,
+   "text": "2009: a University of Adelaide team led by Derek Abbott takes up the case",
+   "parts": [
+    [
+     "2009: ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "University ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "Adelaide ",
+     false
+    ],
+    [
+     "team ",
+     false
+    ],
+    [
+     "led ",
+     false
+    ],
+    [
+     "by ",
+     false
+    ],
+    [
+     "Derek ",
+     true
+    ],
+    [
+     "Abbott ",
+     true
+    ],
+    [
+     "takes ",
+     false
+    ],
+    [
+     "up ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "case",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L54c1",
+   "line": "L54",
+   "sec": "S7",
+   "t0": 690.441,
+   "t1": 697.671,
+   "text": "— and finds the autopsy reports themselves have vanished from the record.",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "finds ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "autopsy ",
+     false
+    ],
+    [
+     "reports ",
+     false
+    ],
+    [
+     "themselves ",
+     false
+    ],
+    [
+     "have ",
+     false
+    ],
+    [
+     "vanished ",
+     false
+    ],
+    [
+     "from ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "record.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L55c0",
+   "line": "L55",
+   "sec": "S7",
+   "t0": 697.691,
+   "t1": 702.4576666666667,
+   "text": "Two anatomical rarities: an unusually formed ear.",
+   "parts": [
+    [
+     "Two ",
+     false
+    ],
+    [
+     "anatomical ",
+     false
+    ],
+    [
+     "rarities: ",
+     false
+    ],
+    [
+     "an ",
+     false
+    ],
+    [
+     "unusually ",
+     false
+    ],
+    [
+     "formed ",
+     false
+    ],
+    [
+     "ear.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L55c1",
+   "line": "L55",
+   "sec": "S7",
+   "t0": 702.4776666666667,
+   "t1": 710.374,
+   "text": "And hypodontia — missing lateral incisors. Each in only 1–2 people in a hundred.",
+   "parts": [
+    [
+     "And ",
+     true
+    ],
+    [
+     "hypodontia ",
+     true
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "missing ",
+     false
+    ],
+    [
+     "lateral ",
+     false
+    ],
+    [
+     "incisors. ",
+     false
+    ],
+    [
+     "Each ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "only ",
+     false
+    ],
+    [
+     "1–2 ",
+     false
+    ],
+    [
+     "people ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "hundred.",
+     false
+    ]
+   ],
+   "_lag": 0.30666666666661513
+  },
+  {
+   "id": "L56c0",
+   "line": "L56",
+   "sec": "S7",
+   "t0": 710.394,
+   "t1": 724.431,
+   "text": "In the plaster death cast of 1949, strands of the man's own hair had been sealed beneath the surface — preserved for 70 years.",
+   "parts": [
+    [
+     "In ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "plaster ",
+     false
+    ],
+    [
+     "death ",
+     true
+    ],
+    [
+     "cast ",
+     true
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "1949, ",
+     false
+    ],
+    [
+     "strands ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "man's ",
+     false
+    ],
+    [
+     "own ",
+     false
+    ],
+    [
+     "hair ",
+     false
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "been ",
+     false
+    ],
+    [
+     "sealed ",
+     false
+    ],
+    [
+     "beneath ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "surface ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "preserved ",
+     false
+    ],
+    [
+     "for ",
+     false
+    ],
+    [
+     "70 ",
+     false
+    ],
+    [
+     "years.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L57c0",
+   "line": "L57",
+   "sec": "S7",
+   "t0": 724.451,
+   "t1": 734.211,
+   "text": "February 2018: mitochondrial DNA read — a lineage carried by about 1% of Europeans.",
+   "parts": [
+    [
+     "February ",
+     false
+    ],
+    [
+     "2018: ",
+     false
+    ],
+    [
+     "mitochondrial ",
+     false
+    ],
+    [
+     "DNA ",
+     false
+    ],
+    [
+     "read ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "lineage ",
+     false
+    ],
+    [
+     "carried ",
+     false
+    ],
+    [
+     "by ",
+     false
+    ],
+    [
+     "about ",
+     true
+    ],
+    [
+     "1% ",
+     true
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "Europeans.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L57c1",
+   "line": "L57",
+   "sec": "S7",
+   "t0": 734.231,
+   "t1": 739.544,
+   "text": "Not enough. mtDNA follows only the mother's line.",
+   "parts": [
+    [
+     "Not ",
+     false
+    ],
+    [
+     "enough. ",
+     false
+    ],
+    [
+     "mtDNA ",
+     false
+    ],
+    [
+     "follows ",
+     false
+    ],
+    [
+     "only ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "mother's ",
+     false
+    ],
+    [
+     "line.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L58c0",
+   "line": "L58",
+   "sec": "S7",
+   "t0": 739.564,
+   "t1": 745.3240000000001,
+   "text": "May 2021: the body is exhumed from West Terrace Cemetery",
+   "parts": [
+    [
+     "May ",
+     false
+    ],
+    [
+     "2021: ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "body ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "exhumed ",
+     false
+    ],
+    [
+     "from ",
+     false
+    ],
+    [
+     "West ",
+     false
+    ],
+    [
+     "Terrace ",
+     false
+    ],
+    [
+     "Cemetery",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L58c1",
+   "line": "L58",
+   "sec": "S7",
+   "t0": 745.344,
+   "t1": 758.163,
+   "text": "— where it had rested under a marker: \"Here lies the unknown man who was found at Somerton Beach.\"",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "where ",
+     false
+    ],
+    [
+     "it ",
+     false
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "rested ",
+     false
+    ],
+    [
+     "under ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "marker: ",
+     false
+    ],
+    [
+     "\"Here ",
+     false
+    ],
+    [
+     "lies ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "unknown ",
+     false
+    ],
+    [
+     "man ",
+     false
+    ],
+    [
+     "who ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "found ",
+     false
+    ],
+    [
+     "at ",
+     false
+    ],
+    [
+     "Somerton ",
+     false
+    ],
+    [
+     "Beach.\"",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L59c0",
+   "line": "L59",
+   "sec": "S7",
+   "t0": 758.183,
+   "t1": 767.7230000000001,
+   "text": "26 July 2022: Abbott and forensic genealogist Colleen Fitzpatrick announce a name",
+   "parts": [
+    [
+     "26 ",
+     true
+    ],
+    [
+     "July ",
+     true
+    ],
+    [
+     "2022: ",
+     true
+    ],
+    [
+     "Abbott ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "forensic ",
+     true
+    ],
+    [
+     "genealogist ",
+     true
+    ],
+    [
+     "Colleen ",
+     true
+    ],
+    [
+     "Fitzpatrick ",
+     true
+    ],
+    [
+     "announce ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "name",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L59c1",
+   "line": "L59",
+   "sec": "S7",
+   "t0": 767.743,
+   "t1": 779.095,
+   "text": "— built from those hairs in the death mask. Genealogical matches on both sides of a family tree.",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "built ",
+     false
+    ],
+    [
+     "from ",
+     false
+    ],
+    [
+     "those ",
+     false
+    ],
+    [
+     "hairs ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "death ",
+     false
+    ],
+    [
+     "mask. ",
+     false
+    ],
+    [
+     "Genealogical ",
+     false
+    ],
+    [
+     "matches ",
+     false
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "both ",
+     false
+    ],
+    [
+     "sides ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "family ",
+     false
+    ],
+    [
+     "tree.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L60c0",
+   "line": "L60",
+   "sec": "S7",
+   "t0": 779.115,
+   "t1": 784.0550000000001,
+   "text": "CARL “CHARLES” WEBB · born 16 November 1905,",
+   "parts": [
+    [
+     "CARL ",
+     true
+    ],
+    [
+     "“CHARLES” ",
+     true
+    ],
+    [
+     "WEBB ",
+     true
+    ],
+    [
+     "· ",
+     false
+    ],
+    [
+     "born ",
+     false
+    ],
+    [
+     "16 ",
+     false
+    ],
+    [
+     "November ",
+     false
+    ],
+    [
+     "1905,",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L60c1",
+   "line": "L60",
+   "sec": "S7",
+   "t0": 784.075,
+   "t1": 791.112,
+   "text": "Footscray, Melbourne · electrical engineer and instrument maker.",
+   "parts": [
+    [
+     "Footscray, ",
+     false
+    ],
+    [
+     "Melbourne ",
+     false
+    ],
+    [
+     "· ",
+     false
+    ],
+    [
+     "electrical ",
+     false
+    ],
+    [
+     "engineer ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "instrument ",
+     false
+    ],
+    [
+     "maker.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L61c0",
+   "line": "L61",
+   "sec": "S7",
+   "t0": 791.132,
+   "t1": 795.6986666666667,
+   "text": "Webb had lost four close relatives in 7 years.",
+   "parts": [
+    [
+     "Webb ",
+     false
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "lost ",
+     false
+    ],
+    [
+     "four ",
+     true
+    ],
+    [
+     "close ",
+     true
+    ],
+    [
+     "relatives ",
+     true
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "7 ",
+     false
+    ],
+    [
+     "years.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L61c1",
+   "line": "L61",
+   "sec": "S7",
+   "t0": 795.7186666666666,
+   "t1": 799.7719999999999,
+   "text": "His marriage to Dorothy Robertson had collapsed",
+   "parts": [
+    [
+     "His ",
+     false
+    ],
+    [
+     "marriage ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "Dorothy ",
+     false
+    ],
+    [
+     "Robertson ",
+     false
+    ],
+    [
+     "had ",
+     false
+    ],
+    [
+     "collapsed",
+     false
+    ]
+   ],
+   "_lag": 0.2866666666666333
+  },
+  {
+   "id": "L61c2",
+   "line": "L61",
+   "sec": "S7",
+   "t0": 799.7919999999999,
+   "t1": 808.8190000000001,
+   "text": "— she described a solitary, moody man, fond of poetry. Poems, she said, mostly about death.",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "she ",
+     false
+    ],
+    [
+     "described ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "solitary, ",
+     false
+    ],
+    [
+     "moody ",
+     false
+    ],
+    [
+     "man, ",
+     false
+    ],
+    [
+     "fond ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "poetry. ",
+     false
+    ],
+    [
+     "Poems, ",
+     false
+    ],
+    [
+     "she ",
+     false
+    ],
+    [
+     "said, ",
+     false
+    ],
+    [
+     "mostly ",
+     false
+    ],
+    [
+     "about ",
+     false
+    ],
+    [
+     "death.",
+     false
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L62c0",
+   "line": "L62",
+   "sec": "S7",
+   "t0": 808.839,
+   "t1": 815.339,
+   "text": "A sister named Keane, and a brother-in-law who had travelled through the US",
+   "parts": [
+    [
+     "A ",
+     false
+    ],
+    [
+     "sister ",
+     false
+    ],
+    [
+     "named ",
+     false
+    ],
+    [
+     "Keane, ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "brother-in-law ",
+     true
+    ],
+    [
+     "who ",
+     true
+    ],
+    [
+     "had ",
+     true
+    ],
+    [
+     "travelled ",
+     true
+    ],
+    [
+     "through ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "US",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L62c1",
+   "line": "L62",
+   "sec": "S7",
+   "t0": 815.359,
+   "t1": 824.331,
+   "text": "— could explain the American clothes, and the tags that misled police for 70 years.",
+   "parts": [
+    [
+     "— ",
+     true
+    ],
+    [
+     "could ",
+     true
+    ],
+    [
+     "explain ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "American ",
+     true
+    ],
+    [
+     "clothes, ",
+     true
+    ],
+    [
+     "and ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "tags ",
+     true
+    ],
+    [
+     "that ",
+     true
+    ],
+    [
+     "misled ",
+     true
+    ],
+    [
+     "police ",
+     true
+    ],
+    [
+     "for ",
+     true
+    ],
+    [
+     "70 ",
+     true
+    ],
+    [
+     "years.",
+     true
+    ]
+   ],
+   "_lag": 0.04000000000007731
+  },
+  {
+   "id": "L63c0",
+   "line": "L63",
+   "sec": "S7",
+   "t0": 824.351,
+   "t1": 831.591,
+   "text": "South Australia Police and Forensic Science SA have not verified the identification.",
+   "parts": [
+    [
+     "South ",
+     false
+    ],
+    [
+     "Australia ",
+     false
+    ],
+    [
+     "Police ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "Forensic ",
+     false
+    ],
+    [
+     "Science ",
+     false
+    ],
+    [
+     "SA ",
+     false
+    ],
+    [
+     "have ",
+     false
+    ],
+    [
+     "not ",
+     true
+    ],
+    [
+     "verified ",
+     true
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "identification.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L63c1",
+   "line": "L63",
+   "sec": "S7",
+   "t0": 831.611,
+   "t1": 839.4110000000001,
+   "text": "They were \"cautiously optimistic.\" The name rests on the strongest genetic case yet assembled",
+   "parts": [
+    [
+     "They ",
+     false
+    ],
+    [
+     "were ",
+     false
+    ],
+    [
+     "\"cautiously ",
+     false
+    ],
+    [
+     "optimistic.\" ",
+     false
+    ],
+    [
+     "The ",
+     false
+    ],
+    [
+     "name ",
+     false
+    ],
+    [
+     "rests ",
+     false
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "strongest ",
+     false
+    ],
+    [
+     "genetic ",
+     false
+    ],
+    [
+     "case ",
+     false
+    ],
+    [
+     "yet ",
+     false
+    ],
+    [
+     "assembled",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L63c2",
+   "line": "L63",
+   "sec": "S7",
+   "t0": 839.431,
+   "t1": 844.802,
+   "text": "— and remains, formally, a claim.",
+   "parts": [
+    [
+     "— ",
+     false
+    ],
+    [
+     "and ",
+     false
+    ],
+    [
+     "remains, ",
+     false
+    ],
+    [
+     "formally, ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "claim.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L64c0",
+   "line": "L64",
+   "sec": "S8",
+   "t0": 844.822,
+   "t1": 850.982,
+   "text": "What the file proves: a man died on Somerton Beach, 1 December 1948.",
+   "parts": [
+    [
+     "What ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "file ",
+     false
+    ],
+    [
+     "proves: ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "man ",
+     false
+    ],
+    [
+     "died ",
+     false
+    ],
+    [
+     "on ",
+     false
+    ],
+    [
+     "Somerton ",
+     false
+    ],
+    [
+     "Beach, ",
+     false
+    ],
+    [
+     "1 ",
+     false
+    ],
+    [
+     "December ",
+     false
+    ],
+    [
+     "1948.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L64c1",
+   "line": "L64",
+   "sec": "S8",
+   "t0": 851.002,
+   "t1": 857.542,
+   "text": "He went to great lengths to erase his name. He carried the end of a poem.",
+   "parts": [
+    [
+     "He ",
+     false
+    ],
+    [
+     "went ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "great ",
+     false
+    ],
+    [
+     "lengths ",
+     false
+    ],
+    [
+     "to ",
+     false
+    ],
+    [
+     "erase ",
+     true
+    ],
+    [
+     "his ",
+     true
+    ],
+    [
+     "name. ",
+     true
+    ],
+    [
+     "He ",
+     true
+    ],
+    [
+     "carried ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "end ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "poem.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L64c2",
+   "line": "L64",
+   "sec": "S8",
+   "t0": 857.562,
+   "t1": 862.302,
+   "text": "Science has given him a probable name — Carl Webb",
+   "parts": [
+    [
+     "Science ",
+     true
+    ],
+    [
+     "has ",
+     true
+    ],
+    [
+     "given ",
+     true
+    ],
+    [
+     "him ",
+     true
+    ],
+    [
+     "a ",
+     true
+    ],
+    [
+     "probable ",
+     true
+    ],
+    [
+     "name ",
+     true
+    ],
+    [
+     "— ",
+     true
+    ],
+    [
+     "Carl ",
+     true
+    ],
+    [
+     "Webb",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L64c3",
+   "line": "L64",
+   "sec": "S8",
+   "t0": 862.322,
+   "t1": 867.3960000000001,
+   "text": "— while the authorities stop short of confirming it.",
+   "parts": [
+    [
+     "— ",
+     true
+    ],
+    [
+     "while ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "authorities ",
+     true
+    ],
+    [
+     "stop ",
+     true
+    ],
+    [
+     "short ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "confirming ",
+     true
+    ],
+    [
+     "it.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L65c0",
+   "line": "L65",
+   "sec": "S8",
+   "t0": 867.416,
+   "t1": 871.496,
+   "text": "Three things still do not fit: the polished shoes.",
+   "parts": [
+    [
+     "Three ",
+     false
+    ],
+    [
+     "things ",
+     false
+    ],
+    [
+     "still ",
+     false
+    ],
+    [
+     "do ",
+     false
+    ],
+    [
+     "not ",
+     false
+    ],
+    [
+     "fit: ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "polished ",
+     true
+    ],
+    [
+     "shoes.",
+     true
+    ]
+   ]
+  },
+  {
+   "id": "L65c1",
+   "line": "L65",
+   "sec": "S8",
+   "t0": 871.516,
+   "t1": 879.5493333333333,
+   "text": "The absence of vomiting. The unused ticket. Each is evidence of something. We do not know of what.",
+   "parts": [
+    [
+     "The ",
+     true
+    ],
+    [
+     "absence ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "vomiting. ",
+     true
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "unused ",
+     true
+    ],
+    [
+     "ticket. ",
+     true
+    ],
+    [
+     "Each ",
+     true
+    ],
+    [
+     "is ",
+     true
+    ],
+    [
+     "evidence ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "something. ",
+     true
+    ],
+    [
+     "We ",
+     true
+    ],
+    [
+     "do ",
+     true
+    ],
+    [
+     "not ",
+     true
+    ],
+    [
+     "know ",
+     true
+    ],
+    [
+     "of ",
+     true
+    ],
+    [
+     "what.",
+     true
+    ]
+   ],
+   "_lag": 0.8
+  },
+  {
+   "id": "L66c0",
+   "line": "L66",
+   "sec": "S8",
+   "t0": 879.5693333333332,
+   "t1": 887.3960000000001,
+   "text": "The cause of death was never determined. The code was never broken.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "cause ",
+     false
+    ],
+    [
+     "of ",
+     false
+    ],
+    [
+     "death ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "never ",
+     true
+    ],
+    [
+     "determined. ",
+     true
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "code ",
+     true
+    ],
+    [
+     "was ",
+     true
+    ],
+    [
+     "never ",
+     true
+    ],
+    [
+     "broken.",
+     true
+    ]
+   ],
+   "_lag": 0.15333333333319388
+  },
+  {
+   "id": "L67c0",
+   "line": "L67",
+   "sec": "S8",
+   "t0": 887.416,
+   "t1": 894.4493333333334,
+   "text": "Everything else — the spies, the secrets, the romance — remains what it always was.",
+   "parts": [
+    [
+     "Everything ",
+     false
+    ],
+    [
+     "else ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "spies, ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "secrets, ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "romance ",
+     false
+    ],
+    [
+     "— ",
+     false
+    ],
+    [
+     "remains ",
+     false
+    ],
+    [
+     "what ",
+     false
+    ],
+    [
+     "it ",
+     false
+    ],
+    [
+     "always ",
+     false
+    ],
+    [
+     "was.",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L67c1",
+   "line": "L67",
+   "sec": "S8",
+   "t0": 894.4693333333333,
+   "t1": 897.636,
+   "text": "Story, waiting for proof.",
+   "parts": [
+    [
+     "Story, ",
+     true
+    ],
+    [
+     "waiting ",
+     true
+    ],
+    [
+     "for ",
+     true
+    ],
+    [
+     "proof.",
+     true
+    ]
+   ],
+   "_lag": 0.5733333333333803
+  },
+  {
+   "id": "L68c0",
+   "line": "L68",
+   "sec": "S9",
+   "t0": 897.656,
+   "t1": 906.977,
+   "text": "The file goes back in the drawer, among others like it. But the drawer does not close the case.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "file ",
+     false
+    ],
+    [
+     "goes ",
+     false
+    ],
+    [
+     "back ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "drawer, ",
+     false
+    ],
+    [
+     "among ",
+     false
+    ],
+    [
+     "others ",
+     false
+    ],
+    [
+     "like ",
+     false
+    ],
+    [
+     "it. ",
+     false
+    ],
+    [
+     "But ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "drawer ",
+     false
+    ],
+    [
+     "does ",
+     false
+    ],
+    [
+     "not ",
+     false
+    ],
+    [
+     "close ",
+     true
+    ],
+    [
+     "the ",
+     true
+    ],
+    [
+     "case.",
+     true
+    ]
+   ],
+   "_lag": 0.6589999999999918
+  },
+  {
+   "id": "L69c0",
+   "line": "L69",
+   "sec": "S9",
+   "t0": 906.997,
+   "t1": 918.777,
+   "text": "On a grave in West Terrace Cemetery, the words still stand: \"Here lies the unknown man who was found at Somerton Beach.\"",
+   "parts": [
+    [
+     "On ",
+     false
+    ],
+    [
+     "a ",
+     false
+    ],
+    [
+     "grave ",
+     false
+    ],
+    [
+     "in ",
+     false
+    ],
+    [
+     "West ",
+     false
+    ],
+    [
+     "Terrace ",
+     false
+    ],
+    [
+     "Cemetery, ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "words ",
+     false
+    ],
+    [
+     "still ",
+     false
+    ],
+    [
+     "stand: ",
+     false
+    ],
+    [
+     "\"Here ",
+     false
+    ],
+    [
+     "lies ",
+     false
+    ],
+    [
+     "the ",
+     false
+    ],
+    [
+     "unknown ",
+     false
+    ],
+    [
+     "man ",
+     false
+    ],
+    [
+     "who ",
+     false
+    ],
+    [
+     "was ",
+     false
+    ],
+    [
+     "found ",
+     false
+    ],
+    [
+     "at ",
+     false
+    ],
+    [
+     "Somerton ",
+     false
+    ],
+    [
+     "Beach.\"",
+     false
+    ]
+   ]
+  },
+  {
+   "id": "L70c0",
+   "line": "L70",
+   "sec": "S9",
+   "t0": 918.797,
+   "t1": 924.7636666666667,
+   "text": "The evidence is real. The name is new. The answer is still missing.",
+   "parts": [
+    [
+     "The ",
+     false
+    ],
+    [
+     "evidence ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "real. ",
+     false
+    ],
+    [
+     "The ",
+     false
+    ],
+    [
+     "name ",
+     false
+    ],
+    [
+     "is ",
+     false
+    ],
+    [
+     "new. ",
+     false
+    ],
+    [
+     "The ",
+     true
+    ],
+    [
+     "answer ",
+     true
+    ],
+    [
+     "is ",
+     true
+    ],
+    [
+     "still ",
+     true
+    ],
+    [
+     "missing.",
+     true
+    ]
+   ]
+  }
+ ],
+ "silences": [
+  [
+   231.81,
+   234.06
+  ],
+  [
+   756.43,
+   758.68
+  ],
+  [
+   449.0,
+   451.25
+  ],
+  [
+   777.36,
+   779.61
+  ]
+ ]
+}

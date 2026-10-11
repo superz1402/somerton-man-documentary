@@ -1,0 +1,36 @@
+CREDITS — "The Man on Somerton Beach" (Somerton Man documentary)
+
+Made entirely in code with the Lemo-Opuscar pipeline (Halftone Dossier style grammar).
+No video generation, no stock footage, no archival photographs.
+
+FONTS (SIL Open Font License, self-hosted in fonts/):
+- Playfair Display 900 (headlines) — (c) The Playfair Display Project Authors
+- Archivo Black (captions, stamps) — Omnibus-Type
+- JetBrains Mono 500/800 (data, HUD) — JetBrains
+- Lilita One (display numerals) — Juan Montoreano
+- IM Fell English (book/poetry quotations) — Igino Marini
+Downloaded from Google Fonts (fonts.google.com), OFL.
+
+VOICE:
+- English narration synthesized offline with Kokoro-82M (kokoro-onnx, Apache-2.0),
+  voice "bm_george", speed 0.92. Every line verified by faster-whisper speech-to-text (base.en).
+  https://github.com/thewh1tekle/kokoro-onnx — Apache License 2.0
+- Speech check: faster-whisper (MIT) with the base.en model.
+
+MUSIC & SOUND:
+- All music and foley synthesized procedurally in numpy for this film (mix.py): drone,
+  heartbeat kick, marimba-style pluck, music-box bell, pizzicato bass, pads, hats, snaps,
+  wave/rain/room beds, stamp/shutter/paper/typewriter/drawer foley. No third-party samples.
+
+TOOLS (pipeline):
+- Lemo-Opuscar core tools (rendering, TTS, ASR check, SRT, mux) — MIT Licence,
+  https://github.com/lemomo-ai/lemo-opuscar
+- Playwright chromium-headless-shell (Apache-2.0), ffmpeg (LGPL/GPL), Python scientific stack
+  (numpy BSD, soundfile LGPL-2.1, soxr LGPL-2.1, Pillow HPND).
+
+SUBTITLE RENDERING:
+- Burned-in caption bars are drawn by the film engine; somerton-man.srt generated from the
+  same cue data (core/render/srt.py).
+
+All third-party material used is listed above with its licence. No LemoLab credit applies to
+user films (films/ outside styles/ carry no library watermark or sign-off).
