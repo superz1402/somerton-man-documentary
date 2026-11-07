@@ -68,3 +68,11 @@ timeline.json (single source of truth)
    └─ subtitles: caption bars burned in + somerton-man.srt
 mix: ducking + silence windows ─ two-pass loudnorm −14 LUFS ─ somerton-man.mp4
 ```
+
+---
+
+## Project status
+
+**Completed project** — verified in the portfolio audit of **7 November 2026** (README, codebase and project state reviewed).
+
+_Last verified: 7 November 2026_
